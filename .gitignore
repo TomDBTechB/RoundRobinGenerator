@@ -1,4 +1,7 @@
 *.class
+.idea/**
+
+
 
 # Mobile Tools for Java (J2ME)
 .mtj.tmp/
@@ -10,3 +13,33 @@
 
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
+
+choco/\.idea/compiler\.xml
+
+choco/\.idea/libraries/choco_4_0\.xml
+
+choco/\.idea/libraries/Maven__com_github_cp_profiler_cpprof_java_1_3_0\.xml
+
+choco/\.idea/libraries/Maven__com_google_protobuf_protobuf_java_2_6_1\.xml
+
+choco/\.idea/libraries/Maven__dk_brics_automaton_automaton_1_11_8\.xml
+
+choco/\.idea/libraries/Maven__net_sf_trove4j_trove4j_3_0_3\.xml
+
+choco/\.idea/libraries/Maven__org_choco_solver_choco_sat_1_0_2\.xml
+
+choco/\.idea/libraries/Maven__org_choco_solver_choco_solver_4_0_5\.xml
+
+choco/\.idea/libraries/Maven__org_choco_solver_cutoffseq_1_0_2\.xml
+
+choco/\.idea/libraries/Maven__org_javabits_jgrapht_jgrapht_core_0_9_3\.xml
+
+choco/\.idea/misc\.xml
+
+choco/\.idea/modules\.xml
+
+choco/\.idea/uiDesigner\.xml
+
+choco/\.idea/workspace\.xml
+
+choco/choco\.iml
