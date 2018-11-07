@@ -1,7 +1,6 @@
 import org.chocosolver.solver.Model;
 import org.chocosolver.solver.variables.IntVar;
 
-import javax.xml.crypto.AlgorithmMethod;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -10,7 +9,7 @@ import java.util.stream.Stream;
 
 public class DoubleRoundRobinGenerator {
 
-    private static int AMOUNT_OF_TEAMS = 5;
+    private static int AMOUNT_OF_TEAMS = 3;
 
     public static void main(String[] args) {
         int amountOfMatchDays = calculateMatchDays();
@@ -30,22 +29,20 @@ public class DoubleRoundRobinGenerator {
         //constraint 4: At the halfway point, each team should have played every team once (general rule, after amountOfMatchdays/2 for all n)
         halfWayPointConstraint(amountOfMatchDays, matchdays, model);
         //constraint 5: Optimization of the home and away pattern
+        //homeAndAwayPattern(amountOfMatchDays,matchdays,model);
 
 
         //MiniZinc black magic
         int counter = 0;
-
-        model.getSolver().solve();
-
         while (model.getSolver().solve()) {
-//            print the output
             prettyPrintSolution(matchdays, amountOfMatchDays);
             counter++;
         }
-
         System.out.println("Amount of valid solutions for " + AMOUNT_OF_TEAMS + " teams: " + counter);
 
     }
+
+
 
 
     private static void everyonePlaysEachoterTwice(int amountOfMatchDays, Model model, IntVar[][][] matchdays) {
@@ -59,8 +56,7 @@ public class DoubleRoundRobinGenerator {
                         labels.add(matchdays[h][i][j]);
                     }
 
-                    IntVar[] intVarArr = new IntVar[labels.size()];
-                    intVarArr = labels.toArray(intVarArr);
+                    IntVar[] intVarArr = convertVarListToArray(labels);
 
                     //if the elements are equal (eg (0,0),(1,1) sum is zero because we dont want to play ourselves
                     model.sum(intVarArr, "=", 1).post();
@@ -115,8 +111,7 @@ public class DoubleRoundRobinGenerator {
                 List<IntVar> combined = Stream.concat(home.stream(), away.stream())
                         .collect(Collectors.toList());
                 //initialize the new array
-                IntVar[] intVarArr = new IntVar[combined.size()];
-                intVarArr = combined.toArray(intVarArr);
+                IntVar[] intVarArr = convertVarListToArray(combined);
                 //either you play 1 game, or you play no game(0)
                 model.sum(intVarArr, "<=", 1).post();
 
@@ -136,8 +131,7 @@ public class DoubleRoundRobinGenerator {
                         list.add(matchdays[i][x][y]);
                         list.add(matchdays[i][y][x]);
                     }
-                    IntVar[] intvars = new IntVar[list.size()];
-                    intvars = list.toArray(intvars);
+                    IntVar[] intvars = convertVarListToArray(list);
 
                     model.sum(intvars, "=", 1).post();
 
@@ -145,6 +139,42 @@ public class DoubleRoundRobinGenerator {
             }
         }
     }
+
+    private static void homeAndAwayPattern(int amountOfMatchDays, IntVar[][][] matchdays, Model model) {
+        //we split this in 2 different constraints who partially implicate eachother, first of all: you can't play 2 games in a row at home
+
+//            for (int teamIndex = 0; teamIndex < AMOUNT_OF_TEAMS; teamIndex++) {
+//                for (int day = 1; day < amountOfMatchDays; day++) {
+//                    List<IntVar> intVarList = new ArrayList<IntVar>(Arrays.asList(matchdays[day][teamIndex]));
+//                    intVarList.addAll(Arrays.asList(matchdays[day - 1][teamIndex]));
+//                    IntVar[] intvars = convertVarListToArray(intVarList);
+//                    model.sum(intvars, "<", 2).post();
+//                }
+//            }
+
+        //now we do the same for columns, so we don't want 2 away games in a row
+
+//        for(int teamindex = 0; teamindex<AMOUNT_OF_TEAMS; teamindex++){
+//            for(int day = 1; day<amountOfMatchDays;day++){
+//                List<IntVar> intVarList = new ArrayList<IntVar>(Arrays.asList(matchdays[day][teamindex]));
+//                for(int j = 0; j<AMOUNT_OF_TEAMS;j++){
+//                    intVarList.add(matchdays[day][j][teamindex]);
+//                    intVarList.add(matchdays[day-1][j][teamindex]);
+//                }
+//
+//                IntVar[] intvars = convertVarListToArray(intVarList);
+//                model.sum(intvars, "<", 2).post();
+//
+//            }
+//
+//        }
+
+
+
+
+    }
+
+
 
 
     /**Util methods**/
@@ -193,5 +223,13 @@ public class DoubleRoundRobinGenerator {
         else return DoubleRoundRobinGenerator.AMOUNT_OF_TEAMS * 2;
     }
 
+    /**
+     * Converts a list of IntVar objects to an array of IntVars
+     */
+    private static IntVar[] convertVarListToArray(List<IntVar> intVarList) {
+        IntVar[] intvars = new IntVar[intVarList.size()];
+        intvars = intVarList.toArray(intvars);
+        return intvars;
+    }
 
 }
