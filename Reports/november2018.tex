@@ -1,0 +1,76 @@
+%% Indien je niet vertrouwd ben met Latex:
+%%  Maak een .pdf als volgt:
+%%  - Vul alles in 
+%%  - Doe: pdflatex verslag.tex (dit produceert de .pdf)
+
+\documentclass[12pt]{report}
+%\usepackage{a4wide}
+
+\setlength{\parindent}{0cm}
+
+\begin{document}
+\pagestyle{myheadings}
+\markright{Tussentijds verslag November -  Student(en): naam Tom De Bièvre} 
+
+\vspace{0.5cm}
+{\bf Promotor(s):} Prof Luc De Raedt
+
+\vspace{0.5cm}
+{\bf Begeleider(s):} Mohit Kumar Kumar and Stefano Teso
+
+\vspace{1cm}
+{\bf Context of the research and Goals: } 
+Many real world problems require constraints, in my thesis, we take a deeper look into the world of sport scheduling, this is a real complex and laboursome task. If you take for example a look at the major league baseball in the USA, we talk about 2 leagues with 3 divisions and 162 games per team in regular season only. The scheduling of this takes a lot of work. The main goal of my thesis is to do research to check if it is possible to lower the amount of work using tensor manipulations.
+
+\vspace{1cm}
+{\bf Studied/used literature: }
+\begin{itemize}
+\item Paramonov, Sergey and Kolb, Samuel and Guns, Tias and De Raedt, Luc. (2017). TaCLe: Learning Constraints in Tabular Data. 2
+\item Beldiceanu N., Simonis H. (2012) A Model Seeker: Extracting Global Constraint Models from Positive Examples. In: Milano M. (eds) Principles and Practice of Constraint Programming. Lecture Notes in Computer Science, vol 7514. Springer, Berlin, Heidelberg
+\item  Anson S., Lester S. Sports Scheduling: Algorithms and Applications
+\item  Kumar M., Teso S. De Causmaecker P., De Readt L. (2018) Automating Personnel Rostering by Learning Constraints Using Tensors 
+\item M. Carlsson, M. Johansson and J. Larson, “A Stronger Integrated Constraint
+Programming Approach to Scheduling Sports Leagues with Divisional and Roundrobin
+Tournaments,” 2014.
+\item T. Bartsch, A. Drexl and S. Kröger, “Scheduling the professional soccer leagues of
+Austria and Germany,” Computers and Operations Research, vol. 33, pp. 1907–1937,
+2006.
+\end{itemize}
+
+\vspace{1cm}
+{\bf Deliverables (inclusief tijdsrapportering):}
+
+\begin{itemize}
+\item Literature study: research in sport scheduling: what are the most common patterns, how are they made, what are the mathematical functions behind these? Also comprehension of the CountOR approach (+-15 hours)
+
+\item Written example: tensor representation of a double round robin tournament, made generic for n teams (odd and even) + broadening to xRR, this made some constraints very clear (+- 15 hours)??
+
+\item First constraint solver: coding of a constraintsolver that uses the discovered constraints from the written example, this uses the Java Library Choco (which is a wrapper around MiniZinc) (+-30 hours)
+ 
+\end{itemize}
+ 
+ 
+\vspace{1cm}
+{\bf Most important results:}
+\begin{itemize}
+\item Clear view on my workapproach
+\item Scheduler that generates tensors based on the most common 2RR constraints
+\end{itemize}
+
+\vspace{0.5cm}
+{\bf Biggest dificulties:} \\
+Representing complex constraints over multidimension tensors in Gurobi/MiniZinc, this problem is (temporarely) solved by using a Java library that uses MiniZinc as a wrapper. But there is a very good possibility a .mzn file with the constraints will be written soon anyway
+
+\vspace{1cm}
+{\bf Scheduled work:} \\
+Before christmas: Literature study and starting to learn the constraints from my own constraint solver \\
+After christmas: Learning/adjusting the first version of the algorithm to support edge cases that are common within the sports scheduling world. The goal in the end is to generate schedules for the regular season of the belgium football competition.
+
+
+\vspace{0.5cm}
+{\bf If I continue to work like I am doing now, I expect to earn 14/20 in the end.}
+
+{\bf I plan to finish my thesis in June} 
+
+
+\end{document}

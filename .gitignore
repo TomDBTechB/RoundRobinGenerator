@@ -43,3 +43,7 @@ choco/\.idea/uiDesigner\.xml
 choco/\.idea/workspace\.xml
 
 choco/choco\.iml
+
+*.aux
+*.log
+*.synctex.gz
