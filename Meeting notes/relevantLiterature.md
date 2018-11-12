@@ -8,5 +8,8 @@
 
 [4] Kumar M., Teso S. De Causmaecker P., De Readt L. (2018) Automating Personnel Rostering by Learning Constraints Using Tensors 
 
+[5] Mats C., Mikael J., J. Larson (2016) Scheduling Double Round-Robin Tournaments with Divisional Play Using Constraint Programming
 
+[6] Dalibor F. (2010): Scheduling a Tournament
 
+[7] Sigrid K., Michael von T. (2006): Balanced Home-Away assignments

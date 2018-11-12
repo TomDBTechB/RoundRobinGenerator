@@ -1,0 +1,77 @@
+\documentclass[titlepage]{article}% use option titlepage to get the title on a page of its own.
+\usepackage{listings}
+\usepackage{color}
+\usepackage{amsmath}
+\usepackage{hyperref}
+\usepackage{amssymb}
+\usepackage{svg}
+\definecolor{dkgreen}{rgb}{0,0.6,0}
+\definecolor{gray}{rgb}{0.5,0.5,0.5}
+\definecolor{mauve}{rgb}{0.58,0,0.82}
+
+\lstset{frame=tb,
+	language=Java,
+	aboveskip=3mm,
+	belowskip=3mm,
+	showstringspaces=false,
+	columns=flexible,
+	basicstyle={\small\ttfamily},
+	numbers=none,
+	numberstyle=\tiny\color{gray},
+	keywordstyle=\color{blue},
+	commentstyle=\color{dkgreen},
+	stringstyle=\color{mauve},
+	breaklines=true,
+	breakatwhitespace=true,
+	tabsize=3
+}
+\usepackage{blindtext}
+\usepackage{tikz} % To generate the plot from csv
+\usepackage{pgfplots}
+\usepackage{float}
+
+\pgfplotsset{compat=newest} % Allows to place the legend below plot
+
+
+\title{Double round robin constraints in tensor form}
+\date{November 12, 2018}
+\author{Tom de Bièvre}
+
+
+\begin{document}
+\maketitle
+\section*{Constraint listings}
+The current representation of the (double) Round Robin tournament: ${MD \in \rm I\!B}^{nd x nt x nt}$\\
+
+\begin{itemize}  
+	\item nt: number of teams
+	\item nd: number of matchdays in the complete round robin tournament
+\end{itemize}
+
+\begin{enumerate}
+ \item A team never plays itself: 
+ \begin{enumerate}
+ \item $\forall day,team : MD[day,team,team] = 0$
+ \end{enumerate}
+ 
+ \item A team can only play maximum 1 game each matchday
+ \begin{enumerate}
+ \item $\forall day,team : \sum\nolimits_{t'} ( MD[day,team,t'] + MD[day, t',team]) \leq 1$ \\
+ this if nt is odd
+ \item $\forall day,team : \sum\nolimits_{t'} ( MD[day,team,t'] + MD[day, t',team]) = 1 $ 
+ this if nt is even 
+ \end{enumerate}
+ 
+ \item Halfway point: After the first cycle of your round robin tournament(the amount of cycles does not specifically matter, this constraint is mandatory after every cycle, but only modelled after the first because this is double round robin), you should have played every team once.
+ 
+ \begin{enumerate}
+ \item $\forall t \neq t': \sum\limits_{d=0}^{D/2} (MD[d,t,t'] + MD[d,t',t]) = 1$
+ \end{enumerate}
+ 
+ \item Double round robin exclusive constraint: after the whole schedule, each team has played every other team twice, once home once away. 
+ \begin{enumerate}
+ \item $\forall t \neq t': \sum\limits_{d=0}^{D} MD[d,t,t'] = 1$
+ \end{enumerate}
+\end{enumerate}   
+
+\end{document}
