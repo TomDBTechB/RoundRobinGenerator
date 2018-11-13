@@ -1,17 +1,21 @@
+import org.apache.commons.lang3.time.StopWatch;
 import org.chocosolver.solver.Model;
 import org.chocosolver.solver.variables.IntVar;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Timer;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class DoubleRoundRobinGenerator {
 
-    private static int AMOUNT_OF_TEAMS = 3;
+    private static int AMOUNT_OF_TEAMS = 7;
 
     public static void main(String[] args) {
+        StopWatch watch = new StopWatch();
+        watch.start();
         int amountOfMatchDays = calculateMatchDays();
 
 
@@ -20,14 +24,24 @@ public class DoubleRoundRobinGenerator {
         IntVar[][][] matchdays = new IntVar[amountOfMatchDays][AMOUNT_OF_TEAMS][AMOUNT_OF_TEAMS];
         //seed the tensor with variables
         seedRobinTensor(amountOfMatchDays, model, matchdays);
+        watch.split();
+        System.out.println("seed after " + watch.getSplitTime());
         //constraint 1: A team never plays itself
         addNeverPlayYourselfConst(amountOfMatchDays, model, matchdays);
+        watch.split();
+        System.out.println("never Play yourself after " + watch.getSplitTime());
         //constraint 2: A team can only play one game each matchday
         playMaxOneGamePerMatchday(amountOfMatchDays, model, matchdays);
+        watch.split();
+        System.out.println("play one each matchday " + watch.getSplitTime());
         //constraint 3: After the full tournament, every team has played every team twice
         everyonePlaysEachoterTwice(amountOfMatchDays, model, matchdays);
         //constraint 4: At the halfway point, each team should have played every team once (general rule, after amountOfMatchdays/2 for all n)
+        watch.split();
+        System.out.println("Play eachother twice " + watch.getSplitTime());
         halfWayPointConstraint(amountOfMatchDays, matchdays, model);
+        watch.split();
+        System.out.println("Amount of matchdays " + watch.getSplitTime());
         //constraint 5: Optimization of the home and away pattern
         //homeAndAwayPattern(amountOfMatchDays,matchdays,model);
 
@@ -140,9 +154,23 @@ public class DoubleRoundRobinGenerator {
         }
     }
 
-    private static void homeAndAwayPattern(int amountOfMatchDays, IntVar[][][] matchdays, Model model) {
-        //we split this in 2 different constraints who partially implicate eachother, first of all: you can't play 2 games in a row at home
+//    private static void homeAndAwayPattern(int amountOfMatchDays,IntVar[][][] matchdays,Model model){
+//        int halfwaypoint = (amountOfMatchDays-1) / 2;
+//        for(int teamindex = 0; teamindex<AMOUNT_OF_TEAMS; teamindex++){
+//            for(int day=1;day<=halfwaypoint ;day++){
+//                List<IntVar> list = new ArrayList<>(Arrays.asList(matchdays[day][teamindex]));
+//                list.addAll(Arrays.asList(matchdays[day-1][teamindex]));
+//                model.sum(convertVarListToArray(list),"<=",1).post();
+//            }
+//        }
+//
+//
+//    }
 
+
+//    private static void homeAndAwayPattern(int amountOfMatchDays, IntVar[][][] matchdays, Model model) {
+//        //we split this in 2 different constraints who partially implicate eachother, first of all: you can't play 2 games in a row at home
+//
 //            for (int teamIndex = 0; teamIndex < AMOUNT_OF_TEAMS; teamIndex++) {
 //                for (int day = 1; day < amountOfMatchDays; day++) {
 //                    List<IntVar> intVarList = new ArrayList<IntVar>(Arrays.asList(matchdays[day][teamIndex]));
@@ -172,7 +200,7 @@ public class DoubleRoundRobinGenerator {
 
 
 
-    }
+//    }
 
 
 
