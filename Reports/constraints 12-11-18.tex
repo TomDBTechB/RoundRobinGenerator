@@ -5,6 +5,7 @@
 \usepackage{hyperref}
 \usepackage{amssymb}
 \usepackage{svg}
+\usepackage{mathabx}
 \definecolor{dkgreen}{rgb}{0,0.6,0}
 \definecolor{gray}{rgb}{0.5,0.5,0.5}
 \definecolor{mauve}{rgb}{0.58,0,0.82}
@@ -62,7 +63,7 @@ The current representation of the (double) Round Robin tournament: ${MD \in \rm 
  this if nt is even 
  \end{enumerate}
  
- \item Halfway point: After the first cycle of your round robin tournament(the amount of cycles does not specifically matter, this constraint is mandatory after every cycle, but only modelled after the first because this is double round robin), you should have played every team once.
+ \item End of cycle point: After the first cycle of your round robin tournament(the amount of cycles does not specifically matter, this constraint is mandatory after every cycle, but only modelled after the first because this is double round robin), you should have played every team once.
  
  \begin{enumerate}
  \item $\forall t \neq t': \sum\limits_{d=0}^{D/2} (MD[d,t,t'] + MD[d,t',t]) = 1$
@@ -71,6 +72,12 @@ The current representation of the (double) Round Robin tournament: ${MD \in \rm 
  \item Double round robin exclusive constraint: after the whole schedule, each team has played every other team twice, once home once away. 
  \begin{enumerate}
  \item $\forall t \neq t': \sum\limits_{d=0}^{D} MD[d,t,t'] = 1$
+ \end{enumerate}
+
+ \item The Home and away pattern: for now we only model this for an odd number of teams, it consists of 2 parts: we never want to play consecutive games at home, nor away
+ \begin{enumerate}
+  \item $\forall t \land t'\neq t: MD[d,t,t'] + MD[d+1,t,t'] \leq 1$
+  \item $\forall t \land t'\neq t: MD[d,t',t] + MD[d+1,t',t] \leq 1$
  \end{enumerate}
 \end{enumerate}   
 
