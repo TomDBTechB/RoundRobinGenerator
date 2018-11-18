@@ -51,4 +51,3 @@ choco/choco\.iml
 CountOR-code/venv/*
 CountOR-code/.idea/*
 
-CountOR-code/venv/Lib/site-packages/scipy/sparse/linalg/isolve/__pycache__/iterative\.cpython-36\.pyc
