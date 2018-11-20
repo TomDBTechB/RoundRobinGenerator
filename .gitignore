@@ -47,3 +47,7 @@ choco/choco\.iml
 *.aux
 *.log
 *.synctex.gz
+
+CountOR-code/venv/*
+CountOR-code/.idea/*
+

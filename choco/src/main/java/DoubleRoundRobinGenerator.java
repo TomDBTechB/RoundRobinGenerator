@@ -11,7 +11,7 @@ import java.util.stream.Stream;
 
 public class DoubleRoundRobinGenerator {
 
-    private static int AMOUNT_OF_TEAMS = 7;
+    private static int AMOUNT_OF_TEAMS = 16;
 
     public static void main(String[] args) {
         StopWatch watch = new StopWatch();
@@ -154,18 +154,18 @@ public class DoubleRoundRobinGenerator {
         }
     }
 
-//    private static void homeAndAwayPattern(int amountOfMatchDays,IntVar[][][] matchdays,Model model){
-//        int halfwaypoint = (amountOfMatchDays-1) / 2;
-//        for(int teamindex = 0; teamindex<AMOUNT_OF_TEAMS; teamindex++){
-//            for(int day=1;day<=halfwaypoint ;day++){
-//                List<IntVar> list = new ArrayList<>(Arrays.asList(matchdays[day][teamindex]));
-//                list.addAll(Arrays.asList(matchdays[day-1][teamindex]));
-//                model.sum(convertVarListToArray(list),"<=",1).post();
-//            }
-//        }
-//
-//
-//    }
+    private static void homeAndAwayPattern(int amountOfMatchDays,IntVar[][][] matchdays,Model model){
+        int halfwaypoint = (amountOfMatchDays) / 2;
+        for(int teamindex = 0; teamindex<AMOUNT_OF_TEAMS; teamindex++){
+            for(int day=1;day<=halfwaypoint ;day++){
+                List<IntVar> list = new ArrayList<>(Arrays.asList(matchdays[day][teamindex]));
+                list.addAll(Arrays.asList(matchdays[day-1][teamindex]));
+                model.sum(convertVarListToArray(list),"<=",1).post();
+            }
+        }
+
+
+    }
 
 
 //    private static void homeAndAwayPattern(int amountOfMatchDays, IntVar[][][] matchdays, Model model) {
