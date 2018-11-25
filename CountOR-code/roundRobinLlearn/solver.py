@@ -122,111 +122,111 @@ constrList = [[(0,), (1,)], [(0,), (2,)], [(0,), (1, 2)], [(1,), (0,)], [(1,), (
 tbounds = np.zeros([num_constrType, num_constr])
 tbounds0 = np.zeros([num_constrType, num_constr])
 tbounds1 = np.zeros([num_constrType, num_constr])
-if hs == 0:
-    # defines upper/lower bounds
-    num_nurses = 10
-    num_days = 28
-    num_shifts = 4
-    tbounds[2, 0] = 4
-    tbounds[2, 1] = 6
-    tbounds[6, 2] = 1
-    tbounds[6, 3] = 7
-    tbounds[6, 4] = 2
-    tbounds[9, 0] = 1
-    tbounds[9, 1] = 2
-    tbounds[10, 1] = 1
-
-    if bk == 0:
-        tbounds[6, 0] = 9
-        tbounds[6, 1] = 16
-        tbounds[6, 5] = 8
-
-    if bk == 1:
-        tbounds0[6, 0] = 9
-        tbounds0[6, 1] = 16
-        tbounds0[6, 5] = 8
-
-        tbounds1[6, 0] = 4
-        tbounds1[6, 1] = 9
-        tbounds1[6, 5] = 4
-
-if hs == 1:
-    num_nurses = 31
-    num_days = 28
-    num_shifts = 4
-    tbounds[2, 0] = 16
-    tbounds[2, 1] = 24
-    tbounds[6, 2] = 1
-    tbounds[6, 4] = 2
-    tbounds[9, 0] = 2
-    tbounds[9, 1] = 9
-    tbounds[10, 1] = 1
-
-    if bk == 0:
-        tbounds[6, 0] = 6
-        tbounds[6, 1] = 16
-        tbounds[6, 3] = 7
-        tbounds[6, 5] = 8
-
-    if bk == 1:
-        tbounds0[6, 0] = 4
-        tbounds0[6, 1] = 13
-        tbounds0[6, 3] = 8
-        tbounds0[6, 5] = 4
-
-        tbounds1[6, 0] = 6
-        tbounds1[6, 1] = 16
-        tbounds1[6, 3] = 7
-        tbounds1[6, 5] = 8
-
-if hs == 2:
-    num_nurses = 49
-    num_days = 28
-    num_shifts = 4
-    tbounds[2, 0] = 20
-    tbounds[2, 1] = 29
-    tbounds[6, 2] = 1
-    tbounds[9, 0] = 1
-    tbounds[9, 1] = 8
-    tbounds[10, 1] = 1
-
-    if bk == 0:
-        tbounds[6, 0] = 6
-        tbounds[6, 1] = 16
-        tbounds[6, 3] = 5
-        tbounds[6, 4] = 1
-        tbounds[6, 5] = 7
-
-    if bk == 1:
-        tbounds0[6, 0] = 6
-        tbounds0[6, 1] = 16
-        tbounds0[6, 3] = 5
-        tbounds0[6, 4] = 1
-        tbounds0[6, 5] = 7
-
-        tbounds1[6, 0] = 3
-        tbounds1[6, 1] = 10
-        tbounds1[6, 3] = 8
-        tbounds1[6, 4] = 2
-        tbounds1[6, 5] = 5
-
-tbounds = tbounds.astype(np.int64)
-target_cc = np.count_nonzero(tbounds)
-
-if bk == 1:
-    tbounds0 = tbounds0.astype(np.int64)
-    tbounds1 = tbounds1.astype(np.int64)
-    target_cc += np.count_nonzero(tbounds0)
-    target_cc += np.count_nonzero(tbounds1)
-
-dimSize = [num_days, num_shifts, num_nurses]
-constrMaxval = []
-for val in constrList:
-    tot = 1
-    for i in range(len(val[1])):
-        tot *= dimSize[int(val[1][i])]
-    constrMaxval.append(tot)
-print(constrMaxval)
+# if hs == 0:
+#     # defines upper/lower bounds
+#     num_nurses = 10
+#     num_days = 28
+#     num_shifts = 4
+#     tbounds[2, 0] = 4
+#     tbounds[2, 1] = 6
+#     tbounds[6, 2] = 1
+#     tbounds[6, 3] = 7
+#     tbounds[6, 4] = 2
+#     tbounds[9, 0] = 1
+#     tbounds[9, 1] = 2
+#     tbounds[10, 1] = 1
+#
+#     if bk == 0:
+#         tbounds[6, 0] = 9
+#         tbounds[6, 1] = 16
+#         tbounds[6, 5] = 8
+#
+#     if bk == 1:
+#         tbounds0[6, 0] = 9
+#         tbounds0[6, 1] = 16
+#         tbounds0[6, 5] = 8
+#
+#         tbounds1[6, 0] = 4
+#         tbounds1[6, 1] = 9
+#         tbounds1[6, 5] = 4
+#
+# if hs == 1:
+#     num_nurses = 31
+#     num_days = 28
+#     num_shifts = 4
+#     tbounds[2, 0] = 16
+#     tbounds[2, 1] = 24
+#     tbounds[6, 2] = 1
+#     tbounds[6, 4] = 2
+#     tbounds[9, 0] = 2
+#     tbounds[9, 1] = 9
+#     tbounds[10, 1] = 1
+#
+#     if bk == 0:
+#         tbounds[6, 0] = 6
+#         tbounds[6, 1] = 16
+#         tbounds[6, 3] = 7
+#         tbounds[6, 5] = 8
+#
+#     if bk == 1:
+#         tbounds0[6, 0] = 4
+#         tbounds0[6, 1] = 13
+#         tbounds0[6, 3] = 8
+#         tbounds0[6, 5] = 4
+#
+#         tbounds1[6, 0] = 6
+#         tbounds1[6, 1] = 16
+#         tbounds1[6, 3] = 7
+#         tbounds1[6, 5] = 8
+#
+# if hs == 2:
+#     num_nurses = 49
+#     num_days = 28
+#     num_shifts = 4
+#     tbounds[2, 0] = 20
+#     tbounds[2, 1] = 29
+#     tbounds[6, 2] = 1
+#     tbounds[9, 0] = 1
+#     tbounds[9, 1] = 8
+#     tbounds[10, 1] = 1
+#
+#     if bk == 0:
+#         tbounds[6, 0] = 6
+#         tbounds[6, 1] = 16
+#         tbounds[6, 3] = 5
+#         tbounds[6, 4] = 1
+#         tbounds[6, 5] = 7
+#
+#     if bk == 1:
+#         tbounds0[6, 0] = 6
+#         tbounds0[6, 1] = 16
+#         tbounds0[6, 3] = 5
+#         tbounds0[6, 4] = 1
+#         tbounds0[6, 5] = 7
+#
+#         tbounds1[6, 0] = 3
+#         tbounds1[6, 1] = 10
+#         tbounds1[6, 3] = 8
+#         tbounds1[6, 4] = 2
+#         tbounds1[6, 5] = 5
+#
+# tbounds = tbounds.astype(np.int64)
+# target_cc = np.count_nonzero(tbounds)
+#
+# if bk == 1:
+#     tbounds0 = tbounds0.astype(np.int64)
+#     tbounds1 = tbounds1.astype(np.int64)
+#     target_cc += np.count_nonzero(tbounds0)
+#     target_cc += np.count_nonzero(tbounds1)
+#
+# dimSize = [num_days, num_shifts, num_nurses]
+# constrMaxval = []
+# for val in constrList:
+#     tot = 1
+#     for i in range(len(val[1])):
+#         tot *= dimSize[int(val[1][i])]
+#     constrMaxval.append(tot)
+# print(constrMaxval)
 
 soln = directory + "/solutions"
 result = directory + "/results"
@@ -235,27 +235,28 @@ if not os.path.exists(soln):
     os.makedirs(soln)
 if not os.path.exists(result):
     os.makedirs(result)
-
-nurse_skill = np.zeros(num_nurses)
-if bk == 1:
-    for i in range(num_nurses):
-        random.seed(i)
-        nurse_skill[i] = random.randint(0, 1)
-#    print(nurse_skill)
-nurse_preference = {}
-if mt == 1:
-    n = int(np.round(num_nurses * extraConstPerc / 100))
-    target_cc += n
-    for i in range(n):
-        random.seed(i)
-        nurse_preference[i] = (random.randint(0, num_days - 1), random.randint(0, num_shifts - 1))
+#
+# nurse_skill = np.zeros(num_nurses)
+# if bk == 1:
+#     for i in range(num_nurses):
+#         random.seed(i)
+#         nurse_skill[i] = random.randint(0, 1)
+# #    print(nurse_skill)
+# nurse_preference = {}
+# if mt == 1:
+#     n = int(np.round(num_nurses * extraConstPerc / 100))
+#     target_cc += n
+#     for i in range(n):
+#         random.seed(i)
+#         nurse_preference[i] = (random.randint(0, num_days - 1), random.randint(0, num_shifts - 1))
+#
 
 for fl in glob.glob(soln + "/*.csv"):
     os.remove(fl)
-print("\nGenerating samples using ", target_cc, " constraints")
+print("\nGenerating samples using constraints")
 start = time.clock()
 sampler.generateSample(num_nurses, num_days, num_shifts, numSam, extraConstPerc, nurse_skill, nurse_preference, tbounds,
-                       tbounds0, tbounds1, soln, bk, mt)
+                        tbounds0, tbounds1, soln, bk, mt)
 print("Generated ", numSam, " samples in ", time.clock() - start, " secs")
 
 for fl in glob.glob(result + "/*.csv"):
@@ -269,14 +270,14 @@ print("\nLearned bounds for ", numSam, " samples in ", timeTaken, ' secs')
 tag = str(bk) + str(mt) + str(hs)
 file = result + "/learnedBounds" + "_" + tag + "0.csv"
 lbounds = readBounds(file, num_constrType, num_constr)
-
-if bk == 1:
-    file = result + "/learnedBounds" + "_" + tag + "00.csv"
-    lbounds0 = readBounds(file, num_constrType, num_constr)
-
-    file = result + "/learnedBounds" + "_" + tag + "01.csv"
-    lbounds1 = readBounds(file, num_constrType, num_constr)
-
+#
+# if bk == 1:
+#     file = result + "/learnedBounds" + "_" + tag + "00.csv"
+#     lbounds0 = readBounds(file, num_constrType, num_constr)
+#
+#     file = result + "/learnedBounds" + "_" + tag + "01.csv"
+#     lbounds1 = readBounds(file, num_constrType, num_constr)
+#
 bounds_prev = np.zeros([num_constrType, num_constr])
 bounds_prev0 = np.zeros([num_constrType, num_constr])
 bounds_prev1 = np.zeros([num_constrType, num_constr])

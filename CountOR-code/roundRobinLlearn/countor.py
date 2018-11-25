@@ -17,12 +17,15 @@ import constraintFormulation as cf
 '''
 Open array from csv and read data/return as array
 '''
+
+
 def readCSV(fileName):
     with open(fileName, 'rU') as csvFile:
         reader = csv.reader(csvFile, delimiter=',')
         data = list(reader)
         data = np.asarray(data)
         return data
+
 
 # np.shape returns length of 2 first dimensions
 # function strips csvdata from unnecessary noise/data fields with no data in them
@@ -60,7 +63,7 @@ def cleanData(data):
     return dataTensor, variables
 
 
-def saveConstraintsForAll(dataTensor, variables, orderingNotImp, ind, num_nurses, directory, tag):
+def saveConstraintsForAll(dataTensor, variables, orderingNotImp, ind, directory, tag):
     repeatDim = ()
     r = set([v for v in range(len(variables)) if v not in repeatDim])
     subsets = cf.split(r, (), repeatDim)
@@ -131,17 +134,20 @@ def saveConstraintsForAll(dataTensor, variables, orderingNotImp, ind, num_nurses
             csvWriter.writerow(row)
 
 
-def savePref(dataTensor, nurse_preference):
-    accept = 1
-    for i in range(len(nurse_preference)):
-        if dataTensor[nurse_preference[i][0], nurse_preference[i][1], i] != 0:
-            accept = 0
-            break
-    return accept
+# def savePref(dataTensor, nurse_preference):
+#     accept = 1
+#     for i in range(len(nurse_preference)):
+#         if dataTensor[nurse_preference[i][0], nurse_preference[i][1], i] != 0:
+#             accept = 0
+#             break
+#     return accept
 
 
-def learnConstraintsForAll(directory, num_nurses, extraInfo, bk, mt, hs, test, nurse_preference):
-    tag = str(bk) + str(mt) + str(hs)
+
+# TODO ASK THIS
+def learnConstraintsForAll(directory):
+    # , num_nurses, extraInfo, bk, mt, hs, test, nurse_preference):
+    # tag = str(bk) + str(mt) + str(hs)
     #    start=time.clock()
     ind = 0
     prefSatisfaction = []
@@ -156,36 +162,36 @@ def learnConstraintsForAll(directory, num_nurses, extraInfo, bk, mt, hs, test, n
             saveConstraintsForAll(dataTensor, variables, orderingNotImp, 0, num_nurses, directory, tag + str(0))
         saveConstraintsForAll(dataTensor, variables, orderingNotImp, 1, num_nurses, directory, tag + str(0))
 
-        skillset = np.zeros([2, num_nurses])
-        skillset[0] = extraInfo
-        skillset[1] = [int(x == 0) for x in extraInfo]
-
-        if bk == 1:
-            for i in range(2):
-                if i == 0:
-                    tmp = extraInfo
-                if i == 1:
-                    tmp = [int(x == 0) for x in extraInfo]
-                skillset = np.zeros([num_nurses, int(sum(tmp))])
-                k = 0
-                for j in range(len(tmp)):
-                    if tmp[j] == 1:
-                        skillset[j][k] = 1
-                        k += 1
-
-                dim = 2
-                updatedVariables = variables[:]
-                updatedVariables[dim] = [x for x, y in zip(variables[dim], tmp) if y == 1]
-                mat = np.tensordot(dataTensor, skillset, [dim, 0])
-                if ind == 0:
-                    saveConstraintsForAll(mat, updatedVariables, orderingNotImp, 0, num_nurses, directory,
-                                          tag + str(0) + str(i))
-                saveConstraintsForAll(mat, updatedVariables, orderingNotImp, 1, num_nurses, directory,
-                                      tag + str(0) + str(i))
-        ind += 1
-
-        if test == 1:
-            prefSatisfaction.append(savePref(dataTensor, nurse_preference))
-
-    #    print("\nTime Taken: ",time.clock()-start,' secs')
-    return prefSatisfaction
+    #     skill set = np.zeros([2, num_nurses])
+    #     skillset[0] = extraInfo
+    #     skillset[1] = [int(x == 0) for x in extraInfo]
+    #
+    #     if bk == 1:
+    #         for i in range(2):
+    #             if i == 0:
+    #                 tmp = extraInfo
+    #             if i == 1:
+    #                 tmp = [int(x == 0) for x in extraInfo]
+    #             skillset = np.zeros([num_nurses, int(sum(tmp))])
+    #             k = 0
+    #             for j in range(len(tmp)):
+    #                 if tmp[j] == 1:
+    #                     skillset[j][k] = 1
+    #                     k += 1
+    #
+    #             dim = 2
+    #             updatedVariables = variables[:]
+    #             updatedVariables[dim] = [x for x, y in zip(variables[dim], tmp) if y == 1]
+    #             mat = np.tensordot(dataTensor, skillset, [dim, 0])
+    #             if ind == 0:
+    #                 saveConstraintsForAll(mat, updatedVariables, orderingNotImp, 0, num_nurses, directory,
+    #                                       tag + str(0) + str(i))
+    #             saveConstraintsForAll(mat, updatedVariables, orderingNotImp, 1, num_nurses, directory,
+    #                                   tag + str(0) + str(i))
+    #     ind += 1
+    #
+    #     if test == 1:
+    #         prefSatisfaction.append(savePref(dataTensor, nurse_preference))
+    #
+    # #    print("\nTime Taken: ",time.clock()-start,' secs')
+     return prefSatisfaction
