@@ -15,9 +15,8 @@ import time
 from os.path import expanduser
 
 import numpy as np
-import sampler
 
-import countor
+from countor_base import countor, sampler
 
 
 def readBounds(file, num_constrType, num_constr):

@@ -1,10 +1,8 @@
-import sys
 import csv
 import numpy as np
 from collections import OrderedDict
-import constraintFormulation as cf
+from countor_base import constraintFormulation as cf
 import operator
-from numpy.core.defchararray import index
 import time
 import glob
 import os.path

@@ -12,7 +12,7 @@ from collections import OrderedDict
 
 import numpy as np
 
-import constraintFormulation as cf
+from countor_base import constraintFormulation as cf
 
 '''
 Open array from csv and read data/return as array

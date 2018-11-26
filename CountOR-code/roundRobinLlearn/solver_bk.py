@@ -6,20 +6,18 @@ Created on Thu Jun  7 11:45:50 2018
 @author: mohit
 """
 
-import sampler
-import countor
+from countor_base import countor, sampler
 import numpy as np
 import glob
 import os
 import csv
-from scipy import stats
 import random
 import time
 import sys
 from os.path import expanduser
 
 def readBounds(file,num_constrType,num_constr):
-    data=countor.readCSV(file)
+    data= countor.readCSV(file)
     data_transpose=list(zip(*data))
     data_int=np.zeros([len(data_transpose),len(data_transpose[0])-1])
     for i in range(len(data_transpose)):
@@ -241,14 +239,14 @@ for fl in glob.glob(soln+"/*.csv"):
       os.remove(fl) 
 print("\nGenerating samples using ",target_cc," constraints")
 start=time.clock()
-sampler.generateSample(num_nurses,num_days,num_shifts,numSam,extraConstPerc,nurse_skill,nurse_preference,tbounds,tbounds0,tbounds1,soln,bk,mt)
+sampler.generateSample(num_nurses, num_days, num_shifts, numSam, extraConstPerc, nurse_skill, nurse_preference, tbounds, tbounds0, tbounds1, soln, bk, mt)
 print("Generated ",numSam," samples in ",time.clock()-start," secs")
 
 for fl in glob.glob(result+"/*.csv"): 
       os.remove(fl) 
 
 start=time.clock()
-countor.learnConstraintsForAll(directory,num_nurses,nurse_skill,bk,mt,hs,0,nurse_preference)
+countor.learnConstraintsForAll(directory, num_nurses, nurse_skill, bk, mt, hs, 0, nurse_preference)
 timeTaken=time.clock()-start
 print("\nLearned bounds for ",numSam," samples in ",timeTaken,' secs')
 
@@ -339,10 +337,10 @@ for numSol in [1,10,25,50]:
             
             print("\nGenerating samples using ",learned_cc," constraints")
             start=time.clock()
-            sampler.generateSample(num_nurses,num_days,num_shifts,numSam,extraConstPerc,nurse_skill,nurse_preference,bounds_learned,bounds_learned0,bounds_learned1,tmpDir+"/solutions",bk,0)
+            sampler.generateSample(num_nurses, num_days, num_shifts, numSam, extraConstPerc, nurse_skill, nurse_preference, bounds_learned, bounds_learned0, bounds_learned1, tmpDir + "/solutions", bk, 0)
             print("Generated ",numSam," samples in ",time.clock()-start,' secs')
             
-            prefSatisfaction=countor.learnConstraintsForAll(tmpDir,num_nurses,nurse_skill,bk,0,hs,1,nurse_preference)
+            prefSatisfaction= countor.learnConstraintsForAll(tmpDir, num_nurses, nurse_skill, bk, 0, hs, 1, nurse_preference)
             tag=str(bk)+str(0)+str(hs)
             file=tmpDir+"/results"+"/learnedBounds"+"_"+tag+"0.csv"
             tmpBounds=readBounds(file,num_constrType,num_constr)
