@@ -16,7 +16,7 @@ from os.path import expanduser
 
 import numpy as np
 
-from countor_base import countor, sampler
+from roundRobinLlearn import countor, sampler
 
 
 def readBounds(file, num_constrType, num_constr):
@@ -32,6 +32,8 @@ def readBounds(file, num_constrType, num_constr):
 
 
     bounds_tr = np.zeros([len(data_int[0]), num_constrType, num_constr])
+
+    # TODO MAGIC NUMBERS
     for j in range(len(data_int[0])):
         k = 0
         for i in range(83):
@@ -80,43 +82,46 @@ def moreConstrained(bound1, bound2, num_constrType, num_constr):
 home = expanduser("~")
 
 numSam = int(sys.argv[1])
-bk = int(sys.argv[2])
-mt = int(sys.argv[3])
-hs = int(sys.argv[4])
+amtTeams = int(sys.argv[2])
+# bk = int(sys.argv[2])
+# mt = int(sys.argv[3])
+# hs = int(sys.argv[4])
 
 extraConstPerc = 10
 
 numFiles = numSam
 
-tag = str(bk) + str(mt) + str(hs) + "_" + str(numSam)
+tag = str(amtTeams) + "_" + str(numSam)
 
-directory = os.getcwd() + '/data/' + tag
+directory = '../samples/'
 if not os.path.exists(directory):
     os.makedirs(directory)
 
+# Opening of results csv
 my_csv = open(directory + "/results.csv", "w+")
 csvWriter = csv.writer(my_csv, delimiter=',')
-row = ['Nurses', 'Sample', 'Soln', 'Precision', 'Precision_err', 'Recall', 'Recall_err', 'Time', 'Time_err']
+row = ['Teams', 'Sample', 'Soln', 'Precision', 'Precision_err', 'Recall', 'Recall_err', 'Time', 'Time_err']
 csvWriter.writerow(row)
 
+
+# opening of bounds csv
 det_csv = open(directory + "/det_results.csv", "w+")
 detCsvWriter = csv.writer(det_csv, delimiter=',')
-row = ['Nurses', 'Sample', 'Soln', 'Seed', 'Precision', 'Recall', 'Time']
+row = ['Teams', 'Sample', 'Soln', 'Seed', 'Precision', 'Recall', 'Time']
 detCsvWriter.writerow(row)
 
 
 # What are these params made for? To generate samples to learn or?...
-num_nurses = 15
-num_days = 7
-num_shifts = 3
-orderingNotImp = [2]
+# num_nurses = 15
+# num_days = 7
+# num_shifts = 3
+# orderingNotImp = [2]
 
 num_constrType = 12
 num_constr = 6
 
 # provides list of constraints
-constrList = [[(0,), (1,)], [(0,), (2,)], [(0,), (1, 2)], [(1,), (0,)], [(1,), (2,)], [(1,), (0, 2)], [(2,), (0,)],
-              [(2,), (1,)], [(2,), (0, 1)], [(0, 1), (2,)], [(0, 2), (1,)], [(1, 2), (0,)]]
+constrList = [[(0,), (1,)], [(0,), (2,)], [(0,), (1, 2)], [(1,), (0,)]]
 
 tbounds = np.zeros([num_constrType, num_constr])
 tbounds0 = np.zeros([num_constrType, num_constr])
@@ -218,14 +223,22 @@ tbounds1 = np.zeros([num_constrType, num_constr])
 #     target_cc += np.count_nonzero(tbounds0)
 #     target_cc += np.count_nonzero(tbounds1)
 #
-# dimSize = [num_days, num_shifts, num_nurses]
-# constrMaxval = []
-# for val in constrList:
-#     tot = 1
-#     for i in range(len(val[1])):
-#         tot *= dimSize[int(val[1][i])]
-#     constrMaxval.append(tot)
-# print(constrMaxval)
+
+amtMds = 0
+if amtTeams % 2 == 0:
+    amtMds = (amtTeams-1)*2
+else:
+    amtMds = amtTeams*2
+dimSize = [amtTeams, amtTeams, amtMds]
+
+
+constrMaxval = []
+for val in constrList:
+    tot = 1
+    for i in range(len(val[1])):
+        tot *= dimSize[int(val[1][i])]
+    constrMaxval.append(tot)
+print(constrMaxval)
 
 soln = directory + "/solutions"
 result = directory + "/results"
@@ -263,11 +276,11 @@ for fl in glob.glob(result + "/*.csv"):
     os.remove(fl)
 
 start = time.clock()
-countor.learnConstraintsForAll(directory, num_nurses, nurse_skill, bk, mt, hs, 0, nurse_preference)
+countor.learnConstraintsForAll(directory=directory, test=0)
 timeTaken = time.clock() - start
 print("\nLearned bounds for ", numSam, " samples in ", timeTaken, ' secs')
 
-tag = str(bk) + str(mt) + str(hs)
+tag = str(amtTeams)
 file = result + "/learnedBounds" + "_" + tag + "0.csv"
 lbounds = readBounds(file, num_constrType, num_constr)
 #
@@ -314,93 +327,93 @@ for numSol in [1, 10, 25, 50]:
 
         bounds_learned0 = np.zeros([num_constrType, num_constr])
         bounds_learned1 = np.zeros([num_constrType, num_constr])
-        if bk == 1:
-            selbounds0 = np.array([lbounds0[i] for i in selRows])
-            selbounds1 = np.array([lbounds1[i] for i in selRows])
-            print(selbounds.shape)
-            print(selbounds1.shape)
-            bounds_learned0 = aggrBounds(selbounds0, num_constrType, num_constr, constrMaxval)
-            bounds_learned1 = aggrBounds(selbounds1, num_constrType, num_constr, constrMaxval)
-            learned_cc += np.count_nonzero(bounds_learned0)
-            learned_cc += np.count_nonzero(bounds_learned1)
-
-        if (mt == 1 and not (np.array_equal(bounds_learned, bounds_prev) and np.array_equal(bounds_learned0,
-                                                                                            bounds_prev0) and np.array_equal(
-                bounds_learned1, bounds_prev1))) or (mt == 0 and not (np.array_equal(bounds_learned, bounds_prev))):
-            selbounds = np.array([lbounds[i] for i in range(len(lbounds)) if i not in selRows])
-            selbounds0 = np.array([lbounds0[i] for i in range(len(lbounds0)) if i not in selRows])
-            selbounds1 = np.array([lbounds1[i] for i in range(len(lbounds1)) if i not in selRows])
-            for i in range(len(selbounds)):
-                accept = 0
-                accept = moreConstrained(bounds_learned, selbounds[i], num_constrType, num_constr)
-                if accept == 0 and bk == 1:
-                    accept = moreConstrained(bounds_learned0, selbounds0[i], num_constrType, num_constr)
-                    if accept == 0:
-                        accept = moreConstrained(bounds_learned1, selbounds1[i], num_constrType, num_constr)
-                recall += accept
-            tot_rec[seed] = (recall * 100) / (numSam - numSol)
-
-            tmpDir = directory + "/tmp"
-            if not os.path.exists(tmpDir):
-                os.makedirs(tmpDir)
-            for fl in glob.glob(tmpDir + "/*.csv"):
-                os.remove(fl)
-
-            soln = directory + "/solutions"
-            result = directory + "/results"
-
-            if not os.path.exists(tmpDir + "/solutions"):
-                os.makedirs(tmpDir + "/solutions")
-            for fl in glob.glob(tmpDir + "/solutions" + "/*.csv"):
-                os.remove(fl)
-            if not os.path.exists(tmpDir + "/results"):
-                os.makedirs(tmpDir + "/results")
-            for fl in glob.glob(tmpDir + "/results" + "/*.csv"):
-                os.remove(fl)
-
-            print("\nGenerating samples using ", learned_cc, " constraints")
-            start = time.clock()
-            sampler.generateSample(num_nurses, num_days, num_shifts, numSam, extraConstPerc, nurse_skill,
-                                   nurse_preference, bounds_learned, bounds_learned0, bounds_learned1,
-                                   tmpDir + "/solutions", bk, 0)
-            print("Generated ", numSam, " samples in ", time.clock() - start, ' secs')
-
-            prefSatisfaction = countor.learnConstraintsForAll(tmpDir, num_nurses, nurse_skill, bk, 0, hs, 1,
-                                                              nurse_preference)
-            tag = str(bk) + str(0) + str(hs)
-            file = tmpDir + "/results" + "/learnedBounds" + "_" + tag + "0.csv"
-            tmpBounds = readBounds(file, num_constrType, num_constr)
-            if bk == 1:
-                file = tmpDir + "/results" + "/learnedBounds" + "_" + tag + "00.csv"
-                tmpBounds0 = readBounds(file, num_constrType, num_constr)
-
-                file = tmpDir + "/results" + "/learnedBounds" + "_" + tag + "01.csv"
-                tmpBounds1 = readBounds(file, num_constrType, num_constr)
-
-            for i in range(len(tmpBounds)):
-                accept = 0
-                if mt == 0 or prefSatisfaction[i] == 1:
-                    accept = moreConstrained(tbounds, tmpBounds[i], num_constrType, num_constr)
-                    if accept == 0 and bk == 1:
-                        accept = moreConstrained(tbounds0, tmpBounds0[i], num_constrType, num_constr)
-                        if accept == 0:
-                            accept = moreConstrained(tbounds1, tmpBounds1[i], num_constrType, num_constr)
-                precision += accept
-            tot_pre[seed] = (precision * 100) / numSam
-
-            prec_prev = tot_pre[seed]
-            rec_prev = tot_rec[seed]
-            time_prev = tot_time[seed]
-            bounds_prev = bounds_learned
-            bounds_prev0 = bounds_learned0
-            bounds_prev1 = bounds_learned1
-        else:
-            tot_pre[seed] = prec_prev
-            tot_rec[seed] = rec_prev
-            tot_time[seed] = time_prev
+        # if bk == 1:
+        #     selbounds0 = np.array([lbounds0[i] for i in selRows])
+        #     selbounds1 = np.array([lbounds1[i] for i in selRows])
+        #     print(selbounds.shape)
+        #     print(selbounds1.shape)
+        #     bounds_learned0 = aggrBounds(selbounds0, num_constrType, num_constr, constrMaxval)
+        #     bounds_learned1 = aggrBounds(selbounds1, num_constrType, num_constr, constrMaxval)
+        #     learned_cc += np.count_nonzero(bounds_learned0)
+        #     learned_cc += np.count_nonzero(bounds_learned1)
+        #
+        # if (mt == 1 and not (np.array_equal(bounds_learned, bounds_prev) and np.array_equal(bounds_learned0,
+        #                                                                                     bounds_prev0) and np.array_equal(
+        #         bounds_learned1, bounds_prev1))) or (mt == 0 and not (np.array_equal(bounds_learned, bounds_prev))):
+        #     selbounds = np.array([lbounds[i] for i in range(len(lbounds)) if i not in selRows])
+        #     selbounds0 = np.array([lbounds0[i] for i in range(len(lbounds0)) if i not in selRows])
+        #     selbounds1 = np.array([lbounds1[i] for i in range(len(lbounds1)) if i not in selRows])
+        #     for i in range(len(selbounds)):
+        #         accept = 0
+        #         accept = moreConstrained(bounds_learned, selbounds[i], num_constrType, num_constr)
+        #         if accept == 0 and bk == 1:
+        #             accept = moreConstrained(bounds_learned0, selbounds0[i], num_constrType, num_constr)
+        #             if accept == 0:
+        #                 accept = moreConstrained(bounds_learned1, selbounds1[i], num_constrType, num_constr)
+        #         recall += accept
+        #     tot_rec[seed] = (recall * 100) / (numSam - numSol)
+        #
+        #     tmpDir = directory + "/tmp"
+        #     if not os.path.exists(tmpDir):
+        #         os.makedirs(tmpDir)
+        #     for fl in glob.glob(tmpDir + "/*.csv"):
+        #         os.remove(fl)
+        #
+        #     soln = directory + "/solutions"
+        #     result = directory + "/results"
+        #
+        #     if not os.path.exists(tmpDir + "/solutions"):
+        #         os.makedirs(tmpDir + "/solutions")
+        #     for fl in glob.glob(tmpDir + "/solutions" + "/*.csv"):
+        #         os.remove(fl)
+        #     if not os.path.exists(tmpDir + "/results"):
+        #         os.makedirs(tmpDir + "/results")
+        #     for fl in glob.glob(tmpDir + "/results" + "/*.csv"):
+        #         os.remove(fl)
+        #
+        #     print("\nGenerating samples using ", learned_cc, " constraints")
+        #     start = time.clock()
+        #     sampler.generateSample(num_nurses, num_days, num_shifts, numSam, extraConstPerc, nurse_skill,
+        #                            nurse_preference, bounds_learned, bounds_learned0, bounds_learned1,
+        #                            tmpDir + "/solutions", bk, 0)
+        #     print("Generated ", numSam, " samples in ", time.clock() - start, ' secs')
+        #
+        #     prefSatisfaction = countor.learnConstraintsForAll(tmpDir, num_nurses, nurse_skill, bk, 0, hs, 1,
+        #                                                       nurse_preference)
+        #     tag = str(bk) + str(0) + str(hs)
+        #     file = tmpDir + "/results" + "/learnedBounds" + "_" + tag + "0.csv"
+        #     tmpBounds = readBounds(file, num_constrType, num_constr)
+        #     if bk == 1:
+        #         file = tmpDir + "/results" + "/learnedBounds" + "_" + tag + "00.csv"
+        #         tmpBounds0 = readBounds(file, num_constrType, num_constr)
+        #
+        #         file = tmpDir + "/results" + "/learnedBounds" + "_" + tag + "01.csv"
+        #         tmpBounds1 = readBounds(file, num_constrType, num_constr)
+        #
+        #     for i in range(len(tmpBounds)):
+        #         accept = 0
+        #         if mt == 0 or prefSatisfaction[i] == 1:
+        #             accept = moreConstrained(tbounds, tmpBounds[i], num_constrType, num_constr)
+        #             if accept == 0 and bk == 1:
+        #                 accept = moreConstrained(tbounds0, tmpBounds0[i], num_constrType, num_constr)
+        #                 if accept == 0:
+        #                     accept = moreConstrained(tbounds1, tmpBounds1[i], num_constrType, num_constr)
+        #         precision += accept
+        #     tot_pre[seed] = (precision * 100) / numSam
+        #
+        #     prec_prev = tot_pre[seed]
+        #     rec_prev = tot_rec[seed]
+        #     time_prev = tot_time[seed]
+        #     bounds_prev = bounds_learned
+        #     bounds_prev0 = bounds_learned0
+        #     bounds_prev1 = bounds_learned1
+        # else:
+        #     tot_pre[seed] = prec_prev
+        #     tot_rec[seed] = rec_prev
+        #     tot_time[seed] = time_prev
 
         row = []
-        row.extend([num_nurses])
+        row.extend([amtTeams])
         row.extend([numSam])
         row.extend([numSol])
         row.extend([seed])
@@ -411,7 +424,7 @@ for numSol in [1, 10, 25, 50]:
     #        print(row)
     prevSol = numSol
     row = []
-    row.extend([num_nurses])
+    row.extend([amtTeams])
     row.extend([numSam])
     row.extend([numSol])
     row.extend([sum(tot_pre) / numSeed])
