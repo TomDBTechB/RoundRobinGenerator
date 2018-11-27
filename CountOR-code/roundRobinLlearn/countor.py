@@ -63,6 +63,11 @@ def cleanData(data):
     return dataTensor, variables
 
 
+# STEP 2
+# orderingnotimp should always be empty
+# ind = 0 (indicator is wheter extra bk is present)
+# directory = where to save learned
+#  tag is unique identifier
 def saveConstraintsForAll(dataTensor, variables, orderingNotImp, ind, directory, tag):
     repeatDim = ()
     r = set([v for v in range(len(variables)) if v not in repeatDim])
@@ -143,22 +148,24 @@ def saveConstraintsForAll(dataTensor, variables, orderingNotImp, ind, directory,
 #     return accept
 
 
-# TODO ASK THIS
+# TODO ASK THIS step 1
+# directory = directory of the samples
 def learnConstraintsForAll(directory, extraInfo, teamAmt, test, nurse_preference):
     tag = "Amount of teams: " + str(teamAmt)
     # start = time.clock()
     ind = 0
     prefSatisfaction = []
-    for fl in glob.glob(directory + '/solutions/*.csv'):
-        data = readCSV(fl)
+    for file in glob.glob(directory + '/solutions/*.csv'):
+        data = readCSV(file)
         dataTensor, variables = cleanData(data)
         lenVar = []
         for i in range(len(variables)):
             lenVar.append(len(variables[i]))
-        orderingNotImp = [2]
-        if ind == 0:
-            saveConstraintsForAll(dataTensor, variables, orderingNotImp, 0, directory, tag + str(0))
-        saveConstraintsForAll(dataTensor, variables, orderingNotImp, 1, directory, tag + str(0))
+        # # orderingNotImp = [2]
+        if ind==0:
+            saveConstraintsForAll(dataTensor, variables, 0, directory, tag + str(0))
+
+        saveConstraintsForAll(dataTensor, variables, 1, directory, tag + str(0))
 
         #     skill set = np.zeros([2, num_nurses])
         #     skillset[0] = extraInfo

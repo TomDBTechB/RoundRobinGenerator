@@ -126,6 +126,11 @@ constrList = [[(0,), (1,)], [(0,), (2,)], [(0,), (1, 2)], [(1,), (0,)]]
 tbounds = np.zeros([num_constrType, num_constr])
 tbounds0 = np.zeros([num_constrType, num_constr])
 tbounds1 = np.zeros([num_constrType, num_constr])
+
+# Todo: create function that reads the boundfile and creates the tbound matrix based on the learned values, tbounds0 and 1 are unnecessary (bk based)
+
+
+
 # if hs == 0:
 #     # defines upper/lower bounds
 #     num_nurses = 10
@@ -267,9 +272,10 @@ for fl in glob.glob(soln + "/*.csv"):
     os.remove(fl)
 print("\nGenerating samples using constraints")
 start = time.clock()
-# TODO generate csv sample
-# sampler.generateSample(num_nurses, num_days, num_shifts, numSam, extraConstPerc, nurse_skill, nurse_preference, tbounds,
-#                        tbounds0, tbounds1, soln, bk, mt)
+# TODO generate csv sample, using sample
+# Solution = where to wirte dodwn the functions
+sampler.generateSample(amt_teams, num_days, numSam, tbounds,
+                        soln)
 print("Generated ", numSam, " samples in ", time.clock() - start, " secs")
 
 for fl in glob.glob(result + "/*.csv"):
