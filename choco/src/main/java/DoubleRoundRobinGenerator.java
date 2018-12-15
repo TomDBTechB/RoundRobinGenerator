@@ -11,7 +11,7 @@ import java.util.stream.Stream;
 
 public class DoubleRoundRobinGenerator {
 
-    private static int AMOUNT_OF_TEAMS = 16;
+    private static int AMOUNT_OF_TEAMS = 6;
 
     public static void main(String[] args) {
         StopWatch watch = new StopWatch();
@@ -48,6 +48,7 @@ public class DoubleRoundRobinGenerator {
 
         //MiniZinc black magic
         int counter = 0;
+        model.getSolver().limitSolution(10);
         while (model.getSolver().solve()) {
             prettyPrintSolution(matchdays, amountOfMatchDays);
             counter++;
