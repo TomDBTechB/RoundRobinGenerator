@@ -1,0 +1,124 @@
+# Intermediate presentation 2
+
+**Context**
+- Many real world problems require constraints
+- Sport scheduling is really complex and laboursome --> Major league baseball
+  - 2 leagues
+  - Each league consists of 3 divisions
+  - 162 games per team per regular season
+- To what extent could this amount of work be lowered?
+
+**Motivation/Aim**
+- Use constrainprogramming to solve the scheduling issue
+- Use tensor representation and manipulation to learn the constraints that live between given schedules
+- We want to learn sportschedules using a generalization of the CountOR algorithm
+
+- 
+
+**Approach**
+**Literature study**
+- What are different kinds of sport tournaments?
+    - You cant start scheduling before you know what kind of tournament/competition you want to organize
+      - What is Round robin
+      - What is a round?
+        - We could also call this a matchday
+        - Differences between odd and even number of teams
+          - n rounds if odd
+          - n-1 rounds if even
+          - relaxed and compact tournaments
+      - What is a division?
+
+- Home and away patterns and breaks
+   - Assumption: teams always have a home base
+    - If a team does not play during a round: bye
+    - HAP pattern: combination of H,A,b
+      - Balanced hap pattern: amount of home/away games does not differ more than one
+      - Complementary patterns: first pattern says a home game when second away and vice versa
+
+- Target functions(Nurmi et al 2010, Forrest and Simmons 2006) --> the schedule should be acceptable for the owner of the league/competition (aka it should make money and should be fair)
+  - Minimum break: most liga's minimize the number of breaks/bye's(Werra,1980-1982)
+    - x(n-2) for an xRR tournament with even number
+    - 0 for an odd number of teams
+    - minimize number of consecutive away games (Nurmi 2010) --> fans dont like it
+     - consecutive home/away games have an influence on the position of the team in the ranking (Nurmi 2010)
+     - Mirrored schedule: 3n-6 byes as minimum (Goosens Spieksma 2012)
+       - We dont aim for this because we want balanced schedules
+    - Balanced schedules (spieksme Goosens 2012) --> our goal, still needs to be modelled in the acquired model)
+  - Minimum travel distance (analogue to traveling salesman problem)
+    - minimizing total traveling distance and maximizing number of breaks is equivalent if the distance between all homebases = 1: CTTP --> Solving maximum break problem --> finding optimal solution for traveling tournament problem (Urrutia, Ribeiro 2004-2006)
+
+  - Minimising Carry over-effects
+    - You always have carry over effects from your first opponent (playing consecutive stronger/weaker teams)
+    - COE values (Russel, 1980)
+
+  - Minimum penalty
+    - Constrained sport scheduling problem: retrieving schedule that is fair cfr target functions and follows hard constraints
+    - Soft constraints should be followed as much as possible, but penalties should be incorporated when violating them
+
+- Constraints
+  - Round robin specific
+    - No team plays itself
+    - During each round, each team plays maximum one game
+    - each team plays eachother x times in an xRR tournament
+    - Each game has a home and away team (those are fictive when you have a tournament on neutral ground)
+    - Two teams play home/away combination 
+
+  - Hard constraints by Nurmi et al (2010) [Sports Scheduling Problem](http://www.computationalintelligence.fi/ssp.htm)
+  - P: place constraints
+    - C04-05-06-07-08-23-39-40-41
+      - Police /risk constraints or champions league shenanagans (04-05-06
+      - Teams with same home base C07   
+  - GR: Group constraints(based on teamstrength or geographical location)
+    - C29-30-31-32
+      - 29: limit carryover effects
+      - 30 you dont want all the big games in the same slot
+      - 32: force homegames against top teams for each league
+  - B: Break constraints
+    - C12-13-15-16-17-35
+    - Minimizing/importance of total number of constraints
+  - GA: Game constraints
+    - C10-11-38
+    - A cetrain game between 2 games cant/should be planned in a certain timeslot(eg Derby)
+  - GE: Geographical constraints
+    - GE 43-44-45-46
+    - practical stuff: think about chili
+  - Q: for tournament quality constraint
+    - C26-27-36
+  - S: seperation constraints
+    - C19-21
+- Representation of the Sport schedules 
+  - 3 dimensional tensor
+    - home
+    - Away
+    - Round
+    - (Matchday?)
+  - The basic constraints already stated
+    - HAP
+    - never play yourself
+    - play everyone xRR
+
+
+**Practical approach**
+- generate a set of schedules using own custom constraints
+- Try to learn the constraints using countOr as is, **WE ARE HERE**
+- Generate a new set of schedules using the learned constraints
+- See if the constraints satisfy
+- Adapt the algorithm where needed to learn the universal constraints
+- Try to learn a final use case
+  - Real world use case: Belgian football competition
+    - 16 teams: 30 games of planning in regular competition
+    - Playoff 1: Division of 6 teams
+    - Playoff 2: 2 divisions of 4
+    - Playoff 3: 1 division of 2 teams
+    - Lots of edge cases!
+
+  - Academically based case
+    - Modelseeker
+    - konak
+      - German football competition '11-'12
+      - 18 teams 
+
+
+
+
+discuss the context, motivation, obtained results and planning of your thesis
