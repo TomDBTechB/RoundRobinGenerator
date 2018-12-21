@@ -1,0 +1,50 @@
+\documentclass[12pt]{report}
+\usepackage[utf8]{inputenc}
+\usepackage{graphicx}
+\graphicspath{{images/}}
+\usepackage[T1]{fontenc} % Output font encoding for international characters
+\usepackage[a4paper,width=150mm,top=25mm,bottom=25mm,bindingoffset=6mm]{geometry}
+\usepackage{mathpazo} % Palatino font
+
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+
+\fancyhead{}
+\fancyhead[RO,LE]{Sportconstraint Learning using Tensor Data}
+\fancyfoot{}
+\fancyfoot[LE,RO]{\thepage}
+\fancyfoot[LO,CE]{Chapter \thechapter}
+\fancyfoot[CO,RE]{Tom De Bièvre}
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\footrulewidth}{0.4pt}
+
+
+\begin{document}
+\input{titlepage.tex}
+
+
+% pre table
+\chapter*{Abstract}
+\chapter*{Dedication}
+\chapter*{Acknowledgements}
+
+\tableofcontents
+
+\chapter{Introduction}
+\input{chapters/0.Introduction.tex}
+
+\chapter{Different Sport Tournaments}
+\input{chapters/1.DifferentSportTournaments.tex}
+
+\chapter{Hard Constraints in Sport Scheduling}
+\input{chapters/2.HardConstraintsinSportscheduling.tex}
+
+\chapter{Soft Constraints in Sport Scheduling}
+\input{chapters/3.SoftConstraintsinSportScheduling.tex}
+
+\chapter{Representation of Sport Tournaments}
+\input{chapters/4.RepresentationofSportTournaments.tex}
+
+\chapter{Related Work}
+\input{chapters/5.RelatedWork.tex}
+\end{document}
