@@ -1,0 +1,157 @@
+\section{Classification of a sportscheduling problem}
+Solving a sport scheduling problem consists of finding a feasible schedule which is acceptable for the organization of the tournament. This schedule minimizes or maximizes the cost function and does not violate any hard constraints. Common used cost functions are minimizing the amount of breaks or traveling distance. Besides those two, there still are some other things that should be taken into account. For example minimizing costs or maximizing revenue, minimizing carry-over effects  and penalties. We list five complete categories
+
+\subsection{Minimal Break}
+Probably the most studied objective in the sport scheduling world is minimizing breaks. Organizers of sport tournaments limit their schedules to having an upper bound for the amount of breaks (e.g x(n-2) for an xRR tournament with an even number of teams n). Pioneering work about breaks has been conducted by Werra(1980,1982). There are several reasons why people want a minimal amount of breaks in their schedule. Fans don’t like long periods without home games from their team(Nurmi et al, 2010), consecutive homegames reduce the revenues from tickets[9]. Long home stands or road trips could also have an impact on the position of a team in the tournament(Nurmi 2010).
+\\[5px]
+Werra introduced a variance on the minimal break problem in 1982: find a minimal amount of rounds with breaks. An application of a minimal break soft constraint adapted to the demands of the league is the equadorian football league [9 recalde et al]. This function consists of 2 objectives: minimizing the number of breaks and maximizing the number of pseudo-breaks. A pseudo break is a road trip of 2 games where one of the games is played in the own province.
+\\[5px] 
+It isn’t always the most optimal to minimize the amount of breaks, an increased amount of breaks could reduce the total traveling distance and the travel costs [9], see section 1.2 for more information. If the schedule is mirrored, the minimal amount of breaks will rise to a minimum of 3n-6, breaks are not the main concern for mirrored schedules(Goosens en Spieksma, 2012). Table 3 is a compact mirrored DRR tournament with 6 teams and a minimal number of breaks. No breaks for team 1 and 6, 3 for team 2 and 3, 3 game homestand for team 5 and a 3 game road trip for team 4. Which adds up to 12 breaks (3*6-6). 
+\\[5px]
+There is also the possibility to keep the amount of breaks the same for all teams to make it more fair. This implicates that the total number of breaks in a SRR would rise to n, and for a DRR tournament to 2n(De Werra 1980). This is called a \textbf{balanced} schedule(Goossens and Spieksma 2012).
+
+\subsection{Minimum Traveling Distance}
+The traveling tournament problem(TTP) has been introduced  by Easton et al. (2001). The objective of this problem is to minimize the total distance traveled for each team. This is important when you have a tournament where the home bases have a large distance between them(big travel costs). In a TTP, each team starts in their home base, and return after the last game to their home base. But they don’t always return to their home base after each game, sometimes they continue their road trip from one opponent’s base to another without going back to their home base. Long road trips/home stands are avoided.
+\\[5px] 
+TTP is stated as followed: Given a number of teams and known distance between different home bases, find a timetable such that the accumulated traveled distance is minimal and other constraints remain satisfied.    
+\\[5px]
+Urrutia and Ribeiro (2004,2006) proved that minimizing the total traveling distance and maximizing the number of breaks is equivalent if the distance between all home bases equals 1. This is the constant distance traveling tournament problem(CTTP). The motivation for CTTP is that the traveling distance with a maximum number of breaks is a lower bound for the total traveling distance in TTP. The solution for the maximum break problem could be used to find an optimal solution for TTP.
+
+\subsection{Minimal cost  / maximal revenue}
+Some literature states that every sport scheduling problem is in this category, because the main concern is to minimize cost and maximize revenue, to generate a certain amount of money while organizing a tournament. But not everyone agrees. Briskorn \& Draxel stated that many approaches  make it possible to generate a schedule with a minimal amount of breaks, but each and everyone of those methods  will fail if the minimization of costs comes into play. They chose to model the minimal cost as the objective function, and to model a maximum amount of breaks as constraints[10]. 
+\\[5px]
+When the costs are a function we aim fore, we assume that the costs are dependent on the round and on which two participants that are playing. So for each team and in each round, a cost is declared for a home game for each team against an another team. An example of a cost could be the rent of a stadium, and that could be dependent on the season/day of the week, … Revenues could be the economical value of the sold tickets, and those could be dependent on the round and opponent you play.
+\\[5px]
+Maximizing the supporters rise could also be a objective. This objective could be represented as the economical value of the sold tickets and thus belongs to this category. So we would always try to maximize this function (unless you make the revenues of the tickets negative so it remains a minimizing problem).
+
+\subsection{Minimizing carry over effects}
+In a RR schedule, there is a certain sequence where each team meets his opponents. When a team in a round plays against team t1 and in the next round agains team t2, we say that t1 has a carry-over effect onto t2. If t1 is very strong or very weak and several teams play against t1 and t2 right afterwards, then you could say t2 has a (dis)advantage over the other teams. This (dis)advantage could be of importance on psychological level, for example if t1 is very strong, teams that play t1 and lose, could lose trust, giving t2 a psychological advantage. 
+\\[5px]
+To increase the fairness of the schedule, we try to balance the carry-over effect. In an ideal schedule, this would be that there exist no teams t1,t2,t3,t4, so that t3 and t4 play against t2 immediately after playing t1. If C(t1,t2) is defined as the amount of carry over effects that t1 gives to t2, the COE value (carry-over effect value) of the schedule could be calculated as the sum over all squares of all C(t1,t2). These carry over effects are placed in a carry-over effect matrix. A coe-matrix is a non negative matrix with the following properties: 
+\begin{itemize}
+\item{Sum of each row is n-1}
+\item{Sum of each column is n-1}
+\item{The trace is 0}
+\end{itemize}
+\textbf{**todo include an example from Russel(1980), pending on researchgate**
+**TODO2: spieksma states that COE is not present in football, look for additional reseach on this first**}
+
+\subsection{Minimum penalty}
+In some cases, no objective gets priority, they aim for a schedule that is fair and that satisfies the given hard constraints. This is the constrained sport scheduling problem (CSSP). We look for a schedule that satisfies all the hard constraints, and minimizes the amount of soft constraint violation. When a soft constraint is violated, a penalty value gets incorporated. The importance of soft constraints are weighted. Those weights are chosen by the organizers of the league and the teams together.
+\\[5px] 
+Minimum penalty is used in the Brazilian football competition where the revenues with television companies are very important. Ribeiro and Urrutia(2007) came up with a objective function that had two objectives: minimizing the amount of breaks and maximizing the sum of the amount of rounds where at least 1 game of a team from Sao paulo and 1 game from a team from Rio de Janeiro that plays away could be broadcasted. Penalties where incorporated for every break and every round where not a single team from Sao Paulo or Rio were playing away. 
+\\[5px]
+Some problems maximize a sum of a multiplication of weights and amounts. This is the case when scheduling the football league in Chile where the objective is to maximize the concentration of games between teams from the same group in the last round of the tournament(Duran et al,2007).
+\\[5px]
+If we make the weights or amounts negative, that maximizing problem becomes a minimization and thus could be placed in the category of minimum penalty.  
+
+\section{Constraints}
+To schedule a RR tournament, some constraints are essential. Every RR tournament requires these constraints, they are universal for every RR problem and independent of the problem. Since we have particular interest in scheduling RR tournaments, we will list those constraints here since they have to be satisfied in every RR scheduling problem, but they are ignored in classification.
+\\[5px]
+\begin{itemize}
+\item{Every team plays a game against every other team over a set amount of round}
+\item{Every team plays maximum one game every round}
+\item{In a SRR, every game exists once, 2RR every game twice, … Two teams play eachother x times in a xRR}
+\item{Every team has a home base, and every game is played in a home base of one of the two teams. So one team plays home and the other away (in tournaments on neutral ground, we make use of fictive home and away bases)}
+\item{Every team plays in every cycle of the xRR tournament half of his games home and half of the games away (or one more/less if an odd number of teams)}
+\item{Two teams play eachother to turn home and away in xRR (with x>1). Two teams can’t play eachother in HH,AA,HHAA,AAHH,HAAH or AHHA. In the list of Nurmi et al. (2010) is this referred to as constraint C22.}
+
+\end{itemize}
+Every sport scheduling problem has its own set of (hard) constraints originating from teams, televisioncompanies, sportassociations, fans and local government. Since every league has its own set of constraints, and we want to make a clear distinction between them, we list different constraints that could be applicable on certain sport leagues (and we try to create a general overview).
+\\[5px]
+In most scheduling problems there is a clear distinction between hard and soft constraints. Hard constraints should be satisfied in a solution, and some solutions should take soft constraints into account. We try to achieve this by minimizing incorporated penalties (see section 1.5). Following list has no distinction between hard and soft constraints, since those are deducted by the stakeholders themselves. 
+\\[5px]
+The first list of constraints has been introduced by Nurmi(2010) and those constraints were later divided into different categories. The prefix C for the constraints has been changed for other letters who represent the constraint: P for place constraints, GR for group constraints, B for break constraints, GA for game constraints, GE for geographical constraints, Q for tournament quality constraints and S for seperation constraints. A league could use a mix of constraints, and thus not forced to model every constraint. Following parameters are used in this list: team t, round r, amount of round robins x, region g, amounts k \& m , group s, coe value c and day of the week w.
+
+
+\subsection{Place constraints}
+Constraints that make sure that a team t plays home or away in a certain round r.
+\\[5px]
+\begin{table}[h]
+\begin{tabular}{|l|l|}
+\hline
+P04 & Team t cannot play at home in round r                                                                                              \\ \hline
+P05 & Team t cannot play away in round r                                                                                                 \\ \hline
+P06 & Team t cannot play at all in round r                                                                                               \\ \hline
+P07 & \begin{tabular}[c]{@{}l@{}}There should be at least m1 and at most m2 homegames for teams\\ t1,t2,... on the same day\end{tabular} \\ \hline
+P08 & Team t cannot play at home on two consecutive calendar days                                                                        \\ \hline
+P23 & Team t wishes to play at least m1 and at most m2 home games 
+\\& on weekday1, m3-m4 on weekday2 and so on                               \\ \hline
+P39 & The game between Team t1 and team t2 in part x of the xRR
+\\& (x odd) tournament has to take place in the home base of team 1          \\ \hline
+P40 & Team t wishes to play at least k1 and at most k2 home(or away)
+\\ & games between round r1 and round r2                                 \\ \hline
+P41 & If a team plays in round r1 home(away), than plays this
+\\ & team away in round r2(home)                                                \\ \hline
+\end{tabular}
+\caption{Place category(Nurmi 2010)}
+\label{tbl-3}
+\end{table}
+These constraints come into play when for example the police has to be present for a big event in the city, and this have an influence on the police preserving security, or the accessibility of a stadium. The as stakeholder could use constraint P04-05-06 to solve that problem. 
+\\[5px]
+P07 is a constraint that is used if two teams share their home base (pick m1=0 and m2=1), this way they alternate for playing at home. This is why P07 is often used as a hard constraint.
+\\[5px]
+P08 could be used to force road trips or to balance home advantage,  eg: in a set of 6 consecutive games, t1 has to play 3 home and 3 away games. 
+\\[5px]
+P23 could be used to schedule some games into the weekends to up the revenue. Or it could be beneficial for teams to play on a certain day. Those preferences could be determined using P23.
+
+\subsection{Group constraints}
+
+It’s common in tournaments that groups are seeded based on strengths or weaknesses or geographic features. Sometimes groups are randomly seeded. Those leagues could have special wishes considering (strength)groups.
+\\[5px]
+\begin{table}[h]
+\begin{tabular}{|l|l|}
+\hline
+G28 & Teams should not play more than k consecutive games against opponents\\ & in the same strength group                                                                   \\
+\hline
+G29 & Teams should not play more than k consecutive games against opponents\\ & in the strength group s                                                                      \\
+\hline
+G30 & At most m teams in strength group s should have a home game in round r                                                                                             \\
+\hline
+G31 & There should be at least m1 and at most m2 homegames for \\ & teams t1,t2,... on the same day                                                                           \\
+\hline
+G32 & Team t should play at least m1 and at most m2 home games against \\ & opponents in strength group s 
+\\ & between rounds r1 and r2
+\\
+\hline
+\end{tabular}
+\caption{Group constraints (Nurmi 2010)}
+\label{tbl4}
+\end{table}
+
+G28 and 29 could forbid teams to play 5 consecutive games against weak or elite teams (teams from big cities who have a lot of revenues from television). 
+\\[5px]
+A television broadcaster could request that not all the big teams play a home game at the same moment using G30. 
+\\[5px]
+G31 could be used right before the qualification for playoffs, this way you could make sure that it will take until the last round before playoffs until all qualifying teams are known. 
+\\[5px]
+G32 could be used to ensure that each team plays in the first x round a game agains a top ranked team. 
+
+\subsection{Break constraints}
+Minimizing the amount of breaks is ususally an objective when scheduling round robin. The amount of breaks in the schedule is very important for the fairness of the tournament.
+
+
+\begin{table}[h]
+\begin{tabular}{|l|l|}
+\hline
+B12 & A break cannot occur in round r                               \\
+\hline
+B13 & Teams cannot have more than k consecutive home games          \\
+\hline
+B15 & The total number of breaks must not be larger than k          \\
+\hline
+B16 & The total number of breaks per team must not be larger than k \\
+\hline
+B17 & Every team must have an even number of breaks   				  \\             
+\hline
+\end{tabular}
+\caption{Break constraints (Nurmi 2010)}
+\label{tbl5}
+\end{table}
+
+B12 could ensure that there are no breaks in the last round
+\\[5px]
+B13 is used to increment the fairness of the tournament, this constraint is often incorporated as a soft constraint: no team can play two consecutive home/away games. If we incorporate k=1, this constraint states that the amount of breaks should be minimal. 
+
+
+

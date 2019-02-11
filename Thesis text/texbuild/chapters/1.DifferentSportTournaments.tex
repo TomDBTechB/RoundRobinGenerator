@@ -1,1 +1,56 @@
-Chapter 1 text
+Many different kinds of formats could be used for the organization of (sport) tournaments. In this section we try to list the more common forms. Important to note: the terminology within the existing literature is far from consistent. Several terms exist for the same concept, and some frequently used terms represent multiple concepts. Despite the fact that the authors of different sources referenced in this thesis use different terminology, the terminology in this section and the next will be used throughout this thesis.
+
+\section{Ladder-Based Tournaments}
+\subsection{Basic ladder tournament}
+In a ladder tournament, participants are listed on the rungs of a ladder in current order of merit, with the best player on top of the list. Competition is challenge-based: players are allowed to challenge players above them on the ladder. Usually, a limit exists of how many rungs above them players can challenge. If the lowest-placed player wins the match, then the two players exchange places on the ladder. If the highest-placed player wins, he is allowed to challenge a player above him before accepting another challenge. Rules about challenges need to be stated beforehand.
+\\[5px]
+This format is used in sports like squash and badminton. The most famous ranking system for players is the Elo rating system, which is used in Chess.
+\\[5px]
+Since tournaments based on this format don’t have a formal schedule, we won’t elaborate on it any further.
+
+\subsection{Pyramid tournament}
+Pyramid tournaments are fairly similar to ladder tournaments insofar that they also maintain continuous, prolonged forms of competition, but this form allows for more challenges to be made and thus, more participation. They can also include a larger number of participants than the ladder tournaments.
+\\[5px]
+After the preliminary draw, players can challenge any other participant on the same horizontal row of the pyramid. If they win, they can challenge a participant on a higher row. If a participant loses from someone on a lower row, they switch places within the pyramid. Just like with ladder tournaments, challenge rules need to be stated beforehand.
+\\[5px]
+Since pyramid formats also lack a formal schedule, we won’t elaborate on them any further.
+
+\section{Elimination-based tournaments}
+\subsection{Single elimination tournament}
+Single elimination tournaments or single knockout tournaments are the simplest forms of tournaments: the winner of each match advances in the tournament tree and the loser gets eliminated. This means that after only one loss, a participant is completely eliminated. No provision for off-day’s or bad luck for a participant are present. Single elimination tournaments prove their usefulness when faced with a large number of contestants and only a short period of time. They also find their use in final stages of big sports tournaments where games have high stakes (e.g.: finals of World Championship football).
+\\[5px]
+If all participants are considered equal, the seeding of the tournament tree is random. If participants have known abilities/scores, they are seeded in such a way that the strong participants avoid each other as long as possible (e.g.: in the knockout phase of the Champions league football, the winners of the group phase can’t play each other in the first knockout game).  
+
+\subsection{Consolation tournament}
+A consolation tournament or ‘losers-bracket’ usually goes hand in hand with a single elimination tournament. When participants lose in a round, they advance to the loser bracket where they compete each other in a single elimination principle for the consolation title. A ‘feed-in’ consolation tournament enables losers from the first round up to losers of the quarter finals to compete for the consolation title. The most famous example is judo, where in big tournaments 2 bronze medals are awarded (one for the winner of the consolation tournament, and one for the best of the two losing semi-finalists).
+
+\subsection{Double Elimination tournament}
+Double elimination tournaments consist of two games. As the name suggests, a participant must lose twice before getting eliminated. It is preferred over the single elimination format when there aren’t as many players involved. Due to the requirement for two losses, this format allows players to have an “off-day”. This tournament model isn’t commonly used, but finds its application in table football and e-sports.
+\\[5px]
+Since elimination tournaments don’t really have lots of edge cases that are also hard constraints, we won’t discuss this type of tournament any further.
+\section{Round Robin tournaments}
+\subsection{Straight round robin}
+Round robin tournaments / league schedules consist of a format whereby every participant is playing every other participant a fixed number of times. In a single round robin (1RR/ SRR) tournament, every participant plays every other participant only once. 1RR is a very well-known format and commonly used for group stages in big sports tournaments. Examples are: the FIFA world cup, continental tournaments, …
+\\[5px]
+In a double round robin (2RR/DRR) tournament, every participant plays every other participant twice. Double round robin is the most common tournament schedule in (professional) sports leagues. Triple and quadruple round robin also exist.
+\\[5px] 
+Throughout this paper, we will use the notation xRR. The notion of x-round robin means that every participant plays every other participant x number of times.
+\\[5px]
+Round robin schedules are fixed: all participants know from the start when and where they will play a particular match. The cumulative result of all the games determines who the winner is of the tournament, so there is no concept of a “final” in this model.
+\\[5px]
+Round robin is a very effective scheduling model for one-day tournaments, where games can be played fast and a small number of participants is involved. When there is a larger number of participants and the games take longer, you want to use round robin for league play.
+\\[5px]
+The following numbers will illustrate that round robin isn’t ideal when faced with a large number of participants: in a tournament with 32 participants, it would take 496 games to complete a round robin, where double elimination would take 62 games and single elimination only 31.    
+
+\subsection{Round robin Double split}
+When a RR format is desired, but the number of participants is too large, splitting them into two divisions can offer a practical solution. Following the play within the divisions, only the top two of each division advances to the play-offs to determine the final top standings. The number of games gets halved this way. The drawback of this format is that accurate seedings of the divisions becomes very important. For example, if the top three seeds are placed in one division, and only the top two advances to the playoffs, then (if entries perform consistent with their seedings) the third seed can’t play in the play-offs.
+\\[5px]
+Round robin double split finds its uses in league play. An example is play-off II of the Belgium football competition, where you have two divisions of four teams, and the winner of each division advances to a play-off where they could go for a ticket to the Europa League.
+\subsection{Round Robin Triple split}
+RR triple split is very similar to the double split. However, because of the three divisions, single elimination playoff with three or six games becomes rather impossible. So, for playoffs in this situation, we use a new RR tournament. This will require more games in the playoffs, but makes it also a satisfactory alternative for RR double split when there are too many participants.
+\subsection{Round Robin Quadruple split}
+This type of tournament is intended to solve the same problems as RR double split, but instead of dividing into two divisions, we divide into four. This is useful when the number of entries exceeds 11. The major disadvantage of this format is that with 12-15 participants, the weaker seeds conceivably could only play 2 games.
+\subsection{Note on Round Robin}
+Note that you could describe several complex tournament schedules as consecutive RR-tournaments with a different number of participants. Take the example of the Belgium football competition with playoffs (2009). The regular competition consists of a 2RR tournament with 16 teams. The first six teams advance to play-off I, then play a 2RR tournament to decide who wins the championship. Teams 8-14 get seeded into a RR Double split format, where the winner of each division plays single elimination to decide who wins playoff 2. Team 15-16 play a double elimination tournament to decide who relegates to the lower division.
+\\[5px]
+With RR being the more common tournament form in professional leagues and the fact that consecutive RR-like tournaments could be used to model complex sport competitions, we take a particular interest in RR for this thesis.

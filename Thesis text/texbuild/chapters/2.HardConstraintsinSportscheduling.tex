@@ -1,1 +1,83 @@
-chapter 2 text
+\section{Round Robin Specific}
+\subsection{Round}
+When scheduling a round robin tournament, the games are divided into different rounds in such a way that every team plays maximum one game each round. In the literature this is referred to as a round, a slot, a timeslot, … It is not mandatory that a round takes place at a fixed time. A round could take multiple days (e.g. a complete weekend).
+\\[5px]
+ If the amount of participants n is even, we need to schedule at least n-1 rounds to schedule a SRR tournament. When n is odd, we need at least n rounds. If the number of rounds equals this lower bound, we call our tournament \textbf{compact}. If we have more rounds, it’s called \textbf{relaxed}. For instance, the majority of football tournaments have compact schedules, while relaxed schedules dominate in basketball. In this thesis, we will assume compact tournaments.
+ 
+\subsection{Cycle}
+ We define a cycle as the collection of rounds necessary for each participant to play every other participant. In other words, there is only one cycle in a SRR tournament, two cycles in a DRR tournament, and x cycles in an xRR tournament. Assuming the given schedule is compact, a cycle will always be n-1 rounds, with n the number of participants. Literature that focuses on cycles in Round Robin tournaments is somewhat lacking, so few other terms exist for this concept.
+ 
+\subsection{Home Away Pattern(HAP)}
+In literature, participants often have a designated home base. Since the more common use of round robin is within the world of team sports (or sports leagues where home-advantages actually matters), we will for the purpose of this research assume that participants of a round robin always have a home base.
+\\[5px]
+When a participant plays a game at his home base it is called a \textbf{home game}, and when a participant plays at the home base of the opposing team, it is called an \textbf{away game}. When a participant doesn’t play in a round, he has a bye. We can therefore assume that when two participants play each other, one plays home and the other plays away. However, this isn’t always strictly the case. Consider for example a sports tournament that takes place on neutral ground (e.g. World Championship football). The sequence of home games, away games and byes for each team is a \textbf{home-away pattern (HAP)}.
+\\[5px]
+The modeling of a HAP consists of a sequence of \textbf{H}(ome)’s, \textbf{A}(way)’s and \textbf{B}(ye)’s with a length of n-1. This sequence corresponds with the home and away sequence of a participant (n the amount of teams).
+\\[5px]
+There are no byes in a compact tournament unless the number of participants is odd.  The combination of HAP’s for every participant is called a \textbf{HAP set}. A HAP set is \textbf{equilibrated} or \textbf{balanced} if the number of home games for each team doesn’t differ more than 1. Two patterns are \textbf{complementary} if the first pattern has a H when the second has an A and vice versa. An example of a balanced and complementary set of HAP’s is shown in table 1.
+
+\begin{table}[h]
+\centering
+\begin{tabular}{|c|c|}
+ \hline
+ Team1 & HAHAHAHAHA \\ 
+ \hline 
+ Team2 & AHAHAHAHAH \\
+ \hline
+ Team3 & AHHAHHAAHA \\
+ \hline
+ Team4 & HAHAAAHAHH \\
+ \hline
+ Team5 & AHAHHHAHAA \\
+ \hline
+ Team6 & HAAHAAHHAH \\
+ \hline
+\end{tabular}
+\caption{Table 1: Balanced \& complementary set of HAP’s for a compact 2RR tournament}
+\end{table}
+
+\subsection{Break}
+Many tournaments aim for an alternating pattern of home and away games. When a team has two consecutive home / away games. It is called a \textbf{break}. If all teams have the same number of breaks, the HAP set is called \textbf{equitable}. If we look at table 1, only teams 1 and 2 have no breaks. This means the HAP set in table 1 is non-equitable. Some leagues want to minimize the number of breaks, but in some cases it could be preferable for participants to play consecutive games away [6].
+\\[5px]
+The latter is the case when opponents’ home bases are far removed from one another and where minimizing total travel distance is a point of optimization. Consecutive games away are called a road trip.  Consecutive games at home are a home stand.
+\\[5px]
+The assignment of rounds could be represented in a time table. Each row represents a team and each column represents a round.
+
+\begin{table}[!h]
+\centering
+\begin{tabular}{|l|l|l|l|l|l|l|l|l|l|l|}
+\hline
+\textbf{Round}  & \textbf{1} & \textbf{2} & \textbf{3} & \textbf{4} & \textbf{5} & \textbf{6} & \textbf{7} & \textbf{8} & \textbf{9} & \textbf{10} \\ \hline
+\textbf{Team 1} & 6          & 3          & 5          & 2          & 4          & 6          & 3          & 5          & 2          & 4           \\ \hline
+\textbf{Team 2} & 5          & 6          & 4          & 1          & 3          & 5          & 6          & 4          & 1          & 3           \\ \hline
+\textbf{Team 3} & 4          & 1          & 6          & 5          & 2          & 4          & 1          & 6          & 5          & 2           \\ \hline
+\textbf{Team 4} & 3          & 5          & 2          & 6          & 1          & 3          & 5          & 2          & 6          & 1           \\ \hline
+\textbf{Team 5} & 2          & 4          & 1          & 3          & 6          & 2          & 4          & 1          & 3          & 6           \\ \hline
+\textbf{Team 6} & 1          & 2          & 3          & 4          & 5          & 1          & 2          & 3          & 4          & 5           \\ \hline
+\end{tabular}
+\caption{Table 2: Timetable for a compact DRR tournament with 6 teams}
+\label{tbl2}
+\end{table}
+
+\subsection{Schedules}
+A HAP set for which a corresponding timetable exists is \textbf{feasible}. The combination of a HAP set and the timetable results in the schedule for the tournament. In table 3 we combine the HAP set of table 1 and the timetable of Table 2 into a schedule for a DRR tournament with 6 teams (Rasmussen 2008). A plus means a home game and minus means an away game. Please note that different representations for the same tournament are possible. \\
+
+\begin{table}[!h]
+\centering
+\begin{tabular}{|l|l|l|l|l|l|l|l|l|l|l|}
+\hline
+\textbf{Round}  & \textbf{1} & \textbf{2} & \textbf{3} & \textbf{4} & \textbf{5} & \textbf{6} & \textbf{7} & \textbf{8} & \textbf{9} & \textbf{10} \\ \hline
+\textbf{Team 1} & +6         & -3         & +5         & -2         & +4         & -6         & +3         & -5         & +2         & -4          \\ \hline
+\textbf{Team 2} & +5         & -6         & -4         & +1         & -3         & -5         & +6         & +4         & -1         & +3          \\ \hline
+\textbf{Team 3} & -4         & +1         & +6         & -5         & +2         & +4         & -1         & -6         & +5         & -2          \\ \hline
+\textbf{Team 4} & +3         & -5         & +2         & -6         & -1         & -3         & +5         & -2         & +6         & +1          \\ \hline
+\textbf{Team 5} & -2         & +4         & -1         & +3         & +6         & +2         & -4         & +1         & -3         & -6          \\ \hline
+\textbf{Team 6} & -1         & +2         & -3         & +4         & -5         & +1         & -2         & +3         & -4         & +5          \\ \hline
+\end{tabular}
+\caption{Timetable for a compact DRR tournament with 6 teams (Rasmussen 2008)}
+\label{tbl3}
+\end{table}
+
+A schedule for a SRR tournament is irreducible when at least one of the two participants playing a game is on a break. When solving a sport scheduling problem, it could be an advantage to wait assigning different participants to the HAP-set and timetable until the schedule is built. In this case,  placeholders can be used within the HAP set and the timetable [8].
+\\[5px]
+\textbf{TODO: Discuss NP hard problem here?}

@@ -1,0 +1,35 @@
+\contentsline {chapter}{\numberline {1}Introduction}{6}
+\contentsline {chapter}{\numberline {2}Different Sport Tournaments}{7}
+\contentsline {section}{\numberline {2.1}Ladder-Based Tournaments}{7}
+\contentsline {subsection}{\numberline {2.1.1}Basic ladder tournament}{7}
+\contentsline {subsection}{\numberline {2.1.2}Pyramid tournament}{7}
+\contentsline {section}{\numberline {2.2}Elimination-based tournaments}{8}
+\contentsline {subsection}{\numberline {2.2.1}Single elimination tournament}{8}
+\contentsline {subsection}{\numberline {2.2.2}Consolation tournament}{8}
+\contentsline {subsection}{\numberline {2.2.3}Double Elimination tournament}{8}
+\contentsline {section}{\numberline {2.3}Round Robin tournaments}{9}
+\contentsline {subsection}{\numberline {2.3.1}Straight round robin}{9}
+\contentsline {subsection}{\numberline {2.3.2}Round robin Double split}{9}
+\contentsline {subsection}{\numberline {2.3.3}Round Robin Triple split}{10}
+\contentsline {subsection}{\numberline {2.3.4}Round Robin Quadruple split}{10}
+\contentsline {subsection}{\numberline {2.3.5}Note on Round Robin}{10}
+\contentsline {chapter}{\numberline {3}Terminology}{11}
+\contentsline {section}{\numberline {3.1}Round Robin Specific}{11}
+\contentsline {subsection}{\numberline {3.1.1}Round}{11}
+\contentsline {subsection}{\numberline {3.1.2}Cycle}{11}
+\contentsline {subsection}{\numberline {3.1.3}Home Away Pattern(HAP)}{11}
+\contentsline {subsection}{\numberline {3.1.4}Break}{12}
+\contentsline {subsection}{\numberline {3.1.5}Schedules}{12}
+\contentsline {chapter}{\numberline {4}Classification and Objective functions}{14}
+\contentsline {section}{\numberline {4.1}Classification of a sportscheduling problem}{14}
+\contentsline {subsection}{\numberline {4.1.1}Minimal Break}{14}
+\contentsline {subsection}{\numberline {4.1.2}Minimum Traveling Distance}{15}
+\contentsline {subsection}{\numberline {4.1.3}Minimal cost / maximal revenue}{15}
+\contentsline {subsection}{\numberline {4.1.4}Minimizing carry over effects}{16}
+\contentsline {subsection}{\numberline {4.1.5}Minimum penalty}{16}
+\contentsline {section}{\numberline {4.2}Constraints}{17}
+\contentsline {subsection}{\numberline {4.2.1}Place constraints}{18}
+\contentsline {subsection}{\numberline {4.2.2}Group constraints}{19}
+\contentsline {subsection}{\numberline {4.2.3}Break constraints}{19}
+\contentsline {chapter}{\numberline {5}Representation of Sport Tournaments}{20}
+\contentsline {chapter}{\numberline {6}Related Work}{21}
