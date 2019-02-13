@@ -24,6 +24,7 @@ def learnConstraintsForAll(directory, teamAmt):
 
         saveConstraintsForAll(dataTensor, variables, 1, directory, tag + str(0))
 
+
 def saveConstraintsForAll(dataTensor, variables, indicator, directory, tag):
     repeatDim = ()
     rep = set([variable for variable in range(len(variables)) if variable not in repeatDim])
@@ -37,18 +38,18 @@ def saveConstraintsForAll(dataTensor, variables, indicator, directory, tag):
     with open(os.path.join(concatdir, "_" + tag + ".csv"), "a") as my_csv:
         csvWriter = csv.writer(my_csv, delimiter=',')
         if indicator == 0:
-            row=(['']*2)
+            row = ([''] * 2)
             for subset in subsets:
                 row.extend(subset)
-                row.extend(['']*5)
+                row.extend([''] * 5)
             csvWriter.writerow(row)
 
         else:
-            row=[]
+            row = []
             for l in range(len(subsets)):
                 subset = subsets[l]
                 newset = subset[0] + subset[1]
-                #this value is used to filter max constraints
+                # this value is used to filter max constraints
                 maxPossible = 1
                 for i in range(len(subset[1])):
                     maxPossible *= len(variables[subset[1][i]])
@@ -65,7 +66,8 @@ def saveConstraintsForAll(dataTensor, variables, indicator, directory, tag):
 
                 if len(set(subset[1])) == 1 and len(set(subset[1])) == 0:
                     minConsZero, maxConsZero, minConsNonZero, maxConsNonZero = cF.tensorConsZero(idTensor, sumSet,
-                                                                                                    learnConstraintsForAll(os.getcwd(), 6))
+                                                                                                 learnConstraintsForAll(
+                                                                                                     os.getcwd(), 6))
                     row.extend([minConsZero])
                     row.extend([maxConsZero])
                     row.extend([minConsNonZero])
@@ -74,3 +76,10 @@ def saveConstraintsForAll(dataTensor, variables, indicator, directory, tag):
                     row.extend([''] * 4)
                 row.extend([''])
                 csvWriter.writerow(row)
+
+
+def main():
+    learnConstraintsForAll(os.curdir, 6)
+
+
+main()
