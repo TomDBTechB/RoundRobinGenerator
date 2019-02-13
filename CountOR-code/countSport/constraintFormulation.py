@@ -4,6 +4,8 @@ import itertools as it
 """
 Splits given dimensions
 """
+
+
 def split(X, partSet, repeatDim):
     finalSet = ()
     if len(partSet) == 2:
@@ -67,3 +69,105 @@ def tensorIndicator(X, dim, var):
             outputTensor[multiIndex] = 1
 
     return outputTensor
+
+
+def tensorConsZero(X, dim, var):
+    newdim = range(len(X.shape))
+    newdim = list(set(newdim) - set(dim))
+    dim = newdim
+    outputMatSize = []
+    outputMatLoop = ()
+    for i in range(len(dim)):
+        outputMatSize.append(len(var[dim[i]]))
+        outputMatLoop += (range(len(var[dim[i]])),)
+    outputTensor1_min = np.zeros(outputMatSize)
+    outputTensor2_min = np.zeros(outputMatSize)
+    outputTensor1_max = np.zeros(outputMatSize)
+    outputTensor2_max = np.zeros(outputMatSize)
+    for multiIndex in it.product(*outputMatLoop):
+        a = []
+        dimension = len(X.shape)
+        for i in range(dimension):
+            a.append(slice(0, X.shape[i]))
+        for i in range(len(dim)):
+            a[dim[i]] = multiIndex[i]
+        #        print(X[tuple(a)])
+        outputTensor1_min[multiIndex] = minConsZero(X[tuple(a)])
+        #        print(outputTensor1_min[multiIndex])
+        outputTensor2_min[multiIndex] = minConsNonZero(X[tuple(a)])
+        outputTensor1_max[multiIndex] = maxConsZero(X[tuple(a)])
+        outputTensor2_max[multiIndex] = maxConsNonZero(X[tuple(a)])
+
+    outputTensor1_min = outputTensor1_min[np.nonzero(outputTensor1_min)]
+    outputTensor2_min = outputTensor2_min[np.nonzero(outputTensor2_min)]
+    outputTensor1_max = outputTensor1_max[np.nonzero(outputTensor1_max)]
+    outputTensor2_max = outputTensor2_max[np.nonzero(outputTensor2_max)]
+    sz1, sz2, sz3, sz4 = 0, 0, 0, 0
+
+    if outputTensor1_min.size > 0:
+        sz1 = np.amin(outputTensor1_min).astype(np.int64)
+    if outputTensor2_min.size > 0:
+        sz2 = np.amin(outputTensor2_min).astype(np.int64)
+    if outputTensor1_max.size > 0:
+        sz3 = np.amax(outputTensor1_max).astype(np.int64)
+    if outputTensor2_max.size > 0:
+        sz4 = np.amax(outputTensor2_max).astype(np.int64)
+    return sz1, sz3, sz2, sz4
+
+
+def minConsZero(X):
+    #    print(X)
+    mn = 1000
+    ind = 0
+    for i in range(len(X)):
+        if np.count_nonzero(X[i]) == 0:
+            ind += 1
+        else:
+            if ind > 0:
+                mn = min(ind, mn)
+            ind = 0
+    if mn == 1000 or ind > 0:
+        #    if mn==1000:
+        return min(mn, ind)
+    #    print(mn)
+    return mn
+
+
+def maxConsZero(X):
+    mx = 0
+    ind = 0
+    for i in range(len(X)):
+        if np.count_nonzero(X[i]) == 0:
+            ind += 1
+            mx = max(ind, mx)
+        else:
+            ind = 0
+    return max(mx, ind)
+
+
+def minConsNonZero(X):
+    mn = 1000
+    ind = 0
+    for i in range(len(X)):
+        if np.count_nonzero(X[i]) != 0:
+            ind += 1
+        else:
+            if ind > 0:
+                mn = min(ind, mn)
+            ind = 0
+    if mn == 1000 or ind > 0:
+        #    if mn==1000:
+        return min(mn, ind)
+    return mn
+
+
+def maxConsNonZero(X):
+    mx = 0
+    ind = 0
+    for i in range(len(X)):
+        if np.count_nonzero(X[i]) != 0:
+            ind += 1
+            mx = max(ind, mx)
+        else:
+            ind = 0
+    return max(mx, ind)
