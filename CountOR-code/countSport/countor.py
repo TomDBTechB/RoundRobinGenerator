@@ -30,7 +30,7 @@ def saveConstraintsForAll(dataTensor, variables, indicator, directory, tag):
     rep = set([variable for variable in range(len(variables)) if variable not in repeatDim])
     subsets = cF.split(rep, (), repeatDim)
 
-    # just create this directory if it does not exists
+    # TODO remove  - just create this directory if it does not exists
     concatdir = os.path.join(directory, "results", "learnedBounds")
     if not os.path.exists(concatdir):
         os.makedirs(concatdir)
@@ -79,7 +79,7 @@ def saveConstraintsForAll(dataTensor, variables, indicator, directory, tag):
 
 
 def main():
-    learnConstraintsForAll(os.curdir, 6)
+    learnConstraintsForAll(os.getcwd(), 6)
 
 
 main()
