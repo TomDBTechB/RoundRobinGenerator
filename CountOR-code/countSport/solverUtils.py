@@ -20,6 +20,7 @@ def openDetCsv(directory):
     return det_csv,detCsvWriter
 
 
+
 def readBounds(file, num_constrType, num_constr):
     data = cU.readCSV(file)
     # transpose function of the tensor
