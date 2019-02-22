@@ -39,7 +39,7 @@ def readBounds(file, num_constrType, num_constr):
                 bounds_tr[j, int(k / 6), k % 6] = data_int[i, j]
                 k += 1
     return bounds_tr.astype(np.int64)
-1
+
 def aggrBounds(selbounds, num_constrType, num_constr, constrMaxval):
     bounds_learned = np.zeros([num_constrType, num_constr])
     for i in range(num_constrType):

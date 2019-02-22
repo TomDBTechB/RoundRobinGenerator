@@ -14,11 +14,26 @@ from countSport import countor
 # region vars
 numSam = 1 # int(sys.argv[1])
 numTeams = 6 # int(sys.argv[2])
+mt = 1 # int(sys.argv[3])
+# todo extract this
+num_Matchdays = 12
+num_matches = 3
 solution_seed = [1] # [1,10,25,50]
 tag = str(numTeams)+"_"+str(numSam)
 # TODO ask
-num_constrType = 12
+num_constrType = 12 # maximum
 num_constr = 6
+# provides list of constraints
+constrList = [[(0,), (1,)], [(0,), (2,)], [(0,), (1, 2)], [(1,), (0,)], [(1,), (2,)], [(1,), (0, 2)], [(2,), (0,)],
+              [(2,), (1,)], [(2,), (0, 1)], [(0, 1), (2,)], [(0, 2), (1,)], [(1, 2), (0,)]]
+constrMaxval = []
+dimSize = [num_Matchdays, num_matches, num_matches]
+for val in constrList:
+    tot = 1
+    for i in range(len(val[1])):
+        tot *= dimSize[int(val[1][i])]
+    constrMaxval.append(tot)
+print(constrMaxval)
 # endregion
 
 # region structural methods
@@ -39,24 +54,32 @@ def learnConstraints():
     print("\nLearned bounds for ", numSam, " samples in ", timeTaken, ' secs')
     return timeTaken
 
+def buildSolutionAndResultDirs(directory):
+    if not os.path.exists(directory):
+        os.makedirs(directory)
+    my_csv, csvWriter = sU.openMainCsv(directory)
+    det_csv, detCsvWriter = sU.openDetCsv(directory)
+
+    soln = os.path.join(directory, "solutions")
+    result = os.path.join(directory, "results", "learnedBounds")
+
+    if not os.path.exists(soln):
+        os.makedirs(soln)
+    if not os.path.exists(result):
+        os.makedirs(result)
+
+    return soln,result
+
+def resampleAndLearn():
+    pass
+
 # endregion
 
 
 
 # Build directory structure for results and open up the files
 directory = os.getcwd() + '/data/' + tag
-if not os.path.exists(directory):
-    os.makedirs(directory)
-my_csv, csvWriter = sU.openMainCsv(directory)
-det_csv, detCsvWriter = sU.openDetCsv(directory)
-
-soln = os.path.join(directory ,"solutions")
-result = os.path.join(directory,"results","learnedBounds")
-
-if not os.path.exists(soln):
-    os.makedirs(soln)
-if not os.path.exists(result):
-    os.makedirs(result)
+soln,result = buildSolutionAndResultDirs(directory)
 
 # generate the samples
 generateSamples()
@@ -98,6 +121,45 @@ for numSol in solution_seed:
         bounds_learned = sU.aggrBounds(selbounds, num_constrType, num_constr, constrMaxval)
         tot_time[seed] = ((timeTaken * numSol) / numSam) + (time.clock() - start)
         learned_cc = np.count_nonzero(bounds_learned)
+        # lower bounds?
         bounds_learned0 = np.zeros([num_constrType, num_constr])
+        # upper bounds?
+        bounds_learned1 = np.zeros([num_constrType, num_constr])
+
+        if (mt == 1 and not (np.array_equal(bounds_learned, bounds_prev)
+                             and np.array_equal(bounds_learned0,bounds_prev0)
+                             and np.array_equal(bounds_learned1, bounds_prev1))) \
+            or (mt == 0 and not (np.array_equal(bounds_learned, bounds_prev))):
+                selbounds = np.array([lbounds[i] for i in range(len(lbounds)) if i not in selRows])
+                selbounds0 = np.array([lbounds0[i] for i in range(len(lbounds0)) if i not in selRows])
+                selbounds1 = np.array([lbounds1[i] for i in range(len(lbounds1)) if i not in selRows])
+                for i in range(len(selbounds)):
+                    accept = sU.moreConstrained(bounds_learned, selbounds[i], num_constrType, num_constr)
+                    if accept == 0:
+                        accept = sU.moreConstrained(bounds_learned0, selbounds0[i], num_constrType, num_constr)
+                        if accept == 0:
+                            accept = sU.moreConstrained(bounds_learned1, selbounds1[i], num_constrType, num_constr)
+                    recall += accept
+                tot_rec[seed] = (recall * 100) / (numSam - numSol)
+
+                tmpDir = directory + "/tmp"
+                if not os.path.exists(tmpDir):
+                    os.makedirs(tmpDir)
+                for fl in glob.glob(tmpDir + "/*.csv"):
+                    os.remove(fl)
+
+                soln = directory + "/solutions"
+                result = directory + "/results"
+
+                if not os.path.exists(tmpDir + "/solutions"):
+                    os.makedirs(tmpDir + "/solutions")
+                for fl in glob.glob(tmpDir + "/solutions" + "/*.csv"):
+                    os.remove(fl)
+                if not os.path.exists(tmpDir + "/results"):
+                    os.makedirs(tmpDir + "/results")
+                for fl in glob.glob(tmpDir + "/results" + "/*.csv"):
+                    os.remove(fl)
+
+
 
 

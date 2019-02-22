@@ -51,3 +51,5 @@ choco/choco\.iml
 CountOR-code/venv/*
 CountOR-code/.idea/*
 
+
+*.pyc
