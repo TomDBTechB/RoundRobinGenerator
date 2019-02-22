@@ -42,6 +42,7 @@ def generateSamples():
     print("Generating " + str(numSam) + " samples for " + str(numTeams) + " from Java api")
     start = time.clock()
     # TODO pull this from a port or make it in a sampler.py file
+    args = [os.getcwd(), 'arg1', 'arg2', 'argN'] # Any number of args to be passed to the jar file
     print("Generated ", numSam, " samples in ", time.clock() - start, " secs")
 
 def learnConstraints():

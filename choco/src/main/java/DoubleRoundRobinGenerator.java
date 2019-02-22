@@ -12,9 +12,9 @@ public class DoubleRoundRobinGenerator {
 
 
     public static void main(String[] args) {
-        int amountOfTeams = 6; //Integer.parseInt(args[0]);
-        int amountOfSamples = 1; //Integer.parseInt(args[1]);
-        //String sampleDirectory = args[2];
+        int amountOfTeams = Integer.parseInt(args[0]);
+        int amountOfSamples = Integer.parseInt(args[1]);
+        String sampleDirectory = args[2];
         StopWatch watch = new StopWatch();
         watch.start();
         int amountOfMatchDays = calculateMatchDays(amountOfTeams);
@@ -52,7 +52,7 @@ public class DoubleRoundRobinGenerator {
         model.getSolver().limitSolution(10);
         while (model.getSolver().solve()&& counter<amountOfSamples) {
             prettyPrintSolution(matchdays, amountOfMatchDays, amountOfTeams);
-            CsvWriter.createSample(matchdays,amountOfMatchDays,amountOfTeams,counter);
+            CsvWriter.createSample(matchdays,amountOfMatchDays,amountOfTeams,counter,sampleDirectory);
             counter++;
         }
         System.out.println("Amount of valid solutions for " + amountOfTeams + " teams: " + counter);

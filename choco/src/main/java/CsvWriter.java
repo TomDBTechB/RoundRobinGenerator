@@ -4,6 +4,7 @@ import org.chocosolver.solver.variables.IntVar;
 
 import java.io.BufferedWriter;
 import java.io.IOException;
+import java.nio.file.FileSystem;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -12,8 +13,8 @@ public class CsvWriter {
     private static final String NEW_LINE_SEPARATOR = "\n";
 
 
-    public static void createSample(IntVar[][][] matchdays,int amountOfMatchDays,int amountOfTeams,int counter){
-        String fileName ="./"+ amountOfTeams+"T_"+counter+".csv";
+    public static void createSample(IntVar[][][] matchdays, int amountOfMatchDays, int amountOfTeams, int counter, String sampleDirectory){
+        String fileName = sampleDirectory+System.getProperty("file.separator")+amountOfTeams+"T_"+counter+".csv";
         try(
                 BufferedWriter writer = Files.newBufferedWriter(Paths.get(fileName));
                 CSVPrinter printer = new CSVPrinter(writer, CSVFormat.DEFAULT)

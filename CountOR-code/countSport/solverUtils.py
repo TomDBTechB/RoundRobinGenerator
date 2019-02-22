@@ -3,6 +3,7 @@
 from countSport import countorUtils as cU
 import numpy as np
 import csv
+from subprocess import *
 
 def openMainCsv(directory):
     my_csv = open(directory + "/results.csv", "w+")
@@ -10,6 +11,22 @@ def openMainCsv(directory):
     row = ['Nurses', 'Sample', 'Soln', 'Precision', 'Precision_err', 'Recall', 'Recall_err', 'Time', 'Time_err']
     csvWriter.writerow(row)
     return my_csv,csvWriter
+
+def jarWrapper(*args):
+    process = Popen(['java', '-jar']+list(args), stdout=PIPE, stderr=PIPE)
+    ret = []
+    while process.poll() is None:
+        line = process.stdout.readline()
+        if line != '' and line.endswith('\n'):
+            ret.append(line[:-1])
+    stdout, stderr = process.communicate()
+    ret += stdout.split('\n')
+    if stderr != '':
+        ret += stderr.split('\n')
+    ret.remove('')
+    return ret
+
+
 
 """Determined results"""
 def openDetCsv(directory):
