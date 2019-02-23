@@ -38,11 +38,12 @@ print(constrMaxval)
 
 # region structural methods
 
-def generateSamples():
+def generateSamples(numTeams,numSam):
     print("Generating " + str(numSam) + " samples for " + str(numTeams) + " from Java api")
     start = time.clock()
-    # TODO pull this from a port or make it in a sampler.py file
-    args = [os.getcwd(), 'arg1', 'arg2', 'argN'] # Any number of args to be passed to the jar file
+    #
+    args = [os.path.join(os.getcwd(),"static","SportScheduleGenerator.jar"),numTeams, numSam, os.path.join(os.getcwd(),"samples")] # Any number of args to be passed to the jar file
+    print(sU.jarWrapper(*args))
     print("Generated ", numSam, " samples in ", time.clock() - start, " secs")
 
 def learnConstraints():
