@@ -75,7 +75,7 @@ def saveConstraintsForAll(dataTensor, variables, indicator, directory, tag):
                 else:
                     row.extend([''] * 4)
                 row.extend([''])
-                csvWriter.writerow(row)
+            csvWriter.writerow(row)
 
 
 def main():

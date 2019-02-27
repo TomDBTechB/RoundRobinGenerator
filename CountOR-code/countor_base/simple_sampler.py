@@ -14,7 +14,7 @@ import os.path
     
 def generateSample(num_nurses,num_days,num_shifts,numSam,bounds,directory):
 #    print(bounds)
-    
+    # dir = where to put the new samples
     N=list(range(num_nurses))
     D=list(range(num_days))
     Ds=list(range(num_days+1))
