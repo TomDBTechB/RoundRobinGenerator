@@ -20,9 +20,9 @@ def learnConstraintsForAll(directory, teamAmt):
             lenVar.append(len(variables[i]))
 
         if ind == 0:
-            saveConstraintsForAll(dataTensor, variables, 0, directory, tag + str(0))
-
-        saveConstraintsForAll(dataTensor, variables, 1, directory, tag + str(0))
+            saveConstraintsForAll(dataTensor, variables, ind, directory, tag + str(0))
+        ind = 1
+        saveConstraintsForAll(dataTensor, variables, ind, directory, tag + str(0))
 
 
 def saveConstraintsForAll(dataTensor, variables, indicator, directory, tag):
@@ -31,9 +31,9 @@ def saveConstraintsForAll(dataTensor, variables, indicator, directory, tag):
     subsets = cF.split(rep, (), repeatDim)
 
     concatdir = os.path.join(directory, "results", "learnedBounds")
-    cU.buildDirectory(concatdir)
-    cU.removeCSVFiles(concatdir)
-
+    if indicator == 0:
+        cU.buildDirectory(concatdir)
+        cU.removeCSVFiles(concatdir)
 
     with open(os.path.join(concatdir, "_" + tag + ".csv"), "a") as my_csv:
         csvWriter = csv.writer(my_csv, delimiter=',')
@@ -59,7 +59,6 @@ def saveConstraintsForAll(dataTensor, variables, indicator, directory, tag):
                 sumTensor_max, sumTensor_min = cF.tensorSum(idTensor, sumSet, np.array(variables)[list(newset)], 0)
                 row.extend([sumTensor_min])
                 row.extend([sumTensor_max])
-
 
                 if len(set(subset[1])) == 1 and len(set(subset[1])) == 0:
                     minConsZero, maxConsZero, minConsNonZero, maxConsNonZero = cF.tensorConsZero(idTensor, sumSet,

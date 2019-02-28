@@ -13,13 +13,16 @@ def readCSV(fileName):
         data = np.asarray(data)
         return data
 
+
 def removeCSVFiles(dir):
     for fl in glob.glob(dir + "/*.csv"):
         os.remove(fl)
 
+
 def buildDirectory(dir):
     if not os.path.exists(dir):
         os.makedirs(dir)
+
 
 # function strips csvdata from unnecessary noise/data fields with no data in them
 # returns clean data tensor + variable arry

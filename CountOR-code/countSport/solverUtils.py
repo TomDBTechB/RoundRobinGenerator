@@ -9,7 +9,7 @@ from subprocess import *
 def openMainCsv(directory):
     my_csv = open(directory + "/results.csv", "w+")
     csvWriter = csv.writer(my_csv, delimiter=',')
-    row = ['Nurses', 'Sample', 'Soln', 'Precision', 'Precision_err', 'Recall', 'Recall_err', 'Time', 'Time_err']
+    row = ['Teams', 'Sample', 'Soln', 'Precision', 'Precision_err', 'Recall', 'Recall_err', 'Time', 'Time_err']
     csvWriter.writerow(row)
     return my_csv, csvWriter
 
