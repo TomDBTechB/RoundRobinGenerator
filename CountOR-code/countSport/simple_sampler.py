@@ -11,15 +11,15 @@ import csv
 import numpy as np
 from gurobipy import *
 import os.path
-    
-def generateSample(num_nurses,num_days,num_shifts,numSam,bounds,directory):
+
+def generateSample(num_teams, num_matchdays, numSam, bounds, directory):
 #    print(bounds)
     # dir = where to put the new samples
-    N=list(range(num_nurses))
-    D=list(range(num_days))
-    Ds=list(range(num_days+1))
-    S=list(range(num_shifts))
-    Ss=list(range(num_shifts+1))
+    N=list(range(num_teams))
+    D=list(range(num_teams))
+    Ds=list(range(num_teams+1))
+    S=list(range(num_matchdays))
+    Ss=list(range(num_matchdays + 1))
     Sk=list(range(2))
     variables=[D,S,N]
     
@@ -28,7 +28,7 @@ def generateSample(num_nurses,num_days,num_shifts,numSam,bounds,directory):
     constrList=[[(0,),(1,)],[(0,),(2,)],[(0,),(1,2)],[(1,),(0,)],[(1,),(2,)],[(1,),(0,2)],[(2,),(0,)],[(2,),(1,)],[(2,),(0,1)],[(0,1),(2,)],[(0,2),(1,)],[(1,2),(0,)]]
 
     #Forbidden Shift Successions
-    F=[(num_shifts-1,0)]
+    F=[(num_matchdays - 1, 0)]
         
     #Weekends
     W=[(5,6)]
@@ -191,7 +191,7 @@ def generateSample(num_nurses,num_days,num_shifts,numSam,bounds,directory):
                 m.addConstrs(( sw[n,d1,d2] >= tw[n,d1-1,d2]-p[n,d1]
                         for n in N for d1 in D for d2 in D if d1>0), "MinConsWork")
                 
-                m.addConstrs(( sw[n,num_days,d2] == tw[n,num_days-1,d2]
+                m.addConstrs(( sw[n,num_teams,d2] == tw[n,num_teams-1,d2]
                         for n in N for d2 in D), "MinConsWork")
                 
                 m.addConstr(
@@ -231,7 +231,7 @@ def generateSample(num_nurses,num_days,num_shifts,numSam,bounds,directory):
                         for n in N for d1 in D for d2 in D if d1>0), "MinConsFree")
                 
                 
-                m.addConstrs(( sf[n,num_days,d2] == tf[n,num_days-1,d2]
+                m.addConstrs(( sf[n,num_teams,d2] == tf[n,num_teams-1,d2]
                         for n in N for d2 in D), "MinConsFree")
                 
                 m.addConstr(
@@ -271,8 +271,8 @@ def generateSample(num_nurses,num_days,num_shifts,numSam,bounds,directory):
                 m.addConstrs(( sws[n,s1,s2] >= tws[n,s1-1,s2]-q[n,s1]
                         for n in N for s1 in S for s2 in S if s1>0), "MinConsWork")
                 
-                m.addConstrs(( sws[n,num_shifts,s2] == tws[n,num_shifts-1,s2]
-                        for n in N for s2 in S), "MinConsWork")
+                m.addConstrs((sws[n, num_matchdays, s2] == tws[n, num_matchdays - 1, s2]
+                              for n in N for s2 in S), "MinConsWork")
                 
                 m.addConstr(
                         (quicksum(sws[n,s1,s2]*(bounds[7,4]-1-s2) for n in N for s1 in Ss for s2 in range(bounds[7,4]-1))==0),"minconswork"
@@ -310,8 +310,8 @@ def generateSample(num_nurses,num_days,num_shifts,numSam,bounds,directory):
                 m.addConstrs(( sfs[n,s1,s2] >= tfs[n,s1-1,s2]+q[n,s1]-1
                         for n in N for s1 in S for s2 in S if s1>0), "MinConsFree")
                 
-                m.addConstrs(( sfs[n,num_shifts,s2] == tfs[n,num_shifts-1,s2]
-                        for n in N for s2 in S), "MinConsWork")
+                m.addConstrs((sfs[n, num_matchdays, s2] == tfs[n, num_matchdays - 1, s2]
+                              for n in N for s2 in S), "MinConsWork")
                 
                 m.addConstr(
                         (quicksum(sfs[n,s1,s2]*(bounds[7,2]-1-s2) for n in N for s1 in Ss for s2 in range(bounds[7,2]-1))==0),"minconsfree"
@@ -349,7 +349,7 @@ def generateSample(num_nurses,num_days,num_shifts,numSam,bounds,directory):
                 m.addConstrs(( sw1[n,d1,s,d2] >= tw1[n,d1-1,s,d2]-o[n,d1,s]
                         for s in S for n in N for d1 in D for d2 in D if d1>0), "MinConsSameShift")
                 
-                m.addConstrs(( sw1[n,num_days,s,d2] == tw1[n,num_days-1,s,d2]
+                m.addConstrs(( sw1[n,num_teams,s,d2] == tw1[n,num_teams-1,s,d2]
                         for n in N for s in S for d2 in D), "MinConsWork")
                 
                 m.addConstr(
@@ -388,7 +388,7 @@ def generateSample(num_nurses,num_days,num_shifts,numSam,bounds,directory):
                 m.addConstrs(( sw1f[n,d1,s,d2] >= tw1f[n,d1-1,s,d2]+o[n,d1,s]-1
                         for n in N for s in S for d1 in D for d2 in D if d1>0), "MinConsw1free")
                 
-                m.addConstrs(( sw1f[n,num_days,s,d2] == tw1f[n,num_days-1,s,d2]
+                m.addConstrs(( sw1f[n,num_teams,s,d2] == tw1f[n,num_teams-1,s,d2]
                         for n in N for s in S for d2 in D), "MinConsWork")
                 
                 m.addConstr(
@@ -412,7 +412,7 @@ def generateSample(num_nurses,num_days,num_shifts,numSam,bounds,directory):
         for i in range(nSolutions):
             m.setParam(GRB.Param.SolutionNumber,i)
             solution=m.getAttr('xn', o)
-            tmp=np.zeros([num_nurses,num_days,num_shifts])
+            tmp=np.zeros([num_teams, num_teams, num_matchdays])
             for key in solution:
                 tmp[key]=round(solution[key])
             tSample=np.swapaxes(np.swapaxes(tmp,0,1),1,2)
@@ -422,17 +422,17 @@ def generateSample(num_nurses,num_days,num_shifts,numSam,bounds,directory):
                 csvWriter = csv.writer(my_csv,delimiter=',')
                 
                 row=['']
-                for j in range(num_days):
-                    row.extend(['D'+str(j)]*num_shifts)
+                for j in range(num_teams):
+                    row.extend(['D'+str(j)] * num_matchdays)
                 csvWriter.writerow(row)
                 
                 row=[]
-                for j in range(num_shifts):
+                for j in range(num_matchdays):
                     row.extend(['S'+str(j)])
-                csvWriter.writerow([''] + row*num_days)
+                csvWriter.writerow([''] + row*num_teams)
                 
                 tmp_sol.astype(int)
-                for j in range(num_nurses):
+                for j in range(num_teams):
                     row=['N'+str(j)]
                     row.extend(tmp_sol[j].flatten())
                     csvWriter.writerow(row)
