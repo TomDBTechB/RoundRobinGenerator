@@ -30,10 +30,10 @@ def saveConstraintsForAll(dataTensor, variables, indicator, directory, tag):
     rep = set([variable for variable in range(len(variables)) if variable not in repeatDim])
     subsets = cF.split(rep, (), repeatDim)
 
-    # TODO remove  - just create this directory if it does not exists
     concatdir = os.path.join(directory, "results", "learnedBounds")
-    if not os.path.exists(concatdir):
-        os.makedirs(concatdir)
+    cU.buildDirectory(concatdir)
+    cU.removeCSVFiles(concatdir)
+
 
     with open(os.path.join(concatdir, "_" + tag + ".csv"), "a") as my_csv:
         csvWriter = csv.writer(my_csv, delimiter=',')
@@ -60,9 +60,6 @@ def saveConstraintsForAll(dataTensor, variables, indicator, directory, tag):
                 row.extend([sumTensor_min])
                 row.extend([sumTensor_max])
 
-                # TODO ask this
-                # if len(set(subset[1])) == 1 and len(set(orderingNotImp) & set(subset[1])) == 0:
-                #    minConsZero, maxConsZero, minConsNonZero, maxConsNonZero = cF.tensorConsZero(idTensor, sumSet,
 
                 if len(set(subset[1])) == 1 and len(set(subset[1])) == 0:
                     minConsZero, maxConsZero, minConsNonZero, maxConsNonZero = cF.tensorConsZero(idTensor, sumSet,

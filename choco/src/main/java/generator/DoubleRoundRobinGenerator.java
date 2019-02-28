@@ -1,6 +1,9 @@
+package generator;
+
 import org.apache.commons.lang3.time.StopWatch;
 import org.chocosolver.solver.Model;
 import org.chocosolver.solver.variables.IntVar;
+import util.CsvWriter;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -17,32 +20,32 @@ public class DoubleRoundRobinGenerator {
         String sampleDirectory = args[2];
         StopWatch watch = new StopWatch();
         watch.start();
+        watch.split();
+        long startTime =  watch.getSplitTime();
         int amountOfMatchDays = calculateMatchDays(amountOfTeams);
-
-
         //modelgenerator is used for any problem
         Model model = new Model("xRoundRobinGenerator");
         IntVar[][][] matchdays = new IntVar[amountOfMatchDays][amountOfTeams][amountOfTeams];
         //seed the tensor with variables
         seedRobinTensor(amountOfMatchDays, model, matchdays, amountOfTeams);
         watch.split();
-        System.out.println("seed after " + watch.getSplitTime());
+        System.out.println(("seed after " + (watch.getSplitTime() - startTime) + "ms"));
         //constraint 1: A team never plays itself
         addNeverPlayYourselfConst(amountOfMatchDays, model, matchdays, amountOfTeams);
         watch.split();
-        System.out.println("never Play yourself after " + watch.getSplitTime());
+        System.out.println("never Play yourself after " + (watch.getSplitTime() - startTime)+"ms");
         //constraint 2: A team can only play one game each matchday
         playMaxOneGamePerMatchday(amountOfMatchDays, model, matchdays, amountOfTeams);
         watch.split();
-        System.out.println("play one each matchday " + watch.getSplitTime());
+        System.out.println("play one each matchday " +((watch.getSplitTime() - startTime))+"ms");
         //constraint 3: After the full tournament, every team has played every team twice
         everyonePlaysEachoterTwice(amountOfMatchDays, model, matchdays, amountOfTeams);
         //constraint 4: At the halfway point, each team should have played every team once (general rule, after amountOfMatchdays/2 for all n)
         watch.split();
-        System.out.println("Play eachother twice " + watch.getSplitTime());
+        System.out.println("Play eachother twice " + (watch.getSplitTime() - startTime)+"ms");
         halfWayPointConstraint(amountOfMatchDays, matchdays, model, amountOfTeams);
         watch.split();
-        System.out.println("Amount of matchdays " + watch.getSplitTime());
+        System.out.println("Amount of matchdays " + (watch.getSplitTime() - startTime)+"ms");
         //constraint 5: Optimization of the home and away pattern
         //homeAndAwayPattern(amountOfMatchDays,matchdays,model);
 

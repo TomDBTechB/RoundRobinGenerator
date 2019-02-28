@@ -1,3 +1,5 @@
+package util;
+
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVPrinter;
 import org.chocosolver.solver.variables.IntVar;
@@ -44,7 +46,7 @@ public class CsvWriter {
             teamlist.add("T"+index);
             for(int matchday=0;matchday<amountOfMatchDays;matchday++){
             for(int hometeam =0;hometeam<amountOfTeams;hometeam++){
-                teamlist.add(matchday+String.valueOf(matchdays[matchday][hometeam][teamindex].getValue()));
+                teamlist.add(String.valueOf(matchdays[matchday][hometeam][teamindex].getValue()));
                 }
             }
             printer.printRecord(teamlist);

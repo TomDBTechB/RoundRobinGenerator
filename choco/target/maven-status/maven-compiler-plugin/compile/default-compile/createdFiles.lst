@@ -1,2 +1,2 @@
-DoubleRoundRobinGenerator.class
-CsvWriter.class
+generator\DoubleRoundRobinGenerator.class
+util\CsvWriter.class

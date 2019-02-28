@@ -12,19 +12,38 @@ def openMainCsv(directory):
     csvWriter.writerow(row)
     return my_csv,csvWriter
 
+# def jarWrapper(*args):
+#     process = Popen(['java', '-jar',args[0]], stdout=PIPE, stderr=PIPE)
+#     ret = []
+#     for line in process.stdout:
+#         print(line)
+#     # while process.poll() is None:
+#     #     line = process.stdout.readline()
+#     #     ret.append(line[:-1])
+#     stdout, stderr = process.communicate()
+#     # ret += stdout.split('\n')
+#     # if stderr != '':
+#     #     ret += stderr.split('\n')
+#     # ret.remove('')
+#     return ret
+#
+
 def jarWrapper(*args):
     process = Popen(['java', '-jar']+list(args), stdout=PIPE, stderr=PIPE)
-    ret = []
     while process.poll() is None:
-        line = process.stdout.readline()
-        if line != '' and line.endswith('\n'):
-            ret.append(line[:-1])
+        line = process.stdout.readline().decode("utf-8")
+        if(line!= ''):
+            print(line)
     stdout, stderr = process.communicate()
-    ret += stdout.split('\n')
-    if stderr != '':
-        ret += stderr.split('\n')
-    ret.remove('')
-    return ret
+    for line in stdout:
+        decode = line.decode("utf-8")
+        if(decode!= ''):
+            print(decode)
+    if stderr is not None:
+        for line in stderr:
+            decode = line.decode("utf-8")
+            if (decode != ''):
+                print(decode)
 
 
 
