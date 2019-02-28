@@ -10,9 +10,10 @@ import numpy as np
 from countSport import solverUtils as sU
 from countSport import countorUtils as cU
 from countSport import countor
+from countSport import simple_sampler as sampler
 
 # region vars
-numSam = 10  # int(sys.argv[1])
+numSam = 500  # int(sys.argv[1])
 numTeams = 6  # int(sys.argv[2])
 mt = 1  # int(sys.argv[3])
 num_Matchdays = sU.calculateMatchDays(numTeams)
@@ -23,6 +24,23 @@ num_constr = 6
 # provides list of constraints
 constrList = [[(0,), (1,)], [(0,), (2,)], [(0,), (1, 2)], [(1,), (0,)], [(1,), (2,)], [(1,), (0, 2)], [(2,), (0,)],
               [(2,), (1,)], [(2,), (0, 1)], [(0, 1), (2,)], [(0, 2), (1,)], [(1, 2), (0,)]]
+
+tbounds = np.zeros([num_constrType, num_constr])
+# defines upper/lower bounds
+tbounds[2, 0] = 4
+tbounds[2, 1] = 6
+tbounds[6, 2] = 1
+tbounds[6, 3] = 7
+tbounds[6, 4] = 2
+tbounds[9, 0] = 1
+tbounds[9, 1] = 2
+tbounds[10, 1] = 1
+tbounds[6, 0] = 9
+tbounds[6, 1] = 16
+tbounds[6, 5] = 8
+tbounds = tbounds.astype(np.int64)
+
+
 constrMaxval = []
 dimSize = [num_Matchdays, numTeams, numTeams]
 for val in constrList:
@@ -96,7 +114,7 @@ generateSamples(numTeams, numSam)
 timeTaken = learnConstraints()
 
 tag = "Amt_T" + str(numTeams)
-file = result + "/learnedBounds" + "_" + tag + "0.csv"
+file = os.path.join(os.getcwd(),"results","learnedBounds","_" + tag + "0.csv")
 lbounds = sU.readBounds(file, num_constrType, num_constr)
 bounds_prev = np.zeros([num_constrType, num_constr])
 bounds_prev0 = np.zeros([num_constrType, num_constr])
@@ -148,31 +166,17 @@ for numSol in solution_seed:
 
             print("\nGenerating samples using learned constraints")
             start = time.clock()
-            sampler.generateSample(num_nurses, num_days, num_shifts, numSam, extraConstPerc, nurse_skill,
-                                   nurse_preference, bounds_learned, bounds_learned0, bounds_learned1,
-                                   tmpDir + "/solutions", bk, 0)
+            sampler.generateSample(numTeams, num_Matchdays, numSam, bounds_learned,soln)
             print("Generated ", numSam, " samples in ", time.clock() - start, ' secs')
 
-            prefSatisfaction = countor.learnConstraintsForAll(tmpDir, num_nurses, nurse_skill, bk, 0, hs, 1,
-                                                              nurse_preference)
-            tag = str(bk) + str(0) + str(hs)
+            prefSatisfaction = countor.learnConstraintsForAll(tmpDir, numTeams)
+            tag = "Amt_T" + str(numTeams)
             file = tmpDir + "/results" + "/learnedBounds" + "_" + tag + "0.csv"
-            tmpBounds = readBounds(file, num_constrType, num_constr)
-            if bk == 1:
-                file = tmpDir + "/results" + "/learnedBounds" + "_" + tag + "00.csv"
-                tmpBounds0 = readBounds(file, num_constrType, num_constr)
-
-                file = tmpDir + "/results" + "/learnedBounds" + "_" + tag + "01.csv"
-                tmpBounds1 = readBounds(file, num_constrType, num_constr)
-
+            tmpBounds = sU.readBounds(file, num_constrType, num_constr)
             for i in range(len(tmpBounds)):
                 accept = 0
                 if mt == 0 or prefSatisfaction[i] == 1:
-                    accept = moreConstrained(tbounds, tmpBounds[i], num_constrType, num_constr)
-                    if accept == 0 and bk == 1:
-                        accept = moreConstrained(tbounds0, tmpBounds0[i], num_constrType, num_constr)
-                        if accept == 0:
-                            accept = moreConstrained(tbounds1, tmpBounds1[i], num_constrType, num_constr)
+                    accept = sU.moreConstrained(tbounds, tmpBounds[i], num_constrType, num_constr)
                 precision += accept
             tot_pre[seed] = (precision * 100) / numSam
 
@@ -180,5 +184,3 @@ for numSol in solution_seed:
             rec_prev = tot_rec[seed]
             time_prev = tot_time[seed]
             bounds_prev = bounds_learned
-            bounds_prev0 = bounds_learned0
-            bounds_prev1 = bounds_learned1

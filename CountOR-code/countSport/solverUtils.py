@@ -46,7 +46,7 @@ def openDetCsv(directory):
 def readBounds(file, num_constrType, num_constr):
     data = cU.readCSV(file)
     # transpose function of the tensor
-    data_transpose = list(zip(*data))
+    data_transpose = np.transpose(data)
     # build array of len datatranspose by len datatranspose[0]-1
     data_int = np.zeros([len(data_transpose), len(data_transpose[0]) - 1])
     for i in range(len(data_transpose)):
