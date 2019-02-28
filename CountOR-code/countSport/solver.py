@@ -13,13 +13,12 @@ from countSport import countor
 
 
 # region vars
-numSam = 1 # int(sys.argv[1])
+numSam = 10 # int(sys.argv[1])
 numTeams = 6 # int(sys.argv[2])
 mt = 1 # int(sys.argv[3])
 # todo extract this
-num_Matchdays = 12
-num_matches = 3
-solution_seed = [1] # [1,10,25,50]
+num_Matchdays = sU.calculateMatchDays(numTeams)
+solution_seed = [1,10,25,50]
 tag = str(numTeams)+"_"+str(numSam)
 # TODO ask
 num_constrType = 12 # maximum
@@ -28,7 +27,7 @@ num_constr = 6
 constrList = [[(0,), (1,)], [(0,), (2,)], [(0,), (1, 2)], [(1,), (0,)], [(1,), (2,)], [(1,), (0, 2)], [(2,), (0,)],
               [(2,), (1,)], [(2,), (0, 1)], [(0, 1), (2,)], [(0, 2), (1,)], [(1, 2), (0,)]]
 constrMaxval = []
-dimSize = [num_Matchdays, numTeams, num_matches]
+dimSize = [num_Matchdays, numTeams, numTeams]
 for val in constrList:
     tot = 1
     for i in range(len(val[1])):

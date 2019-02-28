@@ -5,56 +5,42 @@ import numpy as np
 import csv
 from subprocess import *
 
+
 def openMainCsv(directory):
     my_csv = open(directory + "/results.csv", "w+")
     csvWriter = csv.writer(my_csv, delimiter=',')
     row = ['Nurses', 'Sample', 'Soln', 'Precision', 'Precision_err', 'Recall', 'Recall_err', 'Time', 'Time_err']
     csvWriter.writerow(row)
-    return my_csv,csvWriter
+    return my_csv, csvWriter
 
-# def jarWrapper(*args):
-#     process = Popen(['java', '-jar',args[0]], stdout=PIPE, stderr=PIPE)
-#     ret = []
-#     for line in process.stdout:
-#         print(line)
-#     # while process.poll() is None:
-#     #     line = process.stdout.readline()
-#     #     ret.append(line[:-1])
-#     stdout, stderr = process.communicate()
-#     # ret += stdout.split('\n')
-#     # if stderr != '':
-#     #     ret += stderr.split('\n')
-#     # ret.remove('')
-#     return ret
-#
 
 def jarWrapper(*args):
-    process = Popen(['java', '-jar']+list(args), stdout=PIPE, stderr=PIPE)
+    process = Popen(['java', '-jar'] + list(args), stdout=PIPE, stderr=PIPE)
     while process.poll() is None:
         line = process.stdout.readline().decode("utf-8")
-        if(line!= ''):
+        if line != '' and '\n':
             print(line)
     stdout, stderr = process.communicate()
     for line in stdout:
         decode = line.decode("utf-8")
-        if(decode!= ''):
+        if decode != '' and '\n':
             print(decode)
     if stderr is not None:
         for line in stderr:
             decode = line.decode("utf-8")
-            if (decode != ''):
+            if decode != '' and '\n' and None:
                 print(decode)
 
 
-
 """Determined results"""
+
+
 def openDetCsv(directory):
     det_csv = open(directory + "/det_results.csv", "w+")
     detCsvWriter = csv.writer(det_csv, delimiter=',')
     row = ['Nurses', 'Sample', 'Soln', 'Seed', 'Precision', 'Recall', 'Time']
     detCsvWriter.writerow(row)
-    return det_csv,detCsvWriter
-
+    return det_csv, detCsvWriter
 
 
 def readBounds(file, num_constrType, num_constr):
@@ -76,6 +62,7 @@ def readBounds(file, num_constrType, num_constr):
                 k += 1
     return bounds_tr.astype(np.int64)
 
+
 def aggrBounds(selbounds, num_constrType, num_constr, constrMaxval):
     bounds_learned = np.zeros([num_constrType, num_constr])
     for i in range(num_constrType):
@@ -89,6 +76,7 @@ def aggrBounds(selbounds, num_constrType, num_constr, constrMaxval):
                 if bounds_learned[row, col] == constrMaxval[i]:
                     bounds_learned[row, col] = 0
     return bounds_learned.astype(np.int64)
+
 
 ###########checks if bound2 is more constrained than bound1##################
 def moreConstrained(bound1, bound2, num_constrType, num_constr):
@@ -109,3 +97,10 @@ def moreConstrained(bound1, bound2, num_constrType, num_constr):
         if output == 0:
             break
     return output
+
+
+def calculateMatchDays(numTeams):
+    if numTeams % 2 == 0:
+        return (numTeams - 1) * 2
+    else:
+        return numTeams * 2
