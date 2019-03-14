@@ -35,7 +35,7 @@ def saveConstraintsForAll(dataTensor, variables, indicator, directory, tag):
         cU.buildDirectory(concatdir)
         cU.removeCSVFiles(concatdir)
 
-    with open(os.path.join(concatdir, "_" + tag + ".csv"), "a") as my_csv:
+    with open(os.path.join(concatdir, "_" + tag + ".csv"), "a",newline='') as my_csv:
         csvWriter = csv.writer(my_csv, delimiter=',')
         if indicator == 0:
             row = ([''] * 2)

@@ -13,7 +13,7 @@ from countSport import countor
 from countSport import simple_sampler as sampler
 
 # region vars
-numSam = 50  # int(sys.argv[1])
+numSam = 100  # int(sys.argv[1])
 numTeams = 6  # int(sys.argv[2])
 mt = 1  # int(sys.argv[3])
 num_Matchdays = sU.calculateMatchDays(numTeams)
@@ -92,7 +92,7 @@ def buildSolutionAndResultDirs(directory):
     if not os.path.exists(result):
         os.makedirs(result)
 
-    return soln, result
+    return soln, result,csvWriter,detCsvWriter,det_csv,my_csv
 
 
 def resampleAndLearn():
@@ -104,7 +104,7 @@ def resampleAndLearn():
 
 # Build directory structure for results and open up the files
 directory = os.path.join(os.getcwd(), "data", tag)
-soln, result = buildSolutionAndResultDirs(directory)
+soln, result,csvWriter,detCsvWriter,detcsv,mycsv = buildSolutionAndResultDirs(directory)
 
 # generate the samples
 generateSamples(numTeams, numSam,soln)
@@ -177,7 +177,7 @@ for numSol in solution_seed:
             tmpBounds = sU.readBounds(file, num_constrType, num_constr)
             for i in range(len(tmpBounds)):
                 accept = 0
-                if mt == 0 or prefSatisfaction[i] == 1:
+                if mt == 0:
                     accept = sU.moreConstrained(tbounds, tmpBounds[i], num_constrType, num_constr)
                 precision += accept
             tot_pre[seed] = (precision * 100) / numSam
@@ -186,3 +186,35 @@ for numSol in solution_seed:
             rec_prev = tot_rec[seed]
             time_prev = tot_time[seed]
             bounds_prev = bounds_learned
+
+        row =[]
+        row.extend([numTeams])
+        row.extend([numSol])
+        row.extend([seed])
+        row.extend([tot_pre[seed]])
+        row.extend([tot_rec[seed]])
+        print(row)
+        detCsvWriter.writerow(row)
+
+    prevSol = numSol
+    row = []
+    row.extend([numTeams])
+    row.extend([numSam])
+    row.extend([numSol])
+    row.extend([sum(tot_pre) / numSeed])
+    row.extend([np.std(tot_pre) / np.sqrt(numSeed)])
+    row.extend([sum(tot_rec) / numSeed])
+    row.extend([np.std(tot_rec) / np.sqrt(numSeed)])
+    row.extend([sum(tot_time) / numSeed])
+    row.extend([np.std(tot_time) / np.sqrt(numSeed)])
+    csvWriter.writerow(row)
+    print(row)
+
+detcsv.close()
+mycsv.close()
+
+
+
+
+
+

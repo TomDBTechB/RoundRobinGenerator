@@ -11,7 +11,7 @@ import csv
 import numpy as np
 from gurobipy import *
 import os.path
-    
+
 def generateSample(num_nurses,num_days,num_shifts,numSam,bounds,directory):
 #    print(bounds)
     # dir = where to put the new samples

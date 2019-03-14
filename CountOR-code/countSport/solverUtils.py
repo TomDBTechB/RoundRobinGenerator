@@ -7,7 +7,7 @@ from subprocess import *
 
 
 def openMainCsv(directory):
-    my_csv = open(directory + "/results.csv", "w+")
+    my_csv = open(directory + "/results.csv", "w+",newline='')
     csvWriter = csv.writer(my_csv, delimiter=',')
     row = ['Teams', 'Sample', 'Soln', 'Precision', 'Precision_err', 'Recall', 'Recall_err', 'Time', 'Time_err']
     csvWriter.writerow(row)
@@ -36,7 +36,7 @@ def jarWrapper(*args):
 
 
 def openDetCsv(directory):
-    det_csv = open(directory + "/det_results.csv", "w+")
+    det_csv = open(directory + "/det_results.csv", "w+",newline='')
     detCsvWriter = csv.writer(det_csv, delimiter=',')
     row = ['Teams', 'Sample', 'Soln', 'Seed', 'Precision', 'Recall', 'Time']
     detCsvWriter.writerow(row)
@@ -45,7 +45,6 @@ def openDetCsv(directory):
 
 def readBounds(file, num_constrType, num_constr):
     data = cU.readCSV(file)
-    print(data)
     newlist = []
     for list2 in data:
         if list2 != []:

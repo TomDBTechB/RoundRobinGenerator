@@ -60,3 +60,5 @@ CountOR-code/countSport/data/
 choco/\.idea/
 
 *.csv
+
+*.sol

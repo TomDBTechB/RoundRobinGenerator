@@ -12,14 +12,18 @@ import numpy as np
 from gurobipy import *
 import os.path
 
+#     Days -->Matchdays
+#     Nurses --> HomeTeams
+#     Shifts --> AwayTeams
+
 def generateSample(num_teams, num_matchdays, numSam, bounds, directory):
 #    print(bounds)
     # dir = where to put the new samples
     N=list(range(num_teams))
-    D=list(range(num_teams))
-    Ds=list(range(num_teams+1))
-    S=list(range(num_matchdays))
-    Ss=list(range(num_matchdays + 1))
+    D=list(range(num_matchdays))
+    Ds=list(range(num_matchdays+1))
+    S=list(range(num_teams))
+    Ss=list(range(num_teams + 1))
     Sk=list(range(2))
     variables=[D,S,N]
     
@@ -65,16 +69,16 @@ def generateSample(num_teams, num_matchdays, numSam, bounds, directory):
         sw1f = m.addVars(N,Ds,S,D, vtype=GRB.BINARY, name="sw1f")
         
         ########### Required Constraints #############
-        # m.addConstrs(
-        #         (o.sum(n,d,'*') == p[n,d]
-        #         for n in N for d in D),"po")
+        m.addConstrs(
+                (o.sum(n,d,'*') == p[n,d]
+                for n in N for d in D),"po")
         
-        m.addConstrs((x.sum(n,d,s,'*')==o[n,d,s] for n in N for d in D for s in S),"xo")        
-#        m.addConstrs((x[n,d,s,sk]==o[n,d,s] for n in N for d in D for s in S for sk in Sk if nurse_skill[n]==sk),"xo")
+        m.addConstrs((x.sum(n,d,s,'*')==o[n,d,s] for n in N for d in D for s in S),"xo")
+        # m.addConstrs((x[n,d,s,sk]==o[n,d,s] for n in N for d in D for s in S for sk in Sk if nurse_skill[n]==sk),"xo")
 #        m.addConstrs((x[n,d,s,sk]==0 for n in N for d in D for s in S for sk in Sk if nurse_skill[n]!=sk),"xo")
-#         m.addConstrs((q[n,s] <= o.sum(n,'*',s) for n in N for s in S ),"qo")
+        m.addConstrs((q[n,s] <= o.sum(n,'*',s) for n in N for s in S ),"qo")
         m.addConstrs((q[n,s]*o.sum(n,'*',s) == o.sum(n,'*',s) for n in N for s in S ),"qo")
-        # m.addConstrs((r[s,d] <= o.sum('*',d,s) for d in D for s in S ),"ro")
+        m.addConstrs((r[s,d] <= o.sum('*',d,s) for d in D for s in S ),"ro")
         m.addConstrs((r[s,d]*o.sum('*',d,s) == o.sum('*',d,s) for d in D for s in S ),"ro")
         
         ########### Hard Constraints #############
@@ -91,23 +95,23 @@ def generateSample(num_teams, num_matchdays, numSam, bounds, directory):
                 elif constrList[i]==[(0,),(1,2)]:
                     m.addConstrs((o.sum('*',d,'*') >= bounds[i,0] for d in D),"constr")
 
-                # elif constrList[i]==[(1,),(0,)]:
-                #     m.addConstrs((r.sum(s,'*') >= bounds[i,0] for s in S),"constr")
-                #
-                # elif constrList[i]==[(1,),(2,)]:
-                #     m.addConstrs((q.sum('*',s) >= bounds[i,0] for s in S),"constr")
-                #
-                # elif constrList[i]==[(1,),(0,2)]:
-                #     m.addConstrs((o.sum('*','*',s) >= bounds[i,0] for s in S),"constr")
-                #
-                # elif constrList[i]==[(2,),(0,)]:
-                #     m.addConstrs((p.sum(n,'*') >= bounds[i,0] for n in N),"constr")
+                elif constrList[i]==[(1,),(0,)]:
+                    m.addConstrs((r.sum(s,'*') >= bounds[i,0] for s in S),"constr")
+
+                elif constrList[i]==[(1,),(2,)]:
+                    m.addConstrs((q.sum('*',s) >= bounds[i,0] for s in S),"constr")
+
+                elif constrList[i]==[(1,),(0,2)]:
+                    m.addConstrs((o.sum('*','*',s) >= bounds[i,0] for s in S),"constr")
+
+                elif constrList[i]==[(2,),(0,)]:
+                    m.addConstrs((p.sum(n,'*') >= bounds[i,0] for n in N),"constr")
 
                 elif constrList[i]==[(2,),(1,)]:
                     m.addConstrs((q.sum(n,'*') >= bounds[i,0] for n in N),"constr")
 
-                # elif constrList[i]==[(2,),(0,1)]:
-                #     m.addConstrs((o.sum(n,'*','*') >= bounds[i,0] for n in N),"constr")
+                elif constrList[i]==[(2,),(0,1)]:
+                    m.addConstrs((o.sum(n,'*','*') >= bounds[i,0] for n in N),"constr")
                 #
                 elif constrList[i]==[(0,1),(2,)]:
                     m.addConstrs((o.sum('*',d,s) >= bounds[i,0] for d in D for s in S),"constr")
@@ -412,28 +416,28 @@ def generateSample(num_teams, num_matchdays, numSam, bounds, directory):
         for i in range(nSolutions):
             m.setParam(GRB.Param.SolutionNumber,i)
             solution=m.getAttr('xn', o)
-            tmp=np.zeros([num_teams, num_teams, num_matchdays])
+            tmp=np.zeros([num_teams, num_matchdays, num_teams])
             for key in solution:
                 tmp[key]=round(solution[key])
             tSample=np.swapaxes(np.swapaxes(tmp,0,1),1,2)
             tmp_sol=tmp.astype(np.int64)
                 
-            with open(os.path.join(directory, "sol"+str(i)+".csv") ,"w+") as my_csv:
+            with open(os.path.join(directory, "sol"+str(i)+".csv") ,"w+",newline='') as my_csv:
                 csvWriter = csv.writer(my_csv,delimiter=',')
                 
                 row=['']
-                for j in range(num_teams):
-                    row.extend(['D'+str(j)] * num_matchdays)
+                for j in range(num_matchdays):
+                    row.extend(['M'+str(j)] * num_teams)
                 csvWriter.writerow(row)
                 
-                row=[]
-                for j in range(num_matchdays):
-                    row.extend(['S'+str(j)])
-                csvWriter.writerow([''] + row*num_teams)
-                
+                row=['']
+                for j in range(num_teams):
+                    row.extend(['T'+str(j)])
+                csvWriter.writerow(row+row[1:]*(num_matchdays-1))
+
                 tmp_sol.astype(int)
                 for j in range(num_teams):
-                    row=['N'+str(j)]
+                    row=['T'+str(j)]
                     row.extend(tmp_sol[j].flatten())
                     csvWriter.writerow(row)
             
