@@ -79,10 +79,10 @@ def moreConstrained(bound1, bound2, num_constrType, num_constr):
 
 home = expanduser("~")
 
-numSam = int(sys.argv[1])
-bk = int(sys.argv[2])
-mt = int(sys.argv[3])
-hs = int(sys.argv[4])
+numSam = 1 #int(sys.argv[1])
+bk = 0#int(sys.argv[2])
+mt = 0#int(sys.argv[3])
+hs = 1#int(sys.argv[4])
 
 extraConstPerc = 10
 

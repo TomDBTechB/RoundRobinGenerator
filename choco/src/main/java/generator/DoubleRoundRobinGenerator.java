@@ -52,7 +52,7 @@ public class DoubleRoundRobinGenerator {
 
         //MiniZinc black magic
         int counter = 0;
-        model.getSolver().limitSolution(10);
+        model.getSolver().limitSolution(amountOfSamples);
         while (model.getSolver().solve()&& counter<amountOfSamples) {
             prettyPrintSolution(matchdays, amountOfMatchDays, amountOfTeams);
             CsvWriter.createSample(matchdays,amountOfMatchDays,amountOfTeams,counter,sampleDirectory);

@@ -56,3 +56,7 @@ CountOR-code/.idea/*
 
 CountOR-code/countSport/samples/
 CountOR-code/countSport/data/
+
+choco/\.idea/
+
+*.csv

@@ -38,15 +38,20 @@ def jarWrapper(*args):
 def openDetCsv(directory):
     det_csv = open(directory + "/det_results.csv", "w+")
     detCsvWriter = csv.writer(det_csv, delimiter=',')
-    row = ['Nurses', 'Sample', 'Soln', 'Seed', 'Precision', 'Recall', 'Time']
+    row = ['Teams', 'Sample', 'Soln', 'Seed', 'Precision', 'Recall', 'Time']
     detCsvWriter.writerow(row)
     return det_csv, detCsvWriter
 
 
 def readBounds(file, num_constrType, num_constr):
     data = cU.readCSV(file)
+    print(data)
+    newlist = []
+    for list2 in data:
+        if list2 != []:
+            newlist.append(list2)
     # transpose function of the tensor
-    data_transpose = np.transpose(data)
+    data_transpose = list(map(list,zip(*newlist)))
     # build array of len datatranspose by len datatranspose[0]-1
     data_int = np.zeros([len(data_transpose), len(data_transpose[0]) - 1])
     for i in range(len(data_transpose)):

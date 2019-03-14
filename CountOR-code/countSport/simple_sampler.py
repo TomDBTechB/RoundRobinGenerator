@@ -65,16 +65,16 @@ def generateSample(num_teams, num_matchdays, numSam, bounds, directory):
         sw1f = m.addVars(N,Ds,S,D, vtype=GRB.BINARY, name="sw1f")
         
         ########### Required Constraints #############
-        m.addConstrs(
-                (o.sum(n,d,'*') == p[n,d] 
-                for n in N for d in D),"po")
+        # m.addConstrs(
+        #         (o.sum(n,d,'*') == p[n,d]
+        #         for n in N for d in D),"po")
         
         m.addConstrs((x.sum(n,d,s,'*')==o[n,d,s] for n in N for d in D for s in S),"xo")        
 #        m.addConstrs((x[n,d,s,sk]==o[n,d,s] for n in N for d in D for s in S for sk in Sk if nurse_skill[n]==sk),"xo")
 #        m.addConstrs((x[n,d,s,sk]==0 for n in N for d in D for s in S for sk in Sk if nurse_skill[n]!=sk),"xo")
-        m.addConstrs((q[n,s] <= o.sum(n,'*',s) for n in N for s in S ),"qo")
+#         m.addConstrs((q[n,s] <= o.sum(n,'*',s) for n in N for s in S ),"qo")
         m.addConstrs((q[n,s]*o.sum(n,'*',s) == o.sum(n,'*',s) for n in N for s in S ),"qo")
-        m.addConstrs((r[s,d] <= o.sum('*',d,s) for d in D for s in S ),"ro")
+        # m.addConstrs((r[s,d] <= o.sum('*',d,s) for d in D for s in S ),"ro")
         m.addConstrs((r[s,d]*o.sum('*',d,s) == o.sum('*',d,s) for d in D for s in S ),"ro")
         
         ########### Hard Constraints #############
@@ -87,34 +87,34 @@ def generateSample(num_teams, num_matchdays, numSam, bounds, directory):
                     
                 elif constrList[i]==[(0,),(2,)]:
                     m.addConstrs((p.sum('*',d) >= bounds[i,0] for d in D),"constr")
-                    
+
                 elif constrList[i]==[(0,),(1,2)]:
                     m.addConstrs((o.sum('*',d,'*') >= bounds[i,0] for d in D),"constr")
-                    
-                elif constrList[i]==[(1,),(0,)]:
-                    m.addConstrs((r.sum(s,'*') >= bounds[i,0] for s in S),"constr")
-                    
-                elif constrList[i]==[(1,),(2,)]:
-                    m.addConstrs((q.sum('*',s) >= bounds[i,0] for s in S),"constr")
-                    
-                elif constrList[i]==[(1,),(0,2)]:
-                    m.addConstrs((o.sum('*','*',s) >= bounds[i,0] for s in S),"constr")
-                    
-                elif constrList[i]==[(2,),(0,)]:
-                    m.addConstrs((p.sum(n,'*') >= bounds[i,0] for n in N),"constr")
-                    
+
+                # elif constrList[i]==[(1,),(0,)]:
+                #     m.addConstrs((r.sum(s,'*') >= bounds[i,0] for s in S),"constr")
+                #
+                # elif constrList[i]==[(1,),(2,)]:
+                #     m.addConstrs((q.sum('*',s) >= bounds[i,0] for s in S),"constr")
+                #
+                # elif constrList[i]==[(1,),(0,2)]:
+                #     m.addConstrs((o.sum('*','*',s) >= bounds[i,0] for s in S),"constr")
+                #
+                # elif constrList[i]==[(2,),(0,)]:
+                #     m.addConstrs((p.sum(n,'*') >= bounds[i,0] for n in N),"constr")
+
                 elif constrList[i]==[(2,),(1,)]:
                     m.addConstrs((q.sum(n,'*') >= bounds[i,0] for n in N),"constr")
-                    
-                elif constrList[i]==[(2,),(0,1)]:
-                    m.addConstrs((o.sum(n,'*','*') >= bounds[i,0] for n in N),"constr")
-                    
+
+                # elif constrList[i]==[(2,),(0,1)]:
+                #     m.addConstrs((o.sum(n,'*','*') >= bounds[i,0] for n in N),"constr")
+                #
                 elif constrList[i]==[(0,1),(2,)]:
                     m.addConstrs((o.sum('*',d,s) >= bounds[i,0] for d in D for s in S),"constr")
-                    
+
                 elif constrList[i]==[(0,2),(1,)]:
                     m.addConstrs((o.sum(n,d,'*') >= bounds[i,0] for d in D for n in N),"constr")
-                    
+
                 elif constrList[i]==[(1,2),(0,)]:
                     m.addConstrs((o.sum(n,'*',s) >= bounds[i,0] for n in N for s in S),"constr")
                     

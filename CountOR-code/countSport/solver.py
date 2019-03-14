@@ -13,7 +13,7 @@ from countSport import countor
 from countSport import simple_sampler as sampler
 
 # region vars
-numSam = 500  # int(sys.argv[1])
+numSam = 50  # int(sys.argv[1])
 numTeams = 6  # int(sys.argv[2])
 mt = 1  # int(sys.argv[3])
 num_Matchdays = sU.calculateMatchDays(numTeams)
@@ -55,11 +55,10 @@ print(constrMaxval)
 
 # region structural methods
 
-def generateSamples(numTeams, numSam):
+def generateSamples(numTeams, numSam,sampleDir):
     print("Generating " + str(numSam) + " samples for " + str(numTeams) + " teams from Java api")
     start = time.clock()
     #
-    sampleDir = os.path.join(os.getcwd(), "samples")
     cU.buildDirectory(sampleDir)
     cU.removeCSVFiles(sampleDir)
     args = [os.path.join(os.getcwd(), "static", "SportScheduleGenerator.jar"), str(numTeams), str(numSam),
@@ -108,13 +107,13 @@ directory = os.path.join(os.getcwd(), "data", tag)
 soln, result = buildSolutionAndResultDirs(directory)
 
 # generate the samples
-generateSamples(numTeams, numSam)
+generateSamples(numTeams, numSam,soln)
 
 # learn the constraints
 timeTaken = learnConstraints()
 
 tag = "Amt_T" + str(numTeams)
-file = os.path.join(os.getcwd(),"results","learnedBounds","_" + tag + "0.csv")
+file = os.path.join(directory,"results","learnedBounds","_" + tag + "0.csv")
 lbounds = sU.readBounds(file, num_constrType, num_constr)
 bounds_prev = np.zeros([num_constrType, num_constr])
 bounds_prev0 = np.zeros([num_constrType, num_constr])
@@ -137,9 +136,11 @@ for numSol in solution_seed:
     for seed in range(numSeed):
         recall, precision = 0, 0
         random.seed(seed)
-
-        selRows = selectedRows[seed] + random.sample([x for x in range(0, numSam) if x not in selectedRows[seed]],
-                                                     numSol - prevSol)
+        if numSol != 1:
+            selRows = selectedRows[seed] + random.sample([x for x in range(0, numSam) if x not in selectedRows[seed]],
+                                                         numSol - prevSol)
+        else:
+            selRows = random.sample(range(0,numSam),numSol)
         selectedRows[seed] = selRows
         selbounds = np.array([lbounds[i] for i in selRows])
         start = time.clock()
@@ -153,14 +154,15 @@ for numSol in solution_seed:
                 recall += accept
             tot_rec[seed] = (recall * 100) / (numSam - numSol)
 
-            tmpDir = directory + "/tmp"
+            tmpDir = os.path.join(directory ,"tmp")
             cU.buildDirectory(tmpDir)
             cU.removeCSVFiles(tmpDir)
 
-            soln = directory + "/solutions"
+            soln = os.path.join(tmpDir ,"solutions")
             cU.buildDirectory(soln)
             cU.removeCSVFiles(soln)
-            result = directory + "/results"
+
+            result = os.path.join(tmpDir + "results")
             cU.buildDirectory(result)
             cU.removeCSVFiles(result)
 
@@ -171,7 +173,7 @@ for numSol in solution_seed:
 
             prefSatisfaction = countor.learnConstraintsForAll(tmpDir, numTeams)
             tag = "Amt_T" + str(numTeams)
-            file = tmpDir + "/results" + "/learnedBounds" + "_" + tag + "0.csv"
+            file = os.path.join(tmpDir ,"results" ,"learnedBounds", "_" + tag + "0.csv")
             tmpBounds = sU.readBounds(file, num_constrType, num_constr)
             for i in range(len(tmpBounds)):
                 accept = 0

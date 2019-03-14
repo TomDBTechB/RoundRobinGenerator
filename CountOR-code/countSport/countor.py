@@ -11,7 +11,7 @@ def learnConstraintsForAll(directory, teamAmt):
     tag = "Amt_T" + str(teamAmt)
 
     ind = 0
-    for file in glob.glob(directory + '/samples/*.csv'):
+    for file in glob.glob(os.path.join(directory,"solutions","*.csv")):
         data = cU.readCSV(file)
         dataTensor, variables = cU.cleanData(data)
         lenVar = []
