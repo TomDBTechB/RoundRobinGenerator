@@ -19,9 +19,10 @@ If compact scheme:
 \section{Used operators}
 \[\large SumHomerow(d,t)\:= \sum_i MD[d][t][i]\]
 \[\large SumAwayrow(d,t)\:= \sum_i MD[d][i][t]\]
-\[\large SumRounds(h,a)\:= \sum_i MD[i][h][a]\]e 
+\[\large SumRounds(h,a)\:= \sum_i MD[i][h][a]\]
 
-
+\[\large Max(val[])\:= element with the highest value in the array\]
+\[\large Min(val[])\:= element with the lowest value in the array\]
 
 
 \section{Constraint Table}
@@ -71,7 +72,7 @@ C19 & There must be at least k rounds between two games with the same opponents 
 \hline
 C20 & There must be at most k rounds between two games with the same opponents & {$\forall t,t': \exists j,k: \: t \neq t' \land MD[i][t][t'] = 1 \land MD[j][t'][t] = 1 \land i-j \leq k $}\\
 \hline
-C21 & There must be at least k rounds between two games involving team t1 and any team from the subset S t2, t3,... & {$\forall i: t_i \in S $}\\
+C21 & There must be at least k rounds between two games involving team {$t_a$} and any team from the subset S t2, t3,... & {\emph{Discuss}}\\
 \hline
 C22 & Two teams play against each other in turn at home and away in 3RR or more & \\
 \hline
@@ -82,28 +83,28 @@ C24 & Game h-team against a-team cannot be played before round r & {$\exists d: 
 C25 & Game h-team against a-team cannot be played after round r & {$\exists d: MD[d][h][a] = 1 \land (d < r)$} \\ 
 \hline
 
-
 C26 & The difference between the number of played home and away games for each team must not be larger than k in any stage of the tournament (a k-balanced schedule) & {$\forall t, x \leq nd: |\sum_{i=0}^{x} SumHomerow(x,t) - \sum_{i=0}^{x} SumAwayrow(x,t)| \leq k $}\\
 \hline
-C27 & The difference in the number of played games between the teams must not be larger than k in any stage of the tournament (in a relaxed schedule) & {$\forall t,t': t\neq t'$}\\
+C27 & The difference in the number of played games between the teams must not be larger than k in any stage of the tournament (in a relaxed schedule) & {$\forall d \leq nd: MAX(\forall t: \sum_{i=0}^{d} SumHomeRow(i,t) + SumAwayRow(i,t)) - MIN(\forall t: \sum_{i=0}^{d} SumHomeRow(i,t) + SumAwayRow(i,t)) \leq k:$}\\
 \hline
-C28 & Teams should not play more than k consecutive games against opponents in the same strength group & \\
+C28 & Teams should not play more than k consecutive games against opponents in the same strength group & \emph{Discuss}\\
 \hline
-C29 & Teams should not play more than k consecutive games against opponents in the strength group s & \\
+C29 & Teams should not play more than k consecutive games against opponents in the strength group s & \emph{Discuss}\\
 \hline
-C30 & At most m teams in strength group s should have a home game in round r & \\
+C30 & At most m teams in strength group s should have a home game in round r & {$\sum\forall s \in S: SumHomerow(r,s) \leq m $}\\
 \hline
-C31 & There should be at most m games between the teams in strength group s between rounds r1 and r2 & \\
+C31 & There should be at most m games between the teams in strength group s between rounds r1 and r2 & {$\sum(\forall s,s' \in S \land s\neq s':(\sum_{i=r_1}^{r_2} MD[i][s][s']) \leq m $} \\
 \hline
-C32 & Team t should play at least m1 and at most m2 home games against opponents in strength group s  between rounds r1 and r2 & \\
+C32 & Team t should play at least {$m_1$} and at most {$m_2$} home games against opponents in strength group S between rounds r1 and r2 & {${m_1} \leq \sum \forall s \in S: \sum_{i=r_1}^{r_2} MD[i][t][s] \leq {m_2}$}\\
 \hline
-C33 & Team t should play at least m1 and at most m2 games against opponents in strength group s between rounds r1 and r2 & \\
+C33 & Team t should play at least m1 and at most m2 games against opponents in strength group s between rounds r1 and r2 & {${m_1} \leq \sum \forall s \in S: \sum_{i=r_1}^{r_2} MD[i][t][s]+MD[t][i][s] \leq {m_2}$}\\
 \hline
 C34 & Game {$t_i$}-team against {$t_j$}-team can only be carried out in a subset of rounds R= [{$r_1, r_2, r_3, ...$}]  & {$MD[d][i][j] = 1 => d \in R$} \\
 \hline
-C35 & A break of type A/H for team t1 must occur between rounds r1 and r2 & \\
+C35 & A break of type A/H for team t1 must occur between rounds r1 and r2 & \emph{Discuss} \\
 \hline
-C36 & The carry-over effects value must not be larger than c & \\
+C36 & The carry-over effects value must not be larger than c & \emph{Discuss}\\
+\hline
 \end{longtable}
 
 \end{document}
