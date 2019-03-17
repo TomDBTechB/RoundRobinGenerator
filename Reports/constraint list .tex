@@ -1,0 +1,113 @@
+\documentclass[•]{article}
+\usepackage{tabu}
+\usepackage{booktabs}% for better rules in the table
+\usepackage{tabularx}
+\usepackage{longtable}
+\newcolumntype{b}{X}
+\newcolumntype{s}{>{\hsize=.5\hsize}X}
+
+\begin{document}
+
+\section{General Infromation}
+The current representation of the (double) Round Robin tournament: ${MD \in \rm I\!B}^{nt\: x\: nd\: x\: nt}$
+
+If compact scheme:
+\[\large nt > 1 \]
+\[\large nd = (nt-1) * 2\: if\: nt \:\% \:2 = 0\]
+\[\large nd = nt * 2\: if\: nt \:\% \:2 = 1\]
+
+\section{Used operators}
+\[\large SumHomerow(d,t)\:= \sum_i MD[d][t][i]\]
+\[\large SumAwayrow(d,t)\:= \sum_i MD[d][i][t]\]
+\[\large SumRounds(h,a)\:= \sum_i MD[i][h][a]\]e 
+
+
+
+
+\section{Constraint Table}
+\noindent%
+
+\begin{longtable}
+{|p{.06\textwidth}| p{.4\textwidth}  p{.43\textwidth} |}
+\hline
+Index & Constaint& Mathematical notation \\
+\hline
+C01 & Team {$t_j$} can not play home in round {$r_k$}  & {$SumHomerow(k,j) = 0$} \\
+\hline
+C02 & Team {$t_j$} ca nnot play away in round r {$r_k$} & {$SumeAwayrow(k,j) = 0$} \\
+\hline
+C03 & Team {$t_j$} can not play at all in round {$r_k$} & {$SumHomerow(k,j)+SumAwayrow(k,j) = 0$} \\
+\hline
+C04 & There should be at least {$m_1$} and at most {$m_2$} homegames for teams {$t_1, t_2,...$} on the same day d & {$m_1 \leq SumHomerow(d,1) + SumHomerow(d,2) \leq m_2$} \\ \hline
+C05 & No team can play against itself & {$\forall d,t: MD[d][t][t] = 0$} \\
+\hline
+C06 & Team t wishes to play at least $k_1$ and at most $k_2$ homegames between round $r_i$ and round $r_j$ & {$k_1 \leq \sum_{x=i}^{j} SumHomerow(x,t) \leq k_2$}\\ 
+\hline
+C07 & Team t wishes to play at least $k_1$ and at most $k_2$ awaygames between round $r_i$ and round $r_j$ & {$k_1 \leq \sum_{x=i}^{j} SumAwayrow(x,t) \leq k_2$}\\ 
+\hline
+C08 & There are at most R rounds available for the tournament & {$nd \leq R $}\\
+\hline
+C09 &  A maximum of m games can be assigned to round r & {$\sum_t: SumHomerow(r,t) \leq m $} \\
+\hline
+C10 &  Game {$t_j$} vs {$t_k$}  must be preassigned to round r & {$ MD[r][j][k] = 1$} \\
+\hline
+C11 & Game {$t_j$} vs {$t_k$} must not be assigned to round r & {$ MD[r][j][k] \neq 1$} \\
+\hline
+C12 & A break cannot occur in round {$r_i$} & {$\forall t: (SumHomerow(i,t) + SumHomeRow(i-1,t)) \leq 1 \:   \land (SumAwayrow(i,t) + SumAwayRow(i-1,t)) \leq 1 \land 1 \leq i $} \\
+\hline
+C13 & Teams cannot have more than k consecutive home games & {$\forall t: \sum_{x=i}^{i+k} SumHomeRow(x,t) \leq k$}\\ 
+\hline 
+C14 & Teams can not have more than k consecutive away games & {$\forall t: \sum_{x=i}^{i+k} SumAwayRow(x,t) \leq k$} \\
+\hline
+C15 & The total number of breaks must not be larger than k & \emph{TODO Discuss}\\
+\hline
+C16 & The total number of breaks per team must not be larger than k & \emph{TODO Discuss} \\
+\hline
+C17 & Every team must have an even number of breaks & \emph{TODO Discuss} \\
+\hline
+C18 & Every team must have exactly k number of breaks & \emph{TODO Discuss} \\ 
+\hline
+C19 & There must be at least k rounds between two games with the same opponents & {$\forall t,t': \exists j,k: \: t \neq t' \land MD[i][t][t'] = 1 \land MD[j][t'][t] = 1 \land i-j \geq k $} \\
+\hline
+C20 & There must be at most k rounds between two games with the same opponents & {$\forall t,t': \exists j,k: \: t \neq t' \land MD[i][t][t'] = 1 \land MD[j][t'][t] = 1 \land i-j \leq k $}\\
+\hline
+C21 & There must be at least k rounds between two games involving team t1 and any team from the subset S t2, t3,... & {$\forall i: t_i \in S $}\\
+\hline
+C22 & Two teams play against each other in turn at home and away in 3RR or more & \\
+\hline
+C23 & Team t wishes to play at least m1 and at most m2 home games on weekday1, m3-m4 on weekday2 and so on & \emph{Requires 4th dim} \\
+\hline
+C24 & Game h-team against a-team cannot be played before round r & {$\exists d: MD[d][h][a] = 1 \land (d > r)$} \\  
+\hline
+C25 & Game h-team against a-team cannot be played after round r & {$\exists d: MD[d][h][a] = 1 \land (d < r)$} \\ 
+\hline
+
+
+C26 & The difference between the number of played home and away games for each team must not be larger than k in any stage of the tournament (a k-balanced schedule) & {$\forall t, x \leq nd: |\sum_{i=0}^{x} SumHomerow(x,t) - \sum_{i=0}^{x} SumAwayrow(x,t)| \leq k $}\\
+\hline
+C27 & The difference in the number of played games between the teams must not be larger than k in any stage of the tournament (in a relaxed schedule) & {$\forall t,t': t\neq t'$}\\
+\hline
+C28 & Teams should not play more than k consecutive games against opponents in the same strength group & \\
+\hline
+C29 & Teams should not play more than k consecutive games against opponents in the strength group s & \\
+\hline
+C30 & At most m teams in strength group s should have a home game in round r & \\
+\hline
+C31 & There should be at most m games between the teams in strength group s between rounds r1 and r2 & \\
+\hline
+C32 & Team t should play at least m1 and at most m2 home games against opponents in strength group s  between rounds r1 and r2 & \\
+\hline
+C33 & Team t should play at least m1 and at most m2 games against opponents in strength group s between rounds r1 and r2 & \\
+\hline
+C34 & Game {$t_i$}-team against {$t_j$}-team can only be carried out in a subset of rounds R= [{$r_1, r_2, r_3, ...$}]  & {$MD[d][i][j] = 1 => d \in R$} \\
+\hline
+C35 & A break of type A/H for team t1 must occur between rounds r1 and r2 & \\
+\hline
+C36 & The carry-over effects value must not be larger than c & \\
+\end{longtable}
+
+\end{document}
+\end{document}
+
+
+
