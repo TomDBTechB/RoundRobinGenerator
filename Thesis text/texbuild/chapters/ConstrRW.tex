@@ -1,1 +1,26 @@
 \section{Constraint Satisfaction Problems}
+
+\subsection{Constraint satisfaction problem}
+The constraint satisfaction problem(CSP) consists in finding values for variables such that a set of constraints are satisfied. This is used to express and solve many real world problems, like the scheduling of sport tournaments. 
+
+A constraint network N = (X,D,C) consists of:
+\begin{itemize}
+    \item A finite set of variables X : {$X_1$,…,$X_n$}
+    \item A set of domains D: {$D(X_1),…,D(X_n)$} where $D(X_i)$ is the (finite) set of values $X_i$ can take, in this work, every domain is assumed finite
+    \item And a set of constraints C: {$c_1, .. c_n$} where each constraint c \in C is a pair c = $(\sigma, \rho)$
+    \begin{itemize}
+        \item $\sigma$ is the constraint \textbf{scope}, a set of variables
+        \item $\rho$ the constraint \textbf{relation} a subset of the Cartesian product of the domains in the scope
+    \end{itemize}
+\end{itemize}
+
+\subsection{ Terminology}
+An \textbf{assignment} is a pair ($x_i$,a) which means $x_i \in X$ is assigned the value $a \in D_i$. A \textbf{compound assignment} is a set of assignments to distinct variables in X.
+
+The \textbf{relation} of a constraint c =  ($\sigma_c, \rho_c$) specifies all the acceptable assignments to the variables in its scope. If the constraint scope $\sigma_c$ is ${xi_1 , x_i2 , ..., x_ik}$ and ${a_1, a_2, ..., a_k}$ \in $\rho_c$, the compound assignment assigning $a_i$ to $x_{ik}$ , $1 \leq i \leq k$, is an acceptable assignment; we say that the assignment \textbf{satisfies} the constraint c.
+
+We consider a constraint \textbf{satisfiable} if there exists an assignment of values $v_i \in D(X_i)$ for each $X_i$ such that the constraint satisfies; and we consider the constraint \textbf{unsatisfiable} if that assignment does not exist. 
+
+The \textbf{arity} of a constraint is the size of its scope. A unary constraint is defined on a single variable. A binary constraint on two variables. There are no requirements that different constraints have different scopes, so different constraints could have the same scope.
+
+A \textbf{solution} to a constraint network is an assignment of values to each variable in X such that every $c \in C$ is satisfied. 
