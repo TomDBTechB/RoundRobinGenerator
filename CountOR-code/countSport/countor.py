@@ -7,12 +7,14 @@ from countSport import countorUtils as cU
 from countSport import constraintFormulation as cF
 
 
-def learnConstraintsForAll(directory, teamAmt):
+
+def learnConstraintsForAll(directory,sampled_files, teamAmt):
     tag = "Amt_T" + str(teamAmt)
 
     ind = 0
-    for file in glob.glob(os.path.join(directory,"solutions","*.csv")):
-        data = cU.readCSV(file)
+    for file in sampled_files:
+        file2 = (os.path.join(directory,file))
+        data = cU.readCSV(file2)
         dataTensor, variables = cU.cleanData(data)
         lenVar = []
 
@@ -23,6 +25,25 @@ def learnConstraintsForAll(directory, teamAmt):
             saveConstraintsForAll(dataTensor, variables, ind, directory, tag + str(0))
         ind = 1
         saveConstraintsForAll(dataTensor, variables, ind, directory, tag + str(0))
+
+
+
+# def learnConstraintsForAll(directory, teamAmt):
+#     tag = "Amt_T" + str(teamAmt)
+#
+#     ind = 0
+#     for file in glob.glob(os.path.join(directory,"solutions","*.csv")):
+#         data = cU.readCSV(file)
+#         dataTensor, variables = cU.cleanData(data)
+#         lenVar = []
+#
+#         for i in range(len(variables)):
+#             lenVar.append(len(variables[i]))
+#
+#         if ind == 0:
+#             saveConstraintsForAll(dataTensor, variables, ind, directory, tag + str(0))
+#         ind = 1
+#         saveConstraintsForAll(dataTensor, variables, ind, directory, tag + str(0))
 
 
 def saveConstraintsForAll(dataTensor, variables, indicator, directory, tag):
@@ -73,9 +94,3 @@ def saveConstraintsForAll(dataTensor, variables, indicator, directory, tag):
                 row.extend([''])
             csvWriter.writerow(row)
 
-
-def main():
-    learnConstraintsForAll(os.getcwd(), 6)
-
-
-main()

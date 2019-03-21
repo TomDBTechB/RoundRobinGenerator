@@ -2,6 +2,7 @@
 import glob
 import os
 import random
+import shutil
 import sys
 import time
 
@@ -50,7 +51,6 @@ for val in constrList:
     constrMaxval.append(tot)
 print(constrMaxval)
 
-
 # endregion
 
 # region structural methods
@@ -67,14 +67,24 @@ def generateSamples(numTeams, numSam,sampleDir):
     print("Generated ", numSam, " samples in ", time.clock() - start, " secs")
 
 
-def learnConstraints():
+def randomSplit(dir,learnsplit):
+    path, dirs, files = next(os.walk(dir))
+    cU.buildDirectory(os.path.join(dir, "learn"))
+    cU.buildDirectory(os.path.join(dir, "test"))
+    for file in range(0,len(files)):
+        if random.uniform(0,1) < learnsplit:
+            shutil.move(os.path.join(dir,files[file]),os.path.join(dir,"learn",files[file]))
+        else:
+            shutil.move(os.path.join(dir, files[file]), os.path.join(dir, "test", files[file]))
+
+def learnConstraintsFromFiles(learndir, sampled_files):
     for fl in glob.glob(result + "/*.csv"):
         os.remove(fl)
 
     start = time.clock()
-    countor.learnConstraintsForAll(directory, numTeams)
+    countor.learnConstraintsForAll(learndir,sampled_files,numTeams)
     timeTaken = time.clock() - start
-    print("\nLearned bounds for ", numSam, " samples in ", timeTaken, ' secs')
+    print("\nLearned bounds for ", len(sampled_files), " samples in ", timeTaken, ' secs')
     return timeTaken
 
 
@@ -108,16 +118,12 @@ soln, result,csvWriter,detCsvWriter,detcsv,mycsv = buildSolutionAndResultDirs(di
 
 # generate the samples
 generateSamples(numTeams, numSam,soln)
+randomSplit(soln,0.5)
 
 # learn the constraints
-timeTaken = learnConstraints()
+# timeTaken = learnConstraints()
 
-tag = "Amt_T" + str(numTeams)
-file = os.path.join(directory,"results","learnedBounds","_" + tag + "0.csv")
-lbounds = sU.readBounds(file, num_constrType, num_constr)
-bounds_prev = np.zeros([num_constrType, num_constr])
-bounds_prev0 = np.zeros([num_constrType, num_constr])
-bounds_prev1 = np.zeros([num_constrType, num_constr])
+
 prec_prev = 0
 rec_prev = 0
 time_prev = 0
@@ -125,76 +131,95 @@ time_prev = 0
 prevSol = 0
 numSeed = len(solution_seed)
 selectedRows = [[] for _ in range(numSeed)]
+
 for numSol in solution_seed:
-    print("\n############ Number of examples used: ", numSol, " ############")
+    learndir = os.path.join(soln,"learn")
+    path, dirs, files = next(os.walk(learndir))
+    sampled_files = random.sample(files,numSol)
+
+    #learn the combined model from the java schedules
+    timeTaken = learnConstraintsFromFiles(learndir,sampled_files)
+    print("Learned Constraints from " + str(numSol) + " Java schedules in " + str(timeTaken) +"ms")
+    tag = "Amt_T" + str(numTeams)
+    file = os.path.join(directory,"solutions","learn", "results", "learnedBounds", "_" + tag + "0.csv")
+    lbounds = sU.readBounds(file, num_constrType, num_constr)
+    bounds_prev = np.zeros([num_constrType, num_constr])
     tot_rec = np.zeros(numSeed)  # recall
     tot_pre = np.zeros(numSeed)  # precision
-    tot_fn = np.zeros(numSeed)  # false negatives
-    tot_fp = np.zeros(numSeed)  # false positives
-    tot_time = np.zeros(numSeed)  # time to compute
+    tot_time = np.zeros(numSeed)
 
-    for seed in range(numSeed):
-        recall, precision = 0, 0
-        random.seed(seed)
-        if numSol != 1:
-            selRows = selectedRows[seed] + random.sample([x for x in range(0, numSam) if x not in selectedRows[seed]],
-                                                         numSol - prevSol)
-        else:
-            selRows = random.sample(range(0,numSam),numSol)
-        selectedRows[seed] = selRows
-        selbounds = np.array([lbounds[i] for i in selRows])
-        start = time.clock()
-        bounds_learned = sU.aggrBounds(selbounds, num_constrType, num_constr, constrMaxval)
-        tot_time[seed] = ((timeTaken * numSol) / numSam) + (time.clock() - start)
 
-        if (not (np.array_equal(bounds_learned, bounds_prev))):
-            selbounds = np.array([lbounds[i] for i in range(len(lbounds)) if i not in selRows])
-            for i in range(len(selbounds)):
-                accept = sU.moreConstrained(bounds_learned, selbounds[i], num_constrType, num_constr)
-                recall += accept
-            tot_rec[seed] = (recall * 100) / (numSam - numSol)
+    # generate 500 samples based on the learned model
+    cU.removeCSVFiles(soln)
+    sampler.generateSample(num_teams=numTeams,num_matchdays=num_Matchdays,numSam=500, bounds=lbounds,directory=soln)
 
-            tmpDir = os.path.join(directory ,"tmp")
-            cU.buildDirectory(tmpDir)
-            cU.removeCSVFiles(tmpDir)
 
-            soln = os.path.join(tmpDir ,"solutions")
-            cU.buildDirectory(soln)
-            cU.removeCSVFiles(soln)
 
-            result = os.path.join(tmpDir + "results")
-            cU.buildDirectory(result)
-            cU.removeCSVFiles(result)
-
-            print("\nGenerating samples using learned constraints")
-            start = time.clock()
-            sampler.generateSample(numTeams, num_Matchdays, numSam, bounds_learned,soln)
-            print("Generated ", numSam, " samples in ", time.clock() - start, ' secs')
-
-            prefSatisfaction = countor.learnConstraintsForAll(tmpDir, numTeams)
-            tag = "Amt_T" + str(numTeams)
-            file = os.path.join(tmpDir ,"results" ,"learnedBounds", "_" + tag + "0.csv")
-            tmpBounds = sU.readBounds(file, num_constrType, num_constr)
-            for i in range(len(tmpBounds)):
-                accept = 0
-                if mt == 0:
-                    accept = sU.moreConstrained(tbounds, tmpBounds[i], num_constrType, num_constr)
-                precision += accept
-            tot_pre[seed] = (precision * 100) / numSam
-
-            prec_prev = tot_pre[seed]
-            rec_prev = tot_rec[seed]
-            time_prev = tot_time[seed]
-            bounds_prev = bounds_learned
-
-        row =[]
-        row.extend([numTeams])
-        row.extend([numSol])
-        row.extend([seed])
-        row.extend([tot_pre[seed]])
-        row.extend([tot_rec[seed]])
-        print(row)
-        detCsvWriter.writerow(row)
+    #
+    #
+    #
+    # for seed in range(numSeed):
+    #     recall, precision = 0, 0
+    #     random.seed(seed)
+    #     if numSol != 1:
+    #         selRows = selectedRows[seed] + random.sample([x for x in range(0, numSam) if x not in selectedRows[seed]],
+    #                                                          numSol - prevSol)
+    #     else:
+    #         selRows = random.sample(range(0,numSam),numSol)
+    #     selectedRows[seed] = selRows
+    #     selbounds = np.array([lbounds[i] for i in selRows])
+    #     start = time.clock()
+    #     bounds_learned = sU.aggrBounds(selbounds, num_constrType, num_constr, constrMaxval)
+    #     tot_time[seed] = ((timeTaken * numSol) / numSam) + (time.clock() - start)
+    #
+    #     if (not (np.array_equal(bounds_learned, bounds_prev))):
+    #         selbounds = np.array([lbounds[i] for i in range(len(lbounds)) if i not in selRows])
+    #         for i in range(len(selbounds)):
+    #             accept = sU.moreConstrained(bounds_learned, selbounds[i], num_constrType, num_constr)
+    #             recall += accept
+    #         tot_rec[seed] = (recall * 100) / (numSam - numSol)
+    #
+    #         tmpDir = os.path.join(directory ,"tmp")
+    #         cU.buildDirectory(tmpDir)
+    #         cU.removeCSVFiles(tmpDir)
+    #
+    #         soln = os.path.join(tmpDir ,"solutions")
+    #         cU.buildDirectory(soln)
+    #         cU.removeCSVFiles(soln)
+    #
+    #         result = os.path.join(tmpDir + "results")
+    #         cU.buildDirectory(result)
+    #         cU.removeCSVFiles(result)
+    #
+    #         print("\nGenerating samples using learned constraints")
+    #         start = time.clock()
+    #         sampler.generateSample(numTeams, num_Matchdays, numSam, bounds_learned,soln)
+    #         print("Generated ", numSam, " samples in ", time.clock() - start, ' secs')
+    #
+    #         prefSatisfaction = countor.learnConstraintsForAll(tmpDir, numTeams)
+    #         tag = "Amt_T" + str(numTeams)
+    #         file = os.path.join(tmpDir ,"results" ,"learnedBounds", "_" + tag + "0.csv")
+    #         tmpBounds = sU.readBounds(file, num_constrType, num_constr)
+    #         for i in range(len(tmpBounds)):
+    #             accept = 0
+    #             if mt == 0:
+    #                 accept = sU.moreConstrained(tbounds, tmpBounds[i], num_constrType, num_constr)
+    #             precision += accept
+    #         tot_pre[seed] = (precision * 100) / numSam
+    #
+    #         prec_prev = tot_pre[seed]
+    #         rec_prev = tot_rec[seed]
+    #         time_prev = tot_time[seed]
+    #         bounds_prev = bounds_learned
+    #
+    #     row =[]
+    #     row.extend([numTeams])
+    #     row.extend([numSol])
+    #     row.extend([seed])
+    #     row.extend([tot_pre[seed]])
+    #     row.extend([tot_rec[seed]])
+    #     print(row)
+    #     detCsvWriter.writerow(row)
 
     prevSol = numSol
     row = []
@@ -209,6 +234,94 @@ for numSol in solution_seed:
     row.extend([np.std(tot_time) / np.sqrt(numSeed)])
     csvWriter.writerow(row)
     print(row)
+
+detcsv.close()
+mycsv.close()
+
+# for numSol in solution_seed:
+#     print("\n############ Number of examples used: ", numSol, " ############")
+#     tot_rec = np.zeros(numSeed)  # recall
+#     tot_pre = np.zeros(numSeed)  # precision
+#     tot_fn = np.zeros(numSeed)  # false negatives
+#     tot_fp = np.zeros(numSeed)  # false positives
+#     tot_time = np.zeros(numSeed)  # time to compute
+#
+#     for seed in range(numSeed):
+#         recall, precision = 0, 0
+#         random.seed(seed)
+#         if numSol != 1:
+#             selRows = selectedRows[seed] + random.sample([x for x in range(0, numSam) if x not in selectedRows[seed]],
+#                                                          numSol - prevSol)
+#         else:
+#             selRows = random.sample(range(0,numSam),numSol)
+#         selectedRows[seed] = selRows
+#         selbounds = np.array([lbounds[i] for i in selRows])
+#         start = time.clock()
+#         bounds_learned = sU.aggrBounds(selbounds, num_constrType, num_constr, constrMaxval)
+#         tot_time[seed] = ((timeTaken * numSol) / numSam) + (time.clock() - start)
+#
+#         if (not (np.array_equal(bounds_learned, bounds_prev))):
+#             selbounds = np.array([lbounds[i] for i in range(len(lbounds)) if i not in selRows])
+#             for i in range(len(selbounds)):
+#                 accept = sU.moreConstrained(bounds_learned, selbounds[i], num_constrType, num_constr)
+#                 recall += accept
+#             tot_rec[seed] = (recall * 100) / (numSam - numSol)
+#
+#             tmpDir = os.path.join(directory ,"tmp")
+#             cU.buildDirectory(tmpDir)
+#             cU.removeCSVFiles(tmpDir)
+#
+#             soln = os.path.join(tmpDir ,"solutions")
+#             cU.buildDirectory(soln)
+#             cU.removeCSVFiles(soln)
+#
+#             result = os.path.join(tmpDir + "results")
+#             cU.buildDirectory(result)
+#             cU.removeCSVFiles(result)
+#
+#             print("\nGenerating samples using learned constraints")
+#             start = time.clock()
+#             sampler.generateSample(numTeams, num_Matchdays, numSam, bounds_learned,soln)
+#             print("Generated ", numSam, " samples in ", time.clock() - start, ' secs')
+#
+#             prefSatisfaction = countor.learnConstraintsForAll(tmpDir, numTeams)
+#             tag = "Amt_T" + str(numTeams)
+#             file = os.path.join(tmpDir ,"results" ,"learnedBounds", "_" + tag + "0.csv")
+#             tmpBounds = sU.readBounds(file, num_constrType, num_constr)
+#             for i in range(len(tmpBounds)):
+#                 accept = 0
+#                 if mt == 0:
+#                     accept = sU.moreConstrained(tbounds, tmpBounds[i], num_constrType, num_constr)
+#                 precision += accept
+#             tot_pre[seed] = (precision * 100) / numSam
+#
+#             prec_prev = tot_pre[seed]
+#             rec_prev = tot_rec[seed]
+#             time_prev = tot_time[seed]
+#             bounds_prev = bounds_learned
+#
+#         row =[]
+#         row.extend([numTeams])
+#         row.extend([numSol])
+#         row.extend([seed])
+#         row.extend([tot_pre[seed]])
+#         row.extend([tot_rec[seed]])
+#         print(row)
+#         detCsvWriter.writerow(row)
+#
+#     prevSol = numSol
+#     row = []
+#     row.extend([numTeams])
+#     row.extend([numSam])
+#     row.extend([numSol])
+#     row.extend([sum(tot_pre) / numSeed])
+#     row.extend([np.std(tot_pre) / np.sqrt(numSeed)])
+#     row.extend([sum(tot_rec) / numSeed])
+#     row.extend([np.std(tot_rec) / np.sqrt(numSeed)])
+#     row.extend([sum(tot_time) / numSeed])
+#     row.extend([np.std(tot_time) / np.sqrt(numSeed)])
+#     csvWriter.writerow(row)
+#     print(row)
 
 detcsv.close()
 mycsv.close()

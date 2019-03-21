@@ -58,6 +58,8 @@ public class DoubleRoundRobinGenerator {
             CsvWriter.createSample(matchdays,amountOfMatchDays,amountOfTeams,counter,sampleDirectory);
             counter++;
         }
+        model.getSolver().printStatistics();
+
         System.out.println("Amount of valid solutions for " + amountOfTeams + " teams: " + counter);
 
     }
@@ -252,7 +254,7 @@ public class DoubleRoundRobinGenerator {
      * Calculates the amount of games in the round robin tournament
      * @param amountOfTeams
      */
-    private static int calculateMatchDays(int amountOfTeams) {
+    public static int calculateMatchDays(int amountOfTeams) {
         if (amountOfTeams % 2 == 0)
             return (amountOfTeams - 1) * 2;
         else return amountOfTeams * 2;

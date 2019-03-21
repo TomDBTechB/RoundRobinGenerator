@@ -62,3 +62,9 @@ choco/\.idea/
 *.csv
 
 *.sol
+
+SS_Validator/\.idea/
+
+*.iml
+
+SS_Generator/\.idea/
