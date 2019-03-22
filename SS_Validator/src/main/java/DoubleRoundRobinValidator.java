@@ -23,10 +23,11 @@ public class DoubleRoundRobinValidator {
 //        String dir = "C:\\KUL\\Masterproef\\Sport-Scheduling-using-Tensor\\choco\\src\\main\\java\\sol";
         String dir = args[0];
         String precOutputDir = args[1];
+        int modelAmt = Integer.parseInt(args[2]);
         File directory = new File(dir);
         if(directory.isDirectory() && directory.listFiles()!=null){
             int csvs = Objects.requireNonNull(Arrays.stream(Objects.requireNonNull(directory.listFiles())).filter(d->d.getAbsolutePath().contains(".csv")).toArray()).length;
-            String fileName =precOutputDir+System.getProperty("file.separator")+"T_"+csvs +"Prec.csv";
+            String fileName =precOutputDir+System.getProperty("file.separator")+modelAmt+"T_"+csvs +"Prec.csv";
             try(
                     BufferedWriter writer = Files.newBufferedWriter(Paths.get(fileName));
                     CSVPrinter printer = new CSVPrinter(writer, CSVFormat.DEFAULT)
@@ -55,7 +56,7 @@ public class DoubleRoundRobinValidator {
 
 
                 int[] neverplayyourself = validateNeverPlayYS(solution);
-                System.out.println("Never play yourself ==> Amt of const: " + neverplayyourself[0] + " Amt of Violations: " + neverplayyourself[1]);
+//                System.out.println("Never play yourself ==> Amt of const: " + neverplayyourself[0] + " Amt of Violations: " + neverplayyourself[1]);
                 csvFileLine.add(String.valueOf(neverplayyourself[0]));
                 csvFileLine.add(String.valueOf(neverplayyourself[1]));
 

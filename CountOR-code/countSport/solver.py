@@ -16,7 +16,6 @@ from countSport import simple_sampler as sampler
 # region vars
 numSam = 100  # int(sys.argv[1])
 numTeams = 6  # int(sys.argv[2])
-mt = 1  # int(sys.argv[3])
 num_Matchdays = sU.calculateMatchDays(numTeams)
 solution_seed = [1, 10, 25, 50]
 tag = str(numTeams) + "_" + str(numSam)
@@ -41,7 +40,6 @@ tbounds[6, 1] = 16
 tbounds[6, 5] = 8
 tbounds = tbounds.astype(np.int64)
 
-
 constrMaxval = []
 dimSize = [num_Matchdays, numTeams, numTeams]
 for val in constrList:
@@ -51,11 +49,12 @@ for val in constrList:
     constrMaxval.append(tot)
 print(constrMaxval)
 
+
 # endregion
 
 # region structural methods
 
-def generateSamples(numTeams, numSam,sampleDir):
+def generateSamples(numTeams, numSam, sampleDir):
     print("Generating " + str(numSam) + " samples for " + str(numTeams) + " teams from Java api")
     start = time.clock()
     #
@@ -67,22 +66,36 @@ def generateSamples(numTeams, numSam,sampleDir):
     print("Generated ", numSam, " samples in ", time.clock() - start, " secs")
 
 
-def randomSplit(dir,learnsplit):
+def validateSamples(sampleDirectory,resultDirectory,usedSol):
+    print("Validating 500 solutions based of a model from " + str(usedSol) +" solution")
+    start = time.clock()
+
+    cU.buildDirectory(resultDirectory)
+    args = [os.path.join(os.getcwd(), "static", "SportScheduleValidator.jar"),sampleDirectory,resultDirectory,str(usedSol)]
+    print(sU.jarWrapper(*args))
+    print("Validated 500 samples from a model of " + str(numSam) +" schedules in " + str(time.clock() - start))
+
+
+
+
+
+def randomSplit(dir, learnsplit):
     path, dirs, files = next(os.walk(dir))
     cU.buildDirectory(os.path.join(dir, "learn"))
     cU.buildDirectory(os.path.join(dir, "test"))
-    for file in range(0,len(files)):
-        if random.uniform(0,1) < learnsplit:
-            shutil.move(os.path.join(dir,files[file]),os.path.join(dir,"learn",files[file]))
+    for file in range(0, len(files)):
+        if random.uniform(0, 1) < learnsplit:
+            shutil.move(os.path.join(dir, files[file]), os.path.join(dir, "learn", files[file]))
         else:
             shutil.move(os.path.join(dir, files[file]), os.path.join(dir, "test", files[file]))
 
-def learnConstraintsFromFiles(learndir, sampled_files):
-    for fl in glob.glob(result + "/*.csv"):
-        os.remove(fl)
+
+def learnConstraintsFromFiles(learndir, sampled_files, outputdir):
+    # for fl in glob.glob(result + "/*.csv"):
+    #     os.remove(fl)
 
     start = time.clock()
-    countor.learnConstraintsForAll(learndir,sampled_files,numTeams)
+    countor.learnConstraintsForAll(learndir, sampled_files, numTeams, outputdir)
     timeTaken = time.clock() - start
     print("\nLearned bounds for ", len(sampled_files), " samples in ", timeTaken, ' secs')
     return timeTaken
@@ -96,13 +109,17 @@ def buildSolutionAndResultDirs(directory):
 
     soln = os.path.join(directory, "solutions")
     result = os.path.join(directory, "results", "learnedBounds")
+    prec = os.path.join(directory, "results", "validation")
 
     if not os.path.exists(soln):
         os.makedirs(soln)
     if not os.path.exists(result):
         os.makedirs(result)
 
-    return soln, result,csvWriter,detCsvWriter,det_csv,my_csv
+    if not os.path.exists(prec):
+        os.makedirs(prec)
+
+    return soln, result, prec, csvWriter, detCsvWriter, det_csv, my_csv
 
 
 def resampleAndLearn():
@@ -114,11 +131,11 @@ def resampleAndLearn():
 
 # Build directory structure for results and open up the files
 directory = os.path.join(os.getcwd(), "data", tag)
-soln, result,csvWriter,detCsvWriter,detcsv,mycsv = buildSolutionAndResultDirs(directory)
+soln, result, prec, csvWriter, detCsvWriter, detcsv, mycsv = buildSolutionAndResultDirs(directory)
 
 # generate the samples
-generateSamples(numTeams, numSam,soln)
-randomSplit(soln,0.5)
+generateSamples(numTeams, numSam, soln)
+randomSplit(soln, 0.5)
 
 # learn the constraints
 # timeTaken = learnConstraints()
@@ -133,25 +150,28 @@ numSeed = len(solution_seed)
 selectedRows = [[] for _ in range(numSeed)]
 
 for numSol in solution_seed:
-    learndir = os.path.join(soln,"learn")
+    # grab numSol from the learning set of schedules
+    learndir = os.path.join(soln, "learn")
     path, dirs, files = next(os.walk(learndir))
-    sampled_files = random.sample(files,numSol)
+    sampled_files = random.sample(files, numSol)
 
-    #learn the combined model from the java schedules
-    timeTaken = learnConstraintsFromFiles(learndir,sampled_files)
-    print("Learned Constraints from " + str(numSol) + " Java schedules in " + str(timeTaken) +"ms")
-    tag = "Amt_T" + str(numTeams)
-    file = os.path.join(directory,"solutions","learn", "results", "learnedBounds", "_" + tag + "0.csv")
+    # learn the combined model from the java schedules
+    timeTaken = learnConstraintsFromFiles(learndir, sampled_files, result)
+    print("Learned Constraints from " + str(numSol) + " Java schedules in " + str(timeTaken) + "ms")
+    tag = str(numSol) + "Amt_T" + str(numTeams)
+    file = os.path.join(directory, "results", "learnedBounds", "_" + tag + "0.csv")
     lbounds = sU.readBounds(file, num_constrType, num_constr)
     bounds_prev = np.zeros([num_constrType, num_constr])
-    tot_rec = np.zeros(numSeed)  # recall
-    tot_pre = np.zeros(numSeed)  # precision
-    tot_time = np.zeros(numSeed)
 
+    tmpDir = os.path.join(directory,"tmp")
+    cU.buildDirectory(tmpDir)
+    cU.removeCSVFiles(tmpDir)
 
-    # generate 500 samples based on the learned model
-    cU.removeCSVFiles(soln)
-    sampler.generateSample(num_teams=numTeams,num_matchdays=num_Matchdays,numSam=500, bounds=lbounds,directory=soln)
+    sampler.generateSample(num_teams=numTeams, num_matchdays=num_Matchdays, numSam=500, bounds=lbounds[0],
+                           directory=tmpDir)
+
+    validateSamples(tmpDir,prec,numSol)
+
 
 
 
@@ -221,19 +241,19 @@ for numSol in solution_seed:
     #     print(row)
     #     detCsvWriter.writerow(row)
 
-    prevSol = numSol
-    row = []
-    row.extend([numTeams])
-    row.extend([numSam])
-    row.extend([numSol])
-    row.extend([sum(tot_pre) / numSeed])
-    row.extend([np.std(tot_pre) / np.sqrt(numSeed)])
-    row.extend([sum(tot_rec) / numSeed])
-    row.extend([np.std(tot_rec) / np.sqrt(numSeed)])
-    row.extend([sum(tot_time) / numSeed])
-    row.extend([np.std(tot_time) / np.sqrt(numSeed)])
-    csvWriter.writerow(row)
-    print(row)
+    # prevSol = numSol
+    # row = []
+    # row.extend([numTeams])
+    # row.extend([numSam])
+    # row.extend([numSol])
+    # row.extend([sum(tot_pre) / numSeed])
+    # row.extend([np.std(tot_pre) / np.sqrt(numSeed)])
+    # row.extend([sum(tot_rec) / numSeed])
+    # row.extend([np.std(tot_rec) / np.sqrt(numSeed)])
+    # row.extend([sum(tot_time) / numSeed])
+    # row.extend([np.std(tot_time) / np.sqrt(numSeed)])
+    # csvWriter.writerow(row)
+    # print(row)
 
 detcsv.close()
 mycsv.close()
@@ -325,9 +345,3 @@ mycsv.close()
 
 detcsv.close()
 mycsv.close()
-
-
-
-
-
-

@@ -8,8 +8,8 @@ from countSport import constraintFormulation as cF
 
 
 
-def learnConstraintsForAll(directory,sampled_files, teamAmt):
-    tag = "Amt_T" + str(teamAmt)
+def learnConstraintsForAll(directory,sampled_files, teamAmt,output):
+    tag = str(len(sampled_files))+"Amt_T" + str(teamAmt)
 
     ind = 0
     for file in sampled_files:
@@ -22,9 +22,9 @@ def learnConstraintsForAll(directory,sampled_files, teamAmt):
             lenVar.append(len(variables[i]))
 
         if ind == 0:
-            saveConstraintsForAll(dataTensor, variables, ind, directory, tag + str(0))
+            saveConstraintsForAll(dataTensor, variables, ind, output, tag + str(0))
         ind = 1
-        saveConstraintsForAll(dataTensor, variables, ind, directory, tag + str(0))
+        saveConstraintsForAll(dataTensor, variables, ind, output, tag + str(0))
 
 
 
@@ -51,7 +51,7 @@ def saveConstraintsForAll(dataTensor, variables, indicator, directory, tag):
     rep = set([variable for variable in range(len(variables)) if variable not in repeatDim])
     subsets = cF.split(rep, (), repeatDim)
 
-    concatdir = os.path.join(directory, "results", "learnedBounds")
+    concatdir = directory
     if indicator == 0:
         cU.buildDirectory(concatdir)
         cU.removeCSVFiles(concatdir)

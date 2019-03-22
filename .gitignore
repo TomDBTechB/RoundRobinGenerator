@@ -68,3 +68,5 @@ SS_Validator/\.idea/
 *.iml
 
 SS_Generator/\.idea/
+
+SS_Validator/target/*

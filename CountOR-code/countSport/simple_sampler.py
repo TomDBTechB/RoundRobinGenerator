@@ -82,7 +82,7 @@ def generateSample(num_teams, num_matchdays, numSam, bounds, directory):
         m.addConstrs((r[s,d]*o.sum('*',d,s) == o.sum('*',d,s) for d in D for s in S ),"ro")
         
         ########### Hard Constraints #############
-#        print(bounds)
+        # print(bounds)
         for i in range(len(bounds)):
             if bounds[i,0]>0:
 #                print(bounds[i,0])
