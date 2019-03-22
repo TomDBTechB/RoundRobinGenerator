@@ -47,7 +47,7 @@ for val in constrList:
     for i in range(len(val[1])):
         tot *= dimSize[int(val[1][i])]
     constrMaxval.append(tot)
-print(constrMaxval)
+# print(constrMaxval)
 
 
 # endregion
@@ -62,7 +62,7 @@ def generateSamples(numTeams, numSam, sampleDir):
     cU.removeCSVFiles(sampleDir)
     args = [os.path.join(os.getcwd(), "static", "SportScheduleGenerator.jar"), str(numTeams), str(numSam),
             sampleDir]  # Any number of args to be passed to the jar file
-    print(sU.jarWrapper(*args))
+    sU.jarWrapper(*args)
     print("Generated ", numSam, " samples in ", time.clock() - start, " secs")
 
 
