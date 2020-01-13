@@ -3,15 +3,14 @@ import glob
 import os
 import random
 import shutil
-import sys
 import time
 
 import numpy as np
 
-from countSport import solverUtils as sU
-from countSport import countorUtils as cU
 from countSport import countor
+from countSport import countorUtils as cU
 from countSport import simple_sampler as sampler
+from countSport import solverUtils as sU
 
 # region vars
 numSam = 100  # int(sys.argv[1])
@@ -22,23 +21,24 @@ tag = str(numTeams) + "_" + str(numSam)
 num_constrType = 12  # maximum
 num_constr = 6
 # provides list of constraints
+# 0 is rounds, 1 is away, 2 is home
 constrList = [[(0,), (1,)], [(0,), (2,)], [(0,), (1, 2)], [(1,), (0,)], [(1,), (2,)], [(1,), (0, 2)], [(2,), (0,)],
               [(2,), (1,)], [(2,), (0, 1)], [(0, 1), (2,)], [(0, 2), (1,)], [(1, 2), (0,)]]
 
-tbounds = np.zeros([num_constrType, num_constr])
-# defines upper/lower bounds
-tbounds[2, 0] = 4
-tbounds[2, 1] = 6
-tbounds[6, 2] = 1
-tbounds[6, 3] = 7
-tbounds[6, 4] = 2
-tbounds[9, 0] = 1
-tbounds[9, 1] = 2
-tbounds[10, 1] = 1
-tbounds[6, 0] = 9
-tbounds[6, 1] = 16
-tbounds[6, 5] = 8
-tbounds = tbounds.astype(np.int64)
+# tbounds = np.zeros([num_constrType, num_constr])
+# # defines upper/lower bounds
+# tbounds[2, 0] = 4
+# tbounds[2, 1] = 6
+# tbounds[6, 2] = 1
+# tbounds[6, 3] = 7
+# tbounds[6, 4] = 2
+# tbounds[9, 0] = 1
+# tbounds[9, 1] = 2
+# tbounds[10, 1] = 1
+# tbounds[6, 0] = 9
+# tbounds[6, 1] = 16
+# tbounds[6, 5] = 8
+# tbounds = tbounds.astype(np.int64)
 
 constrMaxval = []
 dimSize = [num_Matchdays, numTeams, numTeams]
@@ -54,6 +54,10 @@ for val in constrList:
 
 # region structural methods
 
+
+"""
+Generates a numSam of solutions for the sport scheduling problem with numTeams teams and stores them in sampleDir
+"""
 def generateSamples(numTeams, numSam, sampleDir):
     print("Generating " + str(numSam) + " samples for " + str(numTeams) + " teams from Java api")
     start = time.clock()
@@ -64,43 +68,6 @@ def generateSamples(numTeams, numSam, sampleDir):
             sampleDir]  # Any number of args to be passed to the jar file
     sU.jarWrapper(*args)
     print("Generated ", numSam, " samples in ", time.clock() - start, " secs")
-
-
-def validateSamples(sampleDirectory,resultDirectory,usedSol):
-    print("Validating 500 solutions based of a model from " + str(usedSol) +" solution")
-    start = time.clock()
-
-    cU.buildDirectory(resultDirectory)
-    args = [os.path.join(os.getcwd(), "static", "SportScheduleValidator.jar"),sampleDirectory,resultDirectory,str(usedSol)]
-    print(sU.jarWrapper(*args))
-    print("Validated 500 samples from a model of " + str(numSam) +" schedules in " + str(time.clock() - start))
-
-
-
-
-
-def randomSplit(dir, learnsplit):
-    path, dirs, files = next(os.walk(dir))
-    cU.buildDirectory(os.path.join(dir, "learn"))
-    cU.buildDirectory(os.path.join(dir, "test"))
-    for file in range(0, len(files)):
-        if random.uniform(0, 1) < learnsplit:
-            shutil.move(os.path.join(dir, files[file]), os.path.join(dir, "learn", files[file]))
-        else:
-            shutil.move(os.path.join(dir, files[file]), os.path.join(dir, "test", files[file]))
-
-
-def learnConstraintsFromFiles(learndir, sampled_files, outputdir):
-    # for fl in glob.glob(result + "/*.csv"):
-    #     os.remove(fl)
-
-    start = time.clock()
-    countor.learnConstraintsForAll(learndir, sampled_files, numTeams, outputdir)
-    timeTaken = time.clock() - start
-    print("\nLearned bounds for ", len(sampled_files), " samples in ", timeTaken, ' secs')
-    return timeTaken
-
-
 def buildSolutionAndResultDirs(directory):
     if not os.path.exists(directory):
         os.makedirs(directory)
@@ -122,8 +89,46 @@ def buildSolutionAndResultDirs(directory):
     return soln, result, prec, csvWriter, detCsvWriter, det_csv, my_csv
 
 
+def validateSamples(sampleDirectory,resultDirectory,usedSol):
+    print("Validating 500 solutions based of a model from " + str(usedSol) +" solution")
+    start = time.clock()
+
+    cU.buildDirectory(resultDirectory)
+    args = [os.path.join(os.getcwd(), "static", "SportScheduleValidator.jar"),sampleDirectory,resultDirectory,str(usedSol)]
+    print(sU.jarWrapper(*args))
+    print("Validated 500 samples from a model of " + str(numSam) +" schedules in " + str(time.clock() - start))
+
+def randomSplit(dir, learnsplit):
+    path, dirs, files = next(os.walk(dir))
+    cU.buildDirectory(os.path.join(dir, "learn"))
+    cU.buildDirectory(os.path.join(dir, "test"))
+    for file in range(0, len(files)):
+        if random.uniform(0, 1) < learnsplit:
+            shutil.move(os.path.join(dir, files[file]), os.path.join(dir, "learn", files[file]))
+        else:
+            shutil.move(os.path.join(dir, files[file]), os.path.join(dir, "test", files[file]))
+
+def learnConstraintsFromFiles(learndir, sampled_files, outputdir):
+    for fl in glob.glob(result + "/*.csv"):
+        os.remove(fl)
+
+    start = time.clock()
+    countor.learnConstraintsForAll(learndir, sampled_files, numTeams, outputdir)
+    timeTaken = time.process_time() - start
+    print("\nLearned bounds for ", len(sampled_files), " samples in ", timeTaken, ' secs')
+    return timeTaken
+
+
+
+
 def resampleAndLearn():
     pass
+
+
+def calculatePrecisionFromSampleDir(sampledir):
+    path, dirs, files = next(os.walk(sampledir))
+
+
 
 
 # endregion
@@ -135,19 +140,9 @@ soln, result, prec, csvWriter, detCsvWriter, detcsv, mycsv = buildSolutionAndRes
 
 # generate the samples
 generateSamples(numTeams, numSam, soln)
-randomSplit(soln, 0.5)
+#split into 0.8 learn 0.2 testset
+randomSplit(soln, 0.8)
 
-# learn the constraints
-# timeTaken = learnConstraints()
-
-
-prec_prev = 0
-rec_prev = 0
-time_prev = 0
-
-prevSol = 0
-numSeed = len(solution_seed)
-selectedRows = [[] for _ in range(numSeed)]
 
 for numSol in solution_seed:
     # grab numSol from the learning set of schedules
@@ -155,7 +150,7 @@ for numSol in solution_seed:
     path, dirs, files = next(os.walk(learndir))
     sampled_files = random.sample(files, numSol)
 
-    # learn the combined model from the java schedules
+    # learn the combined model from the java schedules and store it in results/learnedBounds
     timeTaken = learnConstraintsFromFiles(learndir, sampled_files, result)
     print("Learned Constraints from " + str(numSol) + " Java schedules in " + str(timeTaken) + "ms")
     tag = str(numSol) + "Amt_T" + str(numTeams)
@@ -167,10 +162,13 @@ for numSol in solution_seed:
     cU.buildDirectory(tmpDir)
     cU.removeCSVFiles(tmpDir)
 
+    # build numSam samples from the learned constraints
     sampler.generateSample(num_teams=numTeams, num_matchdays=num_Matchdays, numSam=500, bounds=lbounds[0],
                            directory=tmpDir)
 
-    validateSamples(tmpDir,prec,numSol)
+
+    calculatePrecisionFromSampleDir(sampledir=tmpDir)
+    # validateSamples(tmpDir,prec,numSol)
 
 
 

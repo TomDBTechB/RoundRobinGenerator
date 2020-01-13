@@ -5,7 +5,9 @@ import numpy as np
 import csv
 from subprocess import *
 
-
+"""
+Opens csv and returns the writer 
+"""
 def openMainCsv(directory):
     my_csv = open(directory + "/results.csv", "w+",newline='')
     csvWriter = csv.writer(my_csv, delimiter=',')
@@ -14,6 +16,9 @@ def openMainCsv(directory):
     return my_csv, csvWriter
 
 
+"""
+Makes jar callable from the source code 
+"""
 def jarWrapper(*args):
     process = Popen(['java', '-jar'] + list(args), stdout=PIPE, stderr=PIPE)
     while process.poll() is None:
@@ -67,6 +72,7 @@ def readBounds(file, num_constrType, num_constr):
     return bounds_tr.astype(np.int64)
 
 
+"""Aggregates over the selected bounds to recalculate  """
 def aggrBounds(selbounds, num_constrType, num_constr, constrMaxval):
     bounds_learned = np.zeros([num_constrType, num_constr])
     for i in range(num_constrType):
