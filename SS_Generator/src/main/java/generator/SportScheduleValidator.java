@@ -118,7 +118,7 @@ public class SportScheduleValidator {
     }
 
     private static boolean validateAmountOfHomegamesPlayedPerDayPerTeam(int[][][] matchtensor){
-        
+        return false;
     }
 
 
