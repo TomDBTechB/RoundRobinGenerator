@@ -60,6 +60,7 @@ def aggrBounds(selbounds, num_constrType, num_constr, constrMaxval):
 def moreConstrained(bound1, bound2, num_constrType, num_constr):
     output = 1
     for i in range(num_constrType):
+
         for j in range(num_constr):
             if bound1[i, j] == 0:
                 continue

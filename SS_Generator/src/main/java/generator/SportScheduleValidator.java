@@ -1,23 +1,18 @@
 package generator;
 
-import org.apache.commons.csv.CSVFormat;
-import org.apache.commons.csv.CSVParser;
-import org.apache.commons.csv.CSVRecord;
 import org.apache.commons.lang3.ArrayUtils;
+import util.ValidateUtils;
 
-import java.io.FileReader;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import static util.ConstraintUtils.calculateMatchDays;
+import static util.ValidateUtils.readSolution;
 
 public class SportScheduleValidator {
 
@@ -28,16 +23,26 @@ public class SportScheduleValidator {
     private static final int LOWER_BOUND_AWAYGAMES_PER_TEAM = 5;
     private static final int UPPER_BOUND_FIXTURE_HAPPENING = 1;
     private static final int LOWER_BOUND_FIXTURE_HAPPENING = 0;
+    private static final int LOWER_BOUND_HOME_GAME_PER_DAY = 0;
+    private static final int UPPER_BOUND_HOME_GAME_PER_DAY = 1;
+    private static final int LOWER_BOUND_AWAY_GAME_PER_DAY = 0;
+    private static final int UPPER_BOUND_AWAY_GAME_PER_DAY = 1;
+    private static final int LOWER_BOUND_GAMES_PER_DAY = 3;
+    private static final int UPPER_BOUND_GAMES_PER_DAY = 3;
+
 
     public static void main(String[] args) {
-        //String sampleDirectory = args[0];
-        String sampleDirectory = "/home/tom/Documents/Masterproef/Codebase/Sport-Scheduling-using-Tensor/CountOR-code/countSport/data/6_100/tmp";
+        String sampleDirectory = args[0];
+        //String sampleDirectory = "/home/tom/Documents/Masterproef/Codebase/Sport-Scheduling-using-Tensor/CountOR-code/countSport/data/6_100/tmp";
 
 
         try(Stream<Path> walk = Files.walk(Paths.get(sampleDirectory))){
             List<String> filenames= walk.filter(Files::isRegularFile).map(Path::toString).collect(Collectors.toList());
 
             double precisionFolder = validateSamples(filenames);
+            System.out.println(precisionFolder);
+
+
 
 
         } catch (IOException e){
@@ -49,14 +54,29 @@ public class SportScheduleValidator {
     }
 
     private static double validateSamples(List<String> filenames) throws IOException {
+        double validsamples = 0;
         for (String filename : filenames) {
-            int [][][] matchtensor = readSolution(filename);
+            int [][][] matchtensor = ValidateUtils.readSolution(filename);
+
+
+            boolean b = validateAmountAwayGamesPerTeam(matchtensor);
+            boolean b1 = validateAmountHomeGamesPerTeam(matchtensor);
+            boolean b2 = validateAmoutOfFixtureOccurence(matchtensor);
+            boolean b3 = validateAmountOfAwaygamesPlayedPerDayPerTeam(matchtensor);
+            boolean b4 = validateAmountOfHomegamesPlayedPerDayPerTeam(matchtensor);
+            boolean b5 = validateGamesPerDay(matchtensor);
+            if(b && b1
+                    && b2 && b3
+                    && b4 && b5){
+                validsamples++;
+            }
+
 
         }
-
-
-        return 0;
+        return validsamples/(double)filenames.size();
     }
+
+
 
 
     private static boolean validateAmountHomeGamesPerTeam(int[][][] matchtensor){
@@ -69,7 +89,7 @@ public class SportScheduleValidator {
                 matchindices = ArrayUtils.addAll(matchindices, ints[teams]);
             }
             int totalHomeGames = Arrays.stream(matchindices).sum();
-            if(LOWER_BOUND_HOMEGAMES_PER_TEAM <= totalHomeGames && totalHomeGames<=UPPER_BOUND_HOMEGAMES_PER_TEAM){
+            if(!(LOWER_BOUND_HOMEGAMES_PER_TEAM <= totalHomeGames && totalHomeGames<=UPPER_BOUND_HOMEGAMES_PER_TEAM)){
                 return false;
             }
         }
@@ -81,17 +101,16 @@ public class SportScheduleValidator {
         int amtOfDays = matchtensor.length;
         int amtOfTeams = matchtensor[0].length;
 
-        int[] awaygames = new int[0];
 
         for(int teams=0;teams<amtOfTeams;teams++) {
             int[] matchindices = new int[0];
             for (int[][] ints : matchtensor) {
                 for (int col = 0; col < amtOfTeams; col++) {
-                    awaygames = ArrayUtils.add(matchindices, ints[col][teams]);
+                    matchindices = ArrayUtils.add(matchindices, ints[col][teams]);
                 }
             }
-            int totalAwayGames = Arrays.stream(awaygames).sum();
-            if(LOWER_BOUND_AWAYGAMES_PER_TEAM <= totalAwayGames && totalAwayGames<=UPPER_BOUND_AWAYGAMES_PER_TEAM){
+            int totalAwayGames = Arrays.stream(matchindices).sum();
+            if(!(LOWER_BOUND_AWAYGAMES_PER_TEAM <= totalAwayGames && totalAwayGames<=UPPER_BOUND_AWAYGAMES_PER_TEAM)){
                 return false;
             }
 
@@ -109,7 +128,7 @@ public class SportScheduleValidator {
                     fixture = ArrayUtils.add(fixture, ints[col][team]);
                 }
                 int fixtureamt = Arrays.stream(fixture).sum();
-                if( LOWER_BOUND_FIXTURE_HAPPENING<= fixtureamt && fixtureamt<=UPPER_BOUND_FIXTURE_HAPPENING){
+                if(!( LOWER_BOUND_FIXTURE_HAPPENING<= fixtureamt && fixtureamt<=UPPER_BOUND_FIXTURE_HAPPENING)){
                     return false;
                 }
             }
@@ -118,32 +137,60 @@ public class SportScheduleValidator {
     }
 
     private static boolean validateAmountOfHomegamesPlayedPerDayPerTeam(int[][][] matchtensor){
-        return false;
-    }
-
-
-    private static int[][][] readSolution(String filename) throws IOException {
-        //Build reader instance
-        CSVParser reader = new CSVParser(new FileReader(filename), CSVFormat.DEFAULT, '"', 1);
-
-        //Read all rows at once, header gets dropped automatically and drop the teamline
-        List<CSVRecord> allRows = reader.getRecords();
-        allRows.remove(0);
-        allRows.remove(1);
-
-        int amtTeams = allRows.size();
-        int amtMatchDays = calculateMatchDays(amtTeams);
-        int[][][] matchtensor = new int[amtMatchDays][amtTeams][amtTeams];
-
-        for(int d=0;d<amtMatchDays;d++){
-            int [][] matchday= new int[amtTeams][amtTeams];
-            for(int t=0;t<amtTeams;t++){
-                for(int u=0;u<amtTeams;u++){
-                    matchday[t][u] = Integer.parseInt(allRows.get(d).get((d*amtTeams+1)+u));
+        int amtMatchDays = matchtensor.length;
+        int amtTeams = matchtensor[0].length;
+        for(int day=0; day<amtMatchDays;day++){
+            for(int team=0;team<amtTeams;team++){
+                int total= Arrays.stream(matchtensor[day][team]).sum();
+                if(!(LOWER_BOUND_HOME_GAME_PER_DAY <= total && total<=UPPER_BOUND_HOME_GAME_PER_DAY)){
+                    return false;
                 }
             }
-            matchtensor[d] = matchday;
         }
-        return matchtensor;
+        return true;
     }
+
+    private static boolean validateAmountOfAwaygamesPlayedPerDayPerTeam(int[][][] matchtensor){
+        int amtMatchDays = matchtensor.length;
+        int amtTeams = matchtensor[0].length;
+        for (int[][] ints : matchtensor) {
+            for (int team = 0; team < amtTeams; team++) {
+                int[] away = new int[0];
+                for (int col = 0; col < amtTeams; col++) {
+                    away = ArrayUtils.add(away, ints[col][team]);
+                }
+                int total = Arrays.stream(away).sum();
+                if (!(LOWER_BOUND_AWAY_GAME_PER_DAY <= total && total <= UPPER_BOUND_AWAY_GAME_PER_DAY)) {
+                    return false;
+                }
+
+            }
+        }
+        return true;
+    }
+
+    private static boolean validateGamesPerDay(int[][][] matchtensor){
+        int amtMatchdays = matchtensor.length;
+        int amtTeams = matchtensor[0].length;
+
+        for (int[][] ints : matchtensor) {
+            int[] fixturefields = new int[0];
+            for (int team = 0; team < amtTeams; team++) {
+                fixturefields = ArrayUtils.addAll(fixturefields, ints[team]);
+            }
+            int total = Arrays.stream(fixturefields).sum();
+
+            if (!(LOWER_BOUND_GAMES_PER_DAY <= total && total <= UPPER_BOUND_GAMES_PER_DAY)) {
+                return false;
+            }
+
+        }
+
+        return true;
+
+
+
+    }
+
+
 }

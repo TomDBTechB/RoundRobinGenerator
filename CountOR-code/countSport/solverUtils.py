@@ -43,7 +43,7 @@ def jarWrapper(*args):
 def openDetCsv(directory):
     det_csv = open(directory + "/det_results.csv", "w+",newline='')
     detCsvWriter = csv.writer(det_csv, delimiter=',')
-    row = ['Teams', 'Sample', 'Soln', 'Seed', 'Precision', 'Recall', 'Time']
+    row = ['Teams', 'Sample', 'numSol', 'Precision', 'Recall']
     detCsvWriter.writerow(row)
     return det_csv, detCsvWriter
 

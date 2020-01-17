@@ -64,14 +64,9 @@ public class CountOrAsIsConstraints {
         int counter = 0;
         model.getSolver().limitSolution(amountOfSamples);
         while (model.getSolver().solve()&& counter<amountOfSamples) {
-            ConstraintUtils.prettyPrintSolution(matchDays, amountOfMatchDays, amountOfTeams);
             CsvWriter.createSample(matchDays,amountOfMatchDays,amountOfTeams,counter,sampleDirectory);
             counter++;
         }
-        model.getSolver().printStatistics();
-
-
-
     }
 
 
