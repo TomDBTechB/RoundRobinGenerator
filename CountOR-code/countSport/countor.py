@@ -46,7 +46,7 @@ def learnConstraintsForAll(directory,sampled_files, teamAmt,output):
 #         saveConstraintsForAll(dataTensor, variables, ind, directory, tag + str(0))
 
 
-def saveConstraintsForAll(dataTensor, variables, indicator, directory, tag):
+def saveConstraintsForAll(dataTensor, variables, indicator, directory, tag,orderingNotImp=[2,3]):
     repeatDim = ()
     rep = set([variable for variable in range(len(variables)) if variable not in repeatDim])
     subsets = cF.split(rep, (), repeatDim)
@@ -73,24 +73,45 @@ def saveConstraintsForAll(dataTensor, variables, indicator, directory, tag):
                 # this value is used to filter max constraints
                 maxPossible = 1
                 for i in range(len(subset[1])):
-                    maxPossible *= len(variables[subset[1][i]])
+                       maxPossible *= len(variables[subset[1][i]])
                 idTensor = cF.tensorIndicator(dataTensor, newset, variables)
                 sumSet = range(len(subset[0]), len(newset))
 
                 sumTensor_max, sumTensor_min = cF.tensorSum(idTensor, sumSet, np.array(variables)[list(newset)], 0)
-                row.extend([sumTensor_min])
-                row.extend([sumTensor_max])
-
-                if len(set(subset[1])) == 1 and len(set(subset[1])) == 0:
-                    minConsZero, maxConsZero, minConsNonZero, maxConsNonZero = cF.tensorConsZero(idTensor, sumSet,
-                                                                                                 learnConstraintsForAll(
-                                                                                                     os.getcwd(), 6))
-                    row.extend([minConsZero])
-                    row.extend([maxConsZero])
-                    row.extend([minConsNonZero])
-                    row.extend([maxConsNonZero])
+                # filter all the max poss values out (trivial constraints for everything)
+                if sumTensor_min == maxPossible or sumTensor_min == 0:
+                    row.extend([''])
                 else:
+                    row.extend([sumTensor_min])
+                if sumTensor_max == maxPossible or sumTensor_max == 0:
+                    row.extend([''])
+                else:
+                    row.extend([sumTensor_max])
+
+
+                if len(set(subset[1])) == 1 and len(set(orderingNotImp) & set(subset[1])) == 0:
+                    minConsZero, maxConsZero, minConsNonZero, maxConsNonZero = cF.tensorConsZero(idTensor, sumSet,np.array(variables)[list(newset)])
+
+                    if minConsZero == maxPossible or minConsZero == 0:
+                        row.extend([''])
+                    else:
+                        row.extend([minConsZero])
+                    if maxConsZero == maxPossible or maxConsZero == 0:
+                        row.extend([''])
+                    else:
+                        row.extend([maxConsZero])
+                    if minConsNonZero == maxPossible or minConsNonZero == 0:
+                        row.extend([''])
+                    else:
+                        row.extend([minConsNonZero])
+                    if maxConsNonZero == maxPossible or maxConsNonZero == 0:
+                        row.extend([''])
+                    else:
+                        row.extend([maxConsNonZero])
+                else:
+                    # when we dont capture the max cons sequence, we extend the set by four whitespaces
                     row.extend([''] * 4)
+
                 row.extend([''])
             csvWriter.writerow(row)
 

@@ -111,6 +111,6 @@ def moreConstrained(bound1, bound2, num_constrType, num_constr):
 
 def calculateMatchDays(numTeams):
     if numTeams % 2 == 0:
-        return (numTeams - 1) * 2
+        return (numTeams - 1)
     else:
-        return numTeams * 2
+        return numTeams

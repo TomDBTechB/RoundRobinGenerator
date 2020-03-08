@@ -9,16 +9,17 @@ import numpy as np
 
 from countSport import countor
 from countSport import countorUtils as cU
-from countSport import simple_sampler as sampler
+from countSport import multi_dimensional_sampler as sampler
 from countSport import solverUtils as sU
 
 # region vars
 numSam = 100  # int(sys.argv[1])
 numTeams = 6  # int(sys.argv[2])
+numCycle= 2
 num_Matchdays = sU.calculateMatchDays(numTeams)
 solution_seed = [1, 10, 25, 50]
-tag = str(numTeams) + "_" + str(numSam)
-num_constrType = 12  # maximum
+tag = str(numCycle)+"_"+str(numTeams) + "_" + str(numSam)
+num_constrType = 51  # maximum
 num_constr = 6
 # provides list of constraints
 # 0 is rounds, 1 is away, 2 is home
@@ -39,13 +40,13 @@ Generates a numSam of solutions for the sport scheduling problem with numTeams t
 """
 
 
-def generateSamples(numTeams, numSam, sampleDir):
+def generateSamples(numTeams, numSam,numCycles, sampleDir):
     print("Generating " + str(numSam) + " samples for " + str(numTeams) + " teams from Java api")
     start = time.clock()
     #
     cU.buildDirectory(sampleDir)
     cU.removeCSVFiles(sampleDir)
-    args = [os.path.join(os.getcwd(), "static", "SportScheduleGenerator.jar"), str(numTeams), str(numSam),
+    args = [os.path.join(os.getcwd(), "static", "SportScheduleGenerator.jar"), str(numTeams), str(numSam),str(numCycles),
             sampleDir]  # Any number of args to be passed to the jar file
     sU.jarWrapper(*args)
     print("Generated ", numSam, " samples in ", time.clock() - start, " secs")
@@ -145,7 +146,7 @@ directory = os.path.join(os.getcwd(), "data", tag)
 soln, result, prec, csvWriter, detCsvWriter, detcsv, mycsv = buildSolutionAndResultDirs(directory)
 
 # generate the samples
-generateSamples(numTeams, numSam, soln)
+generateSamples(numTeams, numSam,numCycle, soln)
 # split into 0.8 learn 0.2 testset
 randomSplit(soln, 0.8)
 
@@ -161,24 +162,25 @@ for numSol in solution_seed:
     tag = str(numSol) + "Amt_T" + str(numTeams)
     file = os.path.join(directory, "results", "learnedBounds", "_" + tag + "0.csv")
     lbounds = sU.readBounds(file, num_constrType, num_constr)
+    bounds = lbounds[0]
 
     tmpDir = os.path.join(directory, "tmp")
     cU.buildDirectory(tmpDir)
     cU.removeCSVFiles(tmpDir)
 
     # build numSam samples from the learned constraints
-    sampler.generateSample(num_teams=numTeams, num_matchdays=num_Matchdays, numSam=500, bounds=lbounds[0],
+    sampler.generate_multi_dim_sample(num_teams=numTeams, num_md_per_cycle=num_Matchdays, numSam=500,numCycle=numCycle, bounds=lbounds[0],
                            directory=tmpDir)
 
-    calculatePrecisionFromSampleDir(sampledir=tmpDir, numSol=500)
-    recall = calculateRecallFromFile(numSol=numSol, file=file, testsolndir=os.path.join(soln, "test"), tag=tag)
+    # calculatePrecisionFromSampleDir(sampledir=tmpDir, numSol=500)
+    # recall = calculateRecallFromFile(numSol=numSol, file=file, testsolndir=os.path.join(soln, "test"), tag=tag)
 
     row = []
     row.extend([numTeams])
     row.extend([numSam])
     row.extend([numSol])
     row.extend([1.0])
-    row.extend([recall])
+    row.extend([1.0])
 
     detCsvWriter.writerow(row)
 

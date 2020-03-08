@@ -29,7 +29,13 @@ def generateSample(num_teams, num_matchdays, numSam, bounds, directory):
 
     num_constrType = 12
     num_constr = 6
-    constrList = [[(0,), (1,)], [(0,), (2,)], [(0,), (1, 2)], [(1,), (0,)], [(1,), (2,)], [(1,), (0, 2)], [(2,), (0,)],
+    constrList = [[(0,), (1,)],
+                  [(0,), (2,)],
+                  [(0,), (1, 2)],
+                  [(1,), (0,)],
+                  [(1,), (2,)],
+                  [(1,), (0, 2)],
+                  [(2,), (0,)],
                   [(2,), (1,)], [(2,), (0, 1)], [(0, 1), (2,)], [(0, 2), (1,)], [(1, 2), (0,)]]
 
     # Forbidden Shift Successions
@@ -164,6 +170,7 @@ def generateSample(num_teams, num_matchdays, numSam, bounds, directory):
         #                m.addConstr((o[i,nurse_preference[i][0],nurse_preference[i][1]] == 0),"nursePref")
 
         if bounds[6, 5] + bounds[6, 4] > 0:
+            # table for day 0
             m.addConstrs((tw[n, 0, 0] == p[n, 0] for n in N), "MaxConsWork")
             m.addConstrs((tw[n, d1 + 1, 0] <= p[n, d1 + 1]
                           for n in N for d1 in D if d1 < len(D) - 1), "MaxConsWork")
