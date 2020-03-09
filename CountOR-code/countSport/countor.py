@@ -28,29 +28,10 @@ def learnConstraintsForAll(directory,sampled_files, teamAmt,output):
 
 
 
-# def learnConstraintsForAll(directory, teamAmt):
-#     tag = "Amt_T" + str(teamAmt)
-#
-#     ind = 0
-#     for file in glob.glob(os.path.join(directory,"solutions","*.csv")):
-#         data = cU.readCSV(file)
-#         dataTensor, variables = cU.cleanData(data)
-#         lenVar = []
-#
-#         for i in range(len(variables)):
-#             lenVar.append(len(variables[i]))
-#
-#         if ind == 0:
-#             saveConstraintsForAll(dataTensor, variables, ind, directory, tag + str(0))
-#         ind = 1
-#         saveConstraintsForAll(dataTensor, variables, ind, directory, tag + str(0))
-
-
 def saveConstraintsForAll(dataTensor, variables, indicator, directory, tag,orderingNotImp=[2,3]):
     repeatDim = ()
     rep = set([variable for variable in range(len(variables)) if variable not in repeatDim])
     subsets = cF.split(rep, (), repeatDim)
-
     concatdir = directory
     if indicator == 0:
         cU.buildDirectory(concatdir)
@@ -114,4 +95,3 @@ def saveConstraintsForAll(dataTensor, variables, indicator, directory, tag,order
 
                 row.extend([''])
             csvWriter.writerow(row)
-

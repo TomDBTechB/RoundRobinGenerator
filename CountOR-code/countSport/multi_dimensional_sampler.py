@@ -4,16 +4,21 @@ import os
 from gurobipy import GurobiError, Model, GRB
 import numpy as np
 
+
 def generate_multi_dim_sample(bounds, directory, num_teams=6, num_md_per_cycle=5, numSam=100, numCycle=2):
     # the list of sample dimensions, the +1
     cycle = list(range(numCycle))
     day = list(range(num_md_per_cycle))
     home = away = list(range(num_teams))
 
-    constrList = [[(0,), (1,)], [(0,), (2,)], [(0,), (3,)], [(0,), (1, 2)], [(0,), (1, 3)], [(0,), (2, 3)],[(0,), (1, 2, 3)],
-                  [(1,), (0,)], [(1,), (2,)], [(1,), (3,)], [(1,), (0, 2)], [(1,), (0, 3)],[(1,), (2, 3)],[(1,), (0, 2, 3)],
-                  [(2,), (0,)], [(2,), (1,)], [(2,), (3,)], [(2,), (0, 1)],[(2,), (0, 3)], [(2,), (1, 3)], [(2,), (0, 1, 3)],
-                  [(3,), (0,)], [(3,), (1,)], [(3,), (2,)], [(3,), (0, 1)], [(3,), (0, 2)], [(3,), (1, 2)],[(3,), (0, 1, 2)],
+    constrList = [[(0,), (1,)], [(0,), (2,)], [(0,), (3,)], [(0,), (1, 2)], [(0,), (1, 3)], [(0,), (2, 3)],
+                  [(0,), (1, 2, 3)],
+                  [(1,), (0,)], [(1,), (2,)], [(1,), (3,)], [(1,), (0, 2)], [(1,), (0, 3)], [(1,), (2, 3)],
+                  [(1,), (0, 2, 3)],
+                  [(2,), (0,)], [(2,), (1,)], [(2,), (3,)], [(2,), (0, 1)], [(2,), (0, 3)], [(2,), (1, 3)],
+                  [(2,), (0, 1, 3)],
+                  [(3,), (0,)], [(3,), (1,)], [(3,), (2,)], [(3,), (0, 1)], [(3,), (0, 2)], [(3,), (1, 2)],
+                  [(3,), (0, 1, 2)],
                   [(0, 1), (2,)], [(0, 1), (3,)], [(0, 1), (2, 3)],
                   [(0, 2), (1,)], [(0, 2), (3,)], [(0, 2), (1, 3)],
                   [(0, 3), (1,)], [(0, 3), (2,)], [(0, 3), (1, 2)],
@@ -47,235 +52,278 @@ def generate_multi_dim_sample(bounds, directory, num_teams=6, num_md_per_cycle=5
 
         ### Hard constraints from bounds files ###
         for i in range(len(bounds)):
-
+            ### SEED COUNT BOUNDS: bounds[i,0] is the lowerbound, bounds[i,1] is the upperbound
             if bounds[i, 0] > 0:
                 # this part covers count lowerbound
-                print(bounds[i, 0])
                 if constrList[i] == [(0,), (1,)]:
-                    model.addConstrs((r.sum(c, '*') >= bounds[i, 0] for c in cycle), "constr")
+                    model.addConstrs((r.sum(c, '*') >= bounds[i, 0] for c in cycle), "constr-(0,), (1,)")
                 elif constrList[i] == [(0,), (2,)]:
-                    model.addConstrs((t.sum(c, '*') >= bounds[i, 0] for c in cycle), "constr")
+                    model.addConstrs((t.sum(c, '*') >= bounds[i, 0] for c in cycle), "constr-(0,), (2,)")
                 elif constrList[i] == [(0,), (3,)]:
-                    model.addConstrs((s.sum(c, '*') >= bounds[i, 0] for c in cycle), "constr")
+                    model.addConstrs((s.sum(c, '*') >= bounds[i, 0] for c in cycle), "constr-(0,), (3,)")
                 elif constrList[i] == [(0,), (1, 2)]:
-                    model.addConstrs((n.sum(c, '*', '*') >= bounds[i, 0] for c in cycle), "constr")
+                    model.addConstrs((n.sum(c, '*', '*') >= bounds[i, 0] for c in cycle), "constr-(0,), (1,2)")
                 elif constrList[i] == [(0,), (1, 3)]:
-                    model.addConstrs((o.sum(c, '*', '*') >= bounds[i, 0] for c in cycle), "constr")
+                    model.addConstrs((o.sum(c, '*', '*') >= bounds[i, 0] for c in cycle), "constr-(0,), (1,3)")
                 elif constrList[i] == [(0,), (2, 3)]:
-                    model.addConstrs((p.sum(c, '*', '*') >= bounds[i, 0] for c in cycle), "constr")
+                    model.addConstrs((p.sum(c, '*', '*') >= bounds[i, 0] for c in cycle), "constr-(0,), (2,3)")
                 elif constrList[i] == [(0,), (1, 2, 3)]:
-                    model.addConstrs((x.sum(c, '*', '*', '*') >= bounds[i, 0] for c in cycle), "constr")
+                    model.addConstrs((x.sum(c, '*', '*', '*') >= bounds[i, 0] for c in cycle), "constr-(0,), (1,2,3)")
 
                 elif constrList[i] == [(1,), (0,)]:
-                    model.addConstrs((r.sum('*', d) >= bounds[i, 0] for d in day), "constr")
+                    model.addConstrs((r.sum('*', d) >= bounds[i, 0] for d in day), "constr-(1,), (0,)")
                 elif constrList[i] == [(1,), (2,)]:
-                    model.addConstrs((u.sum(d, '*') >= bounds[i, 0] for d in day), "constr")
+                    model.addConstrs((u.sum(d, '*') >= bounds[i, 0] for d in day), "constr-(1,), (2,)")
                 elif constrList[i] == [(1,), (3,)]:
-                    model.addConstrs((v.sum(d, '*') >= bounds[i, 0] for d in day), "constr")
+                    model.addConstrs((v.sum(d, '*') >= bounds[i, 0] for d in day), "constr-(1,), (3,)")
                 elif constrList[i] == [(1,), (0, 2)]:
-                    model.addConstrs((n.sum('*', d, '*') >= bounds[i, 0] for d in day), "constr")
+                    model.addConstrs((n.sum('*', d, '*') >= bounds[i, 0] for d in day), "constr-(1,), (0,2)")
                 elif constrList[i] == [(1,), (0, 3)]:
-                    model.addConstrs((o.sum('*', d, '*') >= bounds[i, 0] for d in day), "constr")
+                    model.addConstrs((o.sum('*', d, '*') >= bounds[i, 0] for d in day), "constr-(1,), (0,3)")
                 elif constrList[i] == [(1,), (2, 3)]:
-                    model.addConstrs((q.sum(d, '*', '*') >= bounds[i, 0] for d in day), "constr")
+                    model.addConstrs((q.sum(d, '*', '*') >= bounds[i, 0] for d in day), "constr-(1,), (2,3)")
                 elif constrList[i] == [(1,), (0, 2, 3)]:
-                    model.addConstrs((x.sum('*', d, '*', '*') >= bounds[i, 0] for d in day), "constr")
+                    model.addConstrs((x.sum('*', d, '*', '*') >= bounds[i, 0] for d in day), "constr-(1,), (0,2,3)")
 
                 elif constrList[i] == [(2,), (0,)]:
-                    model.addConstrs((t.sum('*', h) >= bounds[i, 0] for h in home), "constr")
+                    model.addConstrs((t.sum('*', h) >= bounds[i, 0] for h in home), "constr-(2,), (0,)")
                 elif constrList[i] == [(2,), (1,)]:
-                    model.addConstrs((u.sum('*', h) >= bounds[i, 0] for h in home), "constr")
+                    model.addConstrs((u.sum('*', h) >= bounds[i, 0] for h in home), "constr-(2,), (1,)")
                 elif constrList[i] == [(2,), (3,)]:
-                    model.addConstrs((w.sum(h, '*') >= bounds[i, 0] for h in home), "constr")
+                    model.addConstrs((w.sum(h, '*') >= bounds[i, 0] for h in home), "constr--(2,), (3,)")
                 elif constrList[i] == [(2,), (0, 1)]:
-                    model.addConstrs((n.sum('*', '*', h) >= bounds[i, 0] for h in home), "constr")
+                    model.addConstrs((n.sum('*', '*', h) >= bounds[i, 0] for h in home), "constr--(2,), (0,1)")
                 elif constrList[i] == [(2,), (0, 3)]:
-                    model.addConstrs((p.sum('*', h, '*') >= bounds[i, 0] for h in home), "constr")
+                    model.addConstrs((p.sum('*', h, '*') >= bounds[i, 0] for h in home), "constr--(2,), (0,3)")
                 elif constrList[i] == [(2,), (1, 3)]:
-                    model.addConstrs((q.sum('*', h, '*') >= bounds[i, 0] for h in home), "constr")
+                    model.addConstrs((q.sum('*', h, '*') >= bounds[i, 0] for h in home), "constr-(2,), (1,3)")
                 elif constrList[i] == [(2,), (0, 1, 3)]:
-                    model.addConstrs((x.sum('*', '*', h, '*') >= bounds[i, 0] for h in home), "constr")
+                    model.addConstrs((x.sum('*', '*', h, '*') >= bounds[i, 0] for h in home), "constr-(2,), (0,1,3)")
 
                 elif constrList[i] == [(3,), (0,)]:
-                    model.addConstrs((s.sum('*', a) >= bounds[i, 0] for a in away), "constr")
+                    model.addConstrs((s.sum('*', a) >= bounds[i, 0] for a in away), "constr-(3,), (0,)")
                 elif constrList[i] == [(3,), (1,)]:
-                    model.addConstrs((v.sum('*', a) >= bounds[i, 0] for a in away), "constr")
+                    model.addConstrs((v.sum('*', a) >= bounds[i, 0] for a in away), "constr-(3,), (1,)")
                 elif constrList[i] == [(3,), (2,)]:
-                    model.addConstrs((w.sum('*', a) >= bounds[i, 0] for a in away), "constr")
+                    model.addConstrs((w.sum('*', a) >= bounds[i, 0] for a in away), "constr-(3,), (2,)")
                 elif constrList[i] == [(3,), (0, 1)]:
-                    model.addConstrs((o.sum('*', '*', a) >= bounds[i, 0] for a in away), "constr")
+                    model.addConstrs((o.sum('*', '*', a) >= bounds[i, 0] for a in away), "constr-(3,), (0,1)")
                 elif constrList[i] == [(3,), (0, 2)]:
-                    model.addConstrs((p.sum('*', '*', a) >= bounds[i, 0] for a in away), "constr")
+                    model.addConstrs((p.sum('*', '*', a) >= bounds[i, 0] for a in away), "constr-(3,), (0,2)")
                 elif constrList[i] == [(3,), (1, 2)]:
-                    model.addConstrs((q.sum('*', '*', a) >= bounds[i, 0] for a in away), "constr")
+                    model.addConstrs((q.sum('*', '*', a) >= bounds[i, 0] for a in away), "constr-(3,), (1,2)")
                 elif constrList[i] == [(3,), (0, 1, 2)]:
-                    model.addConstrs((x.sum('*', '*', '*', a) >= bounds[i, 0] for a in away), "constr")
+                    model.addConstrs((x.sum('*', '*', '*', a) >= bounds[i, 0] for a in away), "constr-(3,), (0,1,2)")
 
                 elif constrList[i] == [(0, 1), (2,)]:
-                    model.addConstrs((n.sum(c, d, '*') >= bounds[i, 0] for c in cycle for d in day), "constr")
+                    model.addConstrs((n.sum(c, d, '*') >= bounds[i, 0] for c in cycle for d in day),
+                                     "constr-(0,1), (2,)")
                 elif constrList[i] == [(0, 1), (3,)]:
-                    model.addConstrs((o.sum(c, d, '*') >= bounds[i, 0] for c in cycle for d in day), "constr")
+                    model.addConstrs((o.sum(c, d, '*') >= bounds[i, 0] for c in cycle for d in day),
+                                     "constr-(0,1), (3,)")
                 elif constrList[i] == [(0, 1), (2, 3)]:
-                    model.addConstrs((x.sum(c, d, '*', '*') >= bounds[i, 0] for c in cycle for d in day), "constr")
+                    model.addConstrs((x.sum(c, d, '*', '*') >= bounds[i, 0] for c in cycle for d in day),
+                                     "constr-(0,1), (2,3)")
 
                 elif constrList[i] == [(0, 2), (1,)]:
-                    model.addConstrs((n.sum(c, '*', a) >= bounds[i, 0] for c in cycle for a in away), "constr")
+                    model.addConstrs((n.sum(c, '*', a) >= bounds[i, 0] for c in cycle for a in away),
+                                     "constr-(0,2), (1,)")
                 elif constrList[i] == [(0, 2), (3,)]:
-                    model.addConstrs((o.sum(c, '*', a) >= bounds[i, 0] for c in cycle for a in away), "constr")
+                    model.addConstrs((o.sum(c, '*', a) >= bounds[i, 0] for c in cycle for a in away),
+                                     "constr-(0,2), (3,)")
                 elif constrList[i] == [(0, 2), (1, 3)]:
-                    model.addConstrs((x.sum(c, '*', a) >= bounds[i, 0] for c in cycle for a in away), "constr")
+                    model.addConstrs((x.sum(c, '*', a) >= bounds[i, 0] for c in cycle for a in away),
+                                     "constr-(0,2), (1,3)")
 
                 elif constrList[i] == [(0, 3), (1,)]:
-                    model.addConstrs((n.sum(c, '*', h) >= bounds[i, 0] for c in cycle for h in home), "constr")
+                    model.addConstrs((n.sum(c, '*', h) >= bounds[i, 0] for c in cycle for h in home),
+                                     "constr-(0,3), (1,)")
                 elif constrList[i] == [(0, 3), (2,)]:
-                    model.addConstrs((o.sum(c, '*', h) >= bounds[i, 0] for c in cycle for h in home), "constr")
+                    model.addConstrs((o.sum(c, '*', h) >= bounds[i, 0] for c in cycle for h in home),
+                                     "constr-(0,3), (2,)")
                 elif constrList[i] == [(0, 3), (1, 2)]:
-                    model.addConstrs((x.sum(c, '*', '*', h) >= bounds[i, 0] for c in cycle for h in home), "constr")
+                    model.addConstrs((x.sum(c, '*', '*', h) >= bounds[i, 0] for c in cycle for h in home),
+                                     "constr-(0,3), (1,2)")
 
                 elif constrList[i] == [(1, 2), (0,)]:
-                    model.addConstrs((n.sum('*', d, a) >= bounds[i, 0] for d in day for a in away), "constr")
+                    model.addConstrs((n.sum('*', d, a) >= bounds[i, 0] for d in day for a in away),
+                                     "constr-(1,2), (0,)")
                 elif constrList[i] == [(1, 2), (3,)]:
-                    model.addConstrs((o.sum(d, a, '*') >= bounds[i, 0] for d in day for a in away), "constr")
+                    model.addConstrs((o.sum(d, a, '*') >= bounds[i, 0] for d in day for a in away),
+                                     "constr-(1,2), (3,)")
                 elif constrList[i] == [(1, 2), (0, 3)]:
-                    model.addConstrs((x.sum('*', d, a, '*') >= bounds[i, 0] for d in day for a in away), "constr")
+                    model.addConstrs((x.sum('*', d, a, '*') >= bounds[i, 0] for d in day for a in away),
+                                     "constr-(1,2), (0,3)")
 
                 elif constrList[i] == [(1, 3), (0,)]:
-                    model.addConstrs((n.sum('*', d, h) >= bounds[i, 0] for d in day for h in home), "constr")
+                    model.addConstrs((n.sum('*', d, h) >= bounds[i, 0] for d in day for h in home),
+                                     "constr-(1,3), (0,)")
                 elif constrList[i] == [(1, 3), (2,)]:
-                    model.addConstrs((o.sum(d, '*', h) >= bounds[i, 0] for d in day for h in home), "constr")
+                    model.addConstrs((o.sum(d, '*', h) >= bounds[i, 0] for d in day for h in home),
+                                     "constr-(1,3), (2,)")
                 elif constrList[i] == [(1, 3), (0, 2)]:
-                    model.addConstrs((x.sum('*', d, '*',h) >= bounds[i, 0] for d in day for h in home), "constr")
+                    model.addConstrs((x.sum('*', d, '*', h) >= bounds[i, 0] for d in day for h in home),
+                                     "constr-(1,3), (0,2)")
 
                 elif constrList[i] == [(2, 3), (0,)]:
-                    model.addConstrs((n.sum('*', h, a) >= bounds[i, 0] for h in home for a in away), "constr")
+                    model.addConstrs((n.sum('*', h, a) >= bounds[i, 0] for h in home for a in away),
+                                     "constr-(2,3), (0,)")
                 elif constrList[i] == [(2, 3), (1,)]:
-                    model.addConstrs((o.sum('*', h, a) >= bounds[i, 0] for h in home for a in away), "constr")
+                    model.addConstrs((o.sum('*', h, a) >= bounds[i, 0] for h in home for a in away),
+                                     "constr-(2,3), (1,)")
                 elif constrList[i] == [(2, 3), (0, 1)]:
-                    model.addConstrs((x.sum('*', '*', h, a) >= bounds[i, 0] for h in home for a in away), "constr")
+                    model.addConstrs((x.sum('*', '*', h, a) >= bounds[i, 0] for h in home for a in away),
+                                     "constr-(2,3), (0,1)")
 
                 elif constrList[i] == [(0, 1, 2), (3,)]:
-                    model.addConstrs((x.sum(c, d, a, '*') >= bounds[i, 0] for c in cycle for d in day for a in away))
+                    model.addConstrs((x.sum(c, d, a, '*') >= bounds[i, 0] for c in cycle for d in day for a in away),
+                                     "constr-(0,1,2), (3,)")
                 elif constrList[i] == [(0, 1, 3), (2,)]:
-                    model.addConstrs((x.sum(c, d, '*', h) >= bounds[i, 0] for c in cycle for d in day for h in home))
+                    model.addConstrs((x.sum(c, d, '*', h) >= bounds[i, 0] for c in cycle for d in day for h in home),
+                                     "constr-(0,1,3), (2,)")
                 elif constrList[i] == [(0, 2, 3), (1,)]:
-                    model.addConstrs((x.sum(c, '*', a, h) >= bounds[i, 0] for c in cycle for a in away for h in home))
+                    model.addConstrs((x.sum(c, '*', a, h) >= bounds[i, 0] for c in cycle for a in away for h in home),
+                                     "constr-(0,2,3), (1,)")
                 elif constrList[i] == [(1, 2, 3), (0,)]:
-                    model.addConstrs((x.sum('*', d, a, h) >= bounds[i, 0] for d in day for a in away for h in home))
+                    model.addConstrs((x.sum('*', d, a, h) >= bounds[i, 0] for d in day for a in away for h in home),
+                                     "constr-(1,2,3), (0,)")
             if bounds[i, 1] > 0:
-                print(bounds[i, 1])
                 if constrList[i] == [(0,), (1,)]:
-                    model.addConstrs((r.sum(c, '*') <= bounds[i, 0] for c in cycle), "constr")
+                    model.addConstrs((r.sum(c, '*') <= bounds[i, 0] for c in cycle), "constr-(0,), (1,)")
                 elif constrList[i] == [(0,), (2,)]:
-                    model.addConstrs((t.sum(c, '*') <= bounds[i, 0] for c in cycle), "constr")
+                    model.addConstrs((t.sum(c, '*') <= bounds[i, 0] for c in cycle), "constr-(0,), (2,)")
                 elif constrList[i] == [(0,), (3,)]:
-                    model.addConstrs((s.sum(c, '*') <= bounds[i, 0] for c in cycle), "constr")
+                    model.addConstrs((s.sum(c, '*') <= bounds[i, 0] for c in cycle), "constr-(0,), (3,)")
                 elif constrList[i] == [(0,), (1, 2)]:
-                    model.addConstrs((n.sum(c, '*', '*') <= bounds[i, 0] for c in cycle), "constr")
+                    model.addConstrs((n.sum(c, '*', '*') <= bounds[i, 0] for c in cycle), "constr-(0,), (1,2)")
                 elif constrList[i] == [(0,), (1, 3)]:
-                    model.addConstrs((o.sum(c, '*', '*') <= bounds[i, 0] for c in cycle), "constr")
+                    model.addConstrs((o.sum(c, '*', '*') <= bounds[i, 0] for c in cycle), "constr-(0,), (1,3)")
                 elif constrList[i] == [(0,), (2, 3)]:
-                    model.addConstrs((p.sum(c, '*', '*') <= bounds[i, 0] for c in cycle), "constr")
+                    model.addConstrs((p.sum(c, '*', '*') <= bounds[i, 0] for c in cycle), "constr-(0,), (2,3)")
                 elif constrList[i] == [(0,), (1, 2, 3)]:
-                    model.addConstrs((x.sum(c, '*', '*', '*') <= bounds[i, 0] for c in cycle), "constr")
+                    model.addConstrs((x.sum(c, '*', '*', '*') <= bounds[i, 0] for c in cycle), "constr-(0,), (1,2,3)")
 
                 elif constrList[i] == [(1,), (0,)]:
-                    model.addConstrs((r.sum('*', d) <= bounds[i, 0] for d in day), "constr")
+                    model.addConstrs((r.sum('*', d) <= bounds[i, 0] for d in day), "constr-(1,), (0,)")
                 elif constrList[i] == [(1,), (2,)]:
-                    model.addConstrs((u.sum(d, '*') <= bounds[i, 0] for d in day), "constr")
+                    model.addConstrs((u.sum(d, '*') <= bounds[i, 0] for d in day), "constr-(1,), (2,)")
                 elif constrList[i] == [(1,), (3,)]:
-                    model.addConstrs((v.sum(d, '*') <= bounds[i, 0] for d in day), "constr")
+                    model.addConstrs((v.sum(d, '*') <= bounds[i, 0] for d in day), "constr-(1,), (3,)")
                 elif constrList[i] == [(1,), (0, 2)]:
-                    model.addConstrs((n.sum('*', d, '*') <= bounds[i, 0] for d in day), "constr")
+                    model.addConstrs((n.sum('*', d, '*') <= bounds[i, 0] for d in day), "constr-(1,), (0,2)")
                 elif constrList[i] == [(1,), (0, 3)]:
-                    model.addConstrs((o.sum('*', d, '*') <= bounds[i, 0] for d in day), "constr")
+                    model.addConstrs((o.sum('*', d, '*') <= bounds[i, 0] for d in day), "constr-(1,), (0,3)")
                 elif constrList[i] == [(1,), (2, 3)]:
-                    model.addConstrs((q.sum(d, '*', '*') <= bounds[i, 0] for d in day), "constr")
+                    model.addConstrs((q.sum(d, '*', '*') <= bounds[i, 0] for d in day), "constr-(1,), (2,3)")
                 elif constrList[i] == [(1,), (0, 2, 3)]:
-                    model.addConstrs((x.sum('*', d, '*', '*') <= bounds[i, 0] for d in day), "constr")
+                    model.addConstrs((x.sum('*', d, '*', '*') <= bounds[i, 0] for d in day), "constr-(1,), (0,2,3)")
 
                 elif constrList[i] == [(2,), (0,)]:
-                    model.addConstrs((t.sum('*', h) <= bounds[i, 0] for h in home), "constr")
+                    model.addConstrs((t.sum('*', h) <= bounds[i, 0] for h in home), "constr-(2,), (0,)")
                 elif constrList[i] == [(2,), (1,)]:
-                    model.addConstrs((u.sum('*', h) <= bounds[i, 0] for h in home), "constr")
+                    model.addConstrs((u.sum('*', h) <= bounds[i, 0] for h in home), "constr-(2,), (1,)")
                 elif constrList[i] == [(2,), (3,)]:
-                    model.addConstrs((w.sum(h, '*') <= bounds[i, 0] for h in home), "constr")
+                    model.addConstrs((w.sum(h, '*') <= bounds[i, 0] for h in home), "constr--(2,), (3,)")
                 elif constrList[i] == [(2,), (0, 1)]:
-                    model.addConstrs((n.sum('*', '*', h) <= bounds[i, 0] for h in home), "constr")
+                    model.addConstrs((n.sum('*', '*', h) <= bounds[i, 0] for h in home), "constr--(2,), (0,1)")
                 elif constrList[i] == [(2,), (0, 3)]:
-                    model.addConstrs((p.sum('*', h, '*') <= bounds[i, 0] for h in home), "constr")
+                    model.addConstrs((p.sum('*', h, '*') <= bounds[i, 0] for h in home), "constr--(2,), (0,3)")
                 elif constrList[i] == [(2,), (1, 3)]:
-                    model.addConstrs((q.sum('*', h, '*') <= bounds[i, 0] for h in home), "constr")
+                    model.addConstrs((q.sum('*', h, '*') <= bounds[i, 0] for h in home), "constr-(2,), (1,3)")
                 elif constrList[i] == [(2,), (0, 1, 3)]:
-                    model.addConstrs((x.sum('*', '*', h, '*') <= bounds[i, 0] for h in home), "constr")
+                    model.addConstrs((x.sum('*', '*', h, '*') <= bounds[i, 0] for h in home), "constr-(2,), (0,1,3)")
 
                 elif constrList[i] == [(3,), (0,)]:
-                    model.addConstrs((s.sum('*', a) <= bounds[i, 0] for a in away), "constr")
+                    model.addConstrs((s.sum('*', a) <= bounds[i, 0] for a in away), "constr-(3,), (0,)")
                 elif constrList[i] == [(3,), (1,)]:
-                    model.addConstrs((v.sum('*', a) <= bounds[i, 0] for a in away), "constr")
+                    model.addConstrs((v.sum('*', a) <= bounds[i, 0] for a in away), "constr-(3,), (1,)")
                 elif constrList[i] == [(3,), (2,)]:
-                    model.addConstrs((w.sum('*', a) <= bounds[i, 0] for a in away), "constr")
+                    model.addConstrs((w.sum('*', a) <= bounds[i, 0] for a in away), "constr-(3,), (2,)")
                 elif constrList[i] == [(3,), (0, 1)]:
-                    model.addConstrs((o.sum('*', '*', a) <= bounds[i, 0] for a in away), "constr")
+                    model.addConstrs((o.sum('*', '*', a) <= bounds[i, 0] for a in away), "constr-(3,), (0,1)")
                 elif constrList[i] == [(3,), (0, 2)]:
-                    model.addConstrs((p.sum('*', '*', a) <= bounds[i, 0] for a in away), "constr")
+                    model.addConstrs((p.sum('*', '*', a) <= bounds[i, 0] for a in away), "constr-(3,), (0,2)")
                 elif constrList[i] == [(3,), (1, 2)]:
-                    model.addConstrs((q.sum('*', '*', a) <= bounds[i, 0] for a in away), "constr")
+                    model.addConstrs((q.sum('*', '*', a) <= bounds[i, 0] for a in away), "constr-(3,), (1,2)")
                 elif constrList[i] == [(3,), (0, 1, 2)]:
-                    model.addConstrs((x.sum('*', '*', '*', a) <= bounds[i, 0] for a in away), "constr")
+                    model.addConstrs((x.sum('*', '*', '*', a) <= bounds[i, 0] for a in away), "constr-(3,), (0,1,2)")
 
                 elif constrList[i] == [(0, 1), (2,)]:
-                    model.addConstrs((n.sum(c, d, '*') <= bounds[i, 0] for c in cycle for d in day), "constr")
+                    model.addConstrs((n.sum(c, d, '*') <= bounds[i, 0] for c in cycle for d in day),
+                                     "constr-(0,1), (2,)")
                 elif constrList[i] == [(0, 1), (3,)]:
-                    model.addConstrs((o.sum(c, d, '*') <= bounds[i, 0] for c in cycle for d in day), "constr")
+                    model.addConstrs((o.sum(c, d, '*') <= bounds[i, 0] for c in cycle for d in day),
+                                     "constr-(0,1), (3,)")
                 elif constrList[i] == [(0, 1), (2, 3)]:
-                    model.addConstrs((x.sum(c, d, '*', '*') <= bounds[i, 0] for c in cycle for d in day), "constr")
+                    model.addConstrs((x.sum(c, d, '*', '*') <= bounds[i, 0] for c in cycle for d in day),
+                                     "constr-(0,1), (2,3)")
 
                 elif constrList[i] == [(0, 2), (1,)]:
-                    model.addConstrs((n.sum(c, '*', a) <= bounds[i, 0] for c in cycle for a in away), "constr")
+                    model.addConstrs((n.sum(c, '*', a) <= bounds[i, 0] for c in cycle for a in away),
+                                     "constr-(0,2), (1,)")
                 elif constrList[i] == [(0, 2), (3,)]:
-                    model.addConstrs((o.sum(c, '*', a) <= bounds[i, 0] for c in cycle for a in away), "constr")
+                    model.addConstrs((o.sum(c, '*', a) <= bounds[i, 0] for c in cycle for a in away),
+                                     "constr-(0,2), (3,)")
                 elif constrList[i] == [(0, 2), (1, 3)]:
-                    model.addConstrs((x.sum(c, '*', a) <= bounds[i, 0] for c in cycle for a in away), "constr")
+                    model.addConstrs((x.sum(c, '*', a) <= bounds[i, 0] for c in cycle for a in away),
+                                     "constr-(0,2), (1,3)")
 
                 elif constrList[i] == [(0, 3), (1,)]:
-                    model.addConstrs((n.sum(c, '*', h) <= bounds[i, 0] for c in cycle for h in home), "constr")
+                    model.addConstrs((n.sum(c, '*', h) <= bounds[i, 0] for c in cycle for h in home),
+                                     "constr-(0,3), (1,)")
                 elif constrList[i] == [(0, 3), (2,)]:
-                    model.addConstrs((o.sum(c, '*', h) <= bounds[i, 0] for c in cycle for h in home), "constr")
+                    model.addConstrs((o.sum(c, '*', h) <= bounds[i, 0] for c in cycle for h in home),
+                                     "constr-(0,3), (2,)")
                 elif constrList[i] == [(0, 3), (1, 2)]:
-                    model.addConstrs((x.sum(c, '*', '*', h) <= bounds[i, 0] for c in cycle for h in home), "constr")
+                    model.addConstrs((x.sum(c, '*', '*', h) <= bounds[i, 0] for c in cycle for h in home),
+                                     "constr-(0,3), (1,2)")
 
                 elif constrList[i] == [(1, 2), (0,)]:
-                    model.addConstrs((n.sum('*', d, a) <= bounds[i, 0] for d in day for a in away), "constr")
+                    model.addConstrs((n.sum('*', d, a) <= bounds[i, 0] for d in day for a in away),
+                                     "constr-(1,2), (0,)")
                 elif constrList[i] == [(1, 2), (3,)]:
-                    model.addConstrs((o.sum(d, a, '*') <= bounds[i, 0] for d in day for a in away), "constr")
+                    model.addConstrs((o.sum(d, a, '*') <= bounds[i, 0] for d in day for a in away),
+                                     "constr-(1,2), (3,)")
                 elif constrList[i] == [(1, 2), (0, 3)]:
-                    model.addConstrs((x.sum('*', d, a, '*') <= bounds[i, 0] for d in day for a in away), "constr")
+                    model.addConstrs((x.sum('*', d, a, '*') <= bounds[i, 0] for d in day for a in away),
+                                     "constr-(1,2), (0,3)")
 
                 elif constrList[i] == [(1, 3), (0,)]:
-                    model.addConstrs((n.sum('*', d, h) <= bounds[i, 0] for d in day for h in home), "constr")
+                    model.addConstrs((n.sum('*', d, h) <= bounds[i, 0] for d in day for h in home),
+                                     "constr-(1,3), (0,)")
                 elif constrList[i] == [(1, 3), (2,)]:
-                    model.addConstrs((o.sum(d, '*', h) <= bounds[i, 0] for d in day for h in home), "constr")
+                    model.addConstrs((o.sum(d, '*', h) <= bounds[i, 0] for d in day for h in home),
+                                     "constr-(1,3), (2,)")
                 elif constrList[i] == [(1, 3), (0, 2)]:
-                    model.addConstrs((x.sum('*', d, '*',h) <= bounds[i, 0] for d in day for h in home), "constr")
+                    model.addConstrs((x.sum('*', d, '*', h) <= bounds[i, 0] for d in day for h in home),
+                                     "constr-(1,3), (0,2)")
 
                 elif constrList[i] == [(2, 3), (0,)]:
-                    model.addConstrs((n.sum('*', h, a) <= bounds[i, 0] for h in home for a in away), "constr")
+                    model.addConstrs((n.sum('*', h, a) <= bounds[i, 0] for h in home for a in away),
+                                     "constr-(2,3), (0,)")
                 elif constrList[i] == [(2, 3), (1,)]:
-                    model.addConstrs((o.sum('*', h, a) <= bounds[i, 0] for h in home for a in away), "constr")
+                    model.addConstrs((o.sum('*', h, a) <= bounds[i, 0] for h in home for a in away),
+                                     "constr-(2,3), (1,)")
                 elif constrList[i] == [(2, 3), (0, 1)]:
-                    model.addConstrs((x.sum('*', '*', h, a) <= bounds[i, 0] for h in home for a in away), "constr")
+                    model.addConstrs((x.sum('*', '*', h, a) <= bounds[i, 0] for h in home for a in away),
+                                     "constr-(2,3), (0,1)")
+
                 elif constrList[i] == [(0, 1, 2), (3,)]:
-                    model.addConstrs((x.sum(c, d, a, '*') <= bounds[i, 0] for c in cycle for d in day for a in away))
+                    model.addConstrs((x.sum(c, d, a, '*') <= bounds[i, 0] for c in cycle for d in day for a in away),
+                                     "constr-(0,1,2), (3,)")
                 elif constrList[i] == [(0, 1, 3), (2,)]:
-                    model.addConstrs((x.sum(c, d, '*', h) <= bounds[i, 0] for c in cycle for d in day for h in home))
+                    model.addConstrs((x.sum(c, d, '*', h) <= bounds[i, 0] for c in cycle for d in day for h in home),
+                                     "constr-(0,1,3), (2,)")
                 elif constrList[i] == [(0, 2, 3), (1,)]:
-                    model.addConstrs((x.sum(c, '*', a, h) <= bounds[i, 0] for c in cycle for a in away for h in home))
+                    model.addConstrs((x.sum(c, '*', a, h) <= bounds[i, 0] for c in cycle for a in away for h in home),
+                                     "constr-(0,2,3), (1,)")
                 elif constrList[i] == [(1, 2, 3), (0,)]:
-                    model.addConstrs((x.sum('*', d, a, h) <= bounds[i, 0] for d in day for a in away for h in home))
+                    model.addConstrs((x.sum('*', d, a, h) <= bounds[i, 0] for d in day for a in away for h in home),
+                                     "constr-(1,2,3), (0,)")
         # Sets the number of solutions to be generated
-        model.setParam(GRB.Param.PoolSolutions,numSam)
+        model.setParam(GRB.Param.PoolSolutions, numSam)
         # grab the most optimal solutions
-        model.setParam(GRB.Param.PoolSearchMode,2)
+        model.setParam(GRB.Param.PoolSearchMode, 2)
         model.optimize()
         numSol = model.SolCount
         print("Number of solutions found for the model: " + str(numSol))
@@ -285,47 +333,46 @@ def generate_multi_dim_sample(bounds, directory, num_teams=6, num_md_per_cycle=5
             print("Following constraints are infeasible: ")
             for c in model.getConstrs():
                 if c.IISConstr:
-                    print('%s',c.constrName)
+                    print(c.constrName)
         if model.status == GRB.Status.OPTIMAL:
             model.write('m.sol')
-        model.write('m.sol')
         for i in range(numSol):
-            model.setParam(GRB.Param.SolutionNumber,i)
+            model.setParam(GRB.Param.SolutionNumber, i)
             # get value from subobtimal MIP sol (might change this in X if we dont do soft constraints)
-            solution = model.getAttr('xn')
-            solution = [int(i) for i in solution]
+            solution = model.getAttr('xn',x)
 
-            tmp = np.zeros([numCycle,num_md_per_cycle,num_teams,num_teams])
+            tmp = np.zeros([numCycle, num_md_per_cycle, num_teams, num_teams])
             for key in solution:
                 tmp[key] = round(solution[key])
             tmp_sol = tmp.astype(np.int64)
-            with open(os.path.join(directory,"sol"+str(i)+".csv"),"w+",newline='') as sol_csv:
-                csv_writer = csv.writer(sol_csv,delimiter=',')
+            with open(os.path.join(directory, "sol" + str(i) + ".csv"), "w+", newline='') as sol_csv:
+                csv_writer = csv.writer(sol_csv, delimiter=',')
 
                 # writes cycle row
                 row = ['']
                 for c in range(numCycle):
-                    row.extend(['C'+str(c)]*num_md_per_cycle*num_teams)
+                    row.extend(['C' + str(c)] * num_md_per_cycle * num_teams)
                 csv_writer.writerow(row)
 
                 # writes round row
-                row =['']
+                row = ['']
                 for c in range(numCycle):
                     for d in range(num_md_per_cycle):
-                        row.extend(['R'+str(d)]*num_teams)
+                        row.extend(['R' + str(d)] * num_teams)
                 csv_writer.writerow(row)
 
                 # writes awayteam row
-                row =['']
+                row = ['']
                 for c in range(numCycle):
                     for d in range(num_md_per_cycle):
                         for t in range(num_teams):
-                            row.extend('T'+ str(t))
+                            row.append('T' + str(t))
+                csv_writer.writerow(row)
 
-                #write the actual solution per team
+                # write the actual solution per team
                 tmp_sol.astype(int)
                 for t in range(num_teams):
-                    row=['T'+str(t)]
+                    row = ['T' + str(t)]
                     for c in range(numCycle):
                         for r in range(num_md_per_cycle):
                             for team in range(num_teams):

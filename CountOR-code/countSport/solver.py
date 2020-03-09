@@ -19,17 +19,35 @@ numCycle= 2
 num_Matchdays = sU.calculateMatchDays(numTeams)
 solution_seed = [1, 10, 25, 50]
 tag = str(numCycle)+"_"+str(numTeams) + "_" + str(numSam)
-num_constrType = 51  # maximum
-num_constr = 6
 # provides list of constraints
-# 0 is rounds, 1 is away, 2 is home
-constrList = [[(0,), (1,)], [(0,), (2,)], [(0,), (1, 2)], [(1,), (0,)], [(1,), (2,)], [(1,), (0, 2)], [(2,), (0,)],
-              [(2,), (1,)], [(2,), (0, 1)], [(0, 1), (2,)], [(0, 2), (1,)], [(1, 2), (0,)]]
-constrValues = [[(3, 3)], [(3, 3)], [(3, 3)], [(5, 5)], [(5, 5)], [(5, 5)], [(5, 5)], [(5, 5)], [(5, 5)], [(0, 1)],
-                [(0, 1)], [(0, 1)]]
+# 0 is cycles, 1 is rounds, 2 is away, 3 is home
+constrList = [[(0,), (1,)], [(0,), (2,)], [(0,), (3,)], [(0,), (1, 2)], [(0,), (1, 3)], [(0,), (2, 3)],[(0,), (1, 2, 3)],
+             [(1,), (0,)], [(1,), (2,)], [(1,), (3,)], [(1,), (0, 2)], [(1,), (0, 3)],[(1,), (2, 3)],[(1,), (0, 2, 3)],
+             [(2,), (0,)], [(2,), (1,)], [(2,), (3,)], [(2,), (0, 1)],[(2,), (0, 3)], [(2,), (1, 3)], [(2,), (0, 1, 3)],
+             [(3,), (0,)], [(3,), (1,)], [(3,), (2,)], [(3,), (0, 1)], [(3,), (0, 2)], [(3,), (1, 2)],[(3,), (0, 1, 2)],
+             [(0, 1), (2,)], [(0, 1), (3,)], [(0, 1), (2, 3)],
+             [(0, 2), (1,)], [(0, 2), (3,)], [(0, 2), (1, 3)],
+             [(0, 3), (1,)], [(0, 3), (2,)], [(0, 3), (1, 2)],
+             [(1, 2), (0,)], [(1, 2), (3,)], [(1, 2), (0, 3)],
+             [(1, 3), (0,)], [(1, 3), (2,)], [(1, 3), (0, 2)],
+             [(2, 3), (0,)], [(2, 3), (1,)], [(2, 3), (0, 1)],
+             [(0, 1, 2), (3,)],
+             [(0, 1, 3), (2,)],
+             [(0, 2, 3), (1,)],
+             [(1, 2, 3), (0,)]]
 
+num_constrType = len(constrList)
+# number of constraint values we capture: minCount, maxCount, minConsZero, maxConsZero, minConsOne, maxConsOne
+num_constr = 6
 
-
+constrMaxval = []
+dimSize = [numCycle,num_Matchdays, numTeams, numTeams]
+for val in constrList:
+    tot = 1
+    for i in range(len(val[1])):
+        tot *= dimSize[int(val[1][i])]
+    constrMaxval.append(tot)
+print(constrMaxval)
 # endregion
 
 # region structural methods
@@ -98,7 +116,6 @@ def learnConstraintsFromFiles(learndir, sampled_files, outputdir):
     print("\nLearned bounds for ", len(sampled_files), " samples in ", timeTaken, ' secs')
     return timeTaken
 
-
 def calculatePrecisionFromSampleDir(numSol, sampledir):
     args = [os.path.join(os.getcwd(), "static", "SportSchedulePrecisionCalculator.jar"), sampledir]
     print(sU.jarWrapper(*args))
@@ -162,14 +179,16 @@ for numSol in solution_seed:
     tag = str(numSol) + "Amt_T" + str(numTeams)
     file = os.path.join(directory, "results", "learnedBounds", "_" + tag + "0.csv")
     lbounds = sU.readBounds(file, num_constrType, num_constr)
-    bounds = lbounds[0]
+    aggr_bounds = sU.aggrBounds(lbounds,num_constrType,num_constr,constrMaxval)
+
+    print(aggr_bounds)
 
     tmpDir = os.path.join(directory, "tmp")
     cU.buildDirectory(tmpDir)
     cU.removeCSVFiles(tmpDir)
 
     # build numSam samples from the learned constraints
-    sampler.generate_multi_dim_sample(num_teams=numTeams, num_md_per_cycle=num_Matchdays, numSam=500,numCycle=numCycle, bounds=lbounds[0],
+    sampler.generate_multi_dim_sample(num_teams=numTeams, num_md_per_cycle=num_Matchdays, numSam=500,numCycle=numCycle, bounds=aggr_bounds,
                            directory=tmpDir)
 
     # calculatePrecisionFromSampleDir(sampledir=tmpDir, numSol=500)
