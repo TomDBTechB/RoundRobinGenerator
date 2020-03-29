@@ -16,7 +16,7 @@ from countSport import simple_sampler as sampler
 numSam = 100  # int(sys.argv[1])
 numTeams = 6  # int(sys.argv[2])
 mt = 1  # int(sys.argv[3])
-num_Matchdays = sU.calculateMatchDays(numTeams)
+num_Matchdays = sU.calculateMatchDaysPerCycle(numTeams)
 solution_seed = [1, 10, 25, 50]
 tag = str(numTeams) + "_" + str(numSam)
 num_constrType = 12  # maximum
@@ -52,7 +52,6 @@ print(constrMaxval)
 
 
 # endregion
-
 # region structural methods
 
 def generateSamples(numTeams, numSam,sampleDir):

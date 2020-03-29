@@ -187,11 +187,7 @@ def generateSample(num_teams, num_matchdays, numSam, bounds, directory):
                           for n in N for d1 in D for d2 in D if d1 > 0 if d2 > 0), "MaxConsWork")
             m.addConstrs((tw[n, d1, d2] >= p[n, d1] + tw[n, d1 - 1, d2 - 1] - 1
                           for n in N for d1 in D for d2 in D if d1 > 0 if d2 > 0), "MaxConsWork")
-            if bounds[6, 5] > 0:
-                m.addConstr(
-                    (quicksum(tw[n, d1, d2] for n in N for d1 in D for d2 in range(bounds[6, 5], len(D))) == 0),
-                    "maxconswork"
-                )
+
             if bounds[6, 4] > 0:
                 m.addConstrs((sw[n, 0, d2] == 0
                               for n in N for d2 in D), "MinConsWork")

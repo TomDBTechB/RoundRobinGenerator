@@ -115,6 +115,22 @@ def tensorConsZero(X, dim, var):
     return sz1, sz3, sz2, sz4
 
 
+def count_consecutive_set(X):
+    prev_val = None
+    indices=[]
+    for i in range(len(X)):
+        if i == 0:
+            prev_val= X[i]
+            continue
+        if prev_val != X[i]:
+            indices.append(i)
+            prev_val = X[i]
+            continue
+    splits = np.split(X,indices_or_sections=indices)
+    filtered = list(filter(lambda x: x.size > 1,splits))
+    return len(filtered
+               )
+
 def minConsZero(X):
     #    print(X)
     mn = 1000

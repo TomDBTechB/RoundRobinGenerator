@@ -100,7 +100,7 @@ csvWriter = csv.writer(my_csv, delimiter=',')
 row = ['Nurses', 'Sample', 'Soln', 'Precision', 'Precision_err', 'Recall', 'Recall_err', 'Time', 'Time_err']
 csvWriter.writerow(row)
 
-det_csv = open(directory + "/det_results.csv", "w+")
+det_csv = open(directory + "/det_results without count filter.csv", "w+")
 detCsvWriter = csv.writer(det_csv, delimiter=',')
 row = ['Nurses', 'Sample', 'Soln', 'Seed', 'Precision', 'Recall', 'Time']
 detCsvWriter.writerow(row)
