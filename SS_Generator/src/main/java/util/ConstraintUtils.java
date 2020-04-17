@@ -19,6 +19,7 @@ public class ConstraintUtils {
      */
     public static IntVar[][][] seedRobinTensor(int amountOfMatchDays, Model model, int amountOfTeams) {
         IntVar[][][] matchdays = new IntVar[amountOfMatchDays][amountOfTeams][amountOfTeams];
+
         for (int h = 0; h < amountOfMatchDays; h++) {
             for (int i = 0; i < amountOfTeams; i++) {
                 for (int j = 0; j < amountOfTeams; j++) {
@@ -32,7 +33,6 @@ public class ConstraintUtils {
 
     public static void prettyPrintSolution(IntVar[][][] matchdays, int amountOfMatchDays, int amountOfTeams) {
         for (int h = 0; h < amountOfMatchDays; h++) {
-            System.out.println("matchday " + h);
             IntVar[][] matchday = matchdays[h];
             for (int i = 0; i < amountOfTeams; i++) {
                 for (int j = 0; j < amountOfTeams; j++) {
@@ -41,9 +41,9 @@ public class ConstraintUtils {
                 System.out.println();
 
             }
-
         }
-    }
+        }
+
 
     /**
      * Calculates the amount of games in the round robin tournament
@@ -51,8 +51,8 @@ public class ConstraintUtils {
      */
     public static int calculateMatchDays(int amountOfTeams) {
         if (amountOfTeams % 2 == 0)
-            return (amountOfTeams - 1) * 2;
-        else return amountOfTeams * 2;
+            return (amountOfTeams - 1) *2;
+        else return amountOfTeams*2;
     }
 
     /**

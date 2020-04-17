@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+
 public class CountOrAsIsConstraints {
 
     //Constraint 1 + 2
@@ -39,11 +40,20 @@ public class CountOrAsIsConstraints {
 
 
     public static void main(String[] args) {
+
         int amountOfTeams = Integer.parseInt(args[0]);
         int amountOfSamples = Integer.parseInt(args[1]);
         String sampleDirectory = args[2];
 
 
+
+        //int amountOfTeams = 6;
+        //int amountOfSamples = 100;
+        //int amountOfCycles = 3;
+        //String sampleDirectory = "/home/tom/Documents/Masterproef/Codebase/Sport-Scheduling-using-Tensor/SS_Generator";
+
+
+        //seedparams(amountOfTeams);
         int amountOfMatchDays = ConstraintUtils.calculateMatchDays(amountOfTeams);
         Model model = new Model("RoundRobinGen");
 
@@ -59,18 +69,19 @@ public class CountOrAsIsConstraints {
         seedAmountOfHomeGamesPlayedPerDayPerTeam(model,matchDays,amountOfMatchDays,amountOfTeams);
 
         seedAmountOfFixturesOccurence(model,matchDays,amountOfMatchDays,amountOfTeams);
+        seedNeverPlayYS(model,matchDays,amountOfMatchDays,amountOfTeams);
 
 
         int counter = 0;
-        model.getSolver().limitSolution(amountOfSamples);
-        while (model.getSolver().solve()&& counter<amountOfSamples) {
+        model.getSolver().limitSolution(1000);
+        while (model.getSolver().solve() && counter < amountOfSamples) {
+            //ConstraintUtils.prettyPrintSolution(matchDays, amountOfMatchDays, amountOfTeams);
             CsvWriter.createSample(matchDays,amountOfMatchDays,amountOfTeams,counter,sampleDirectory);
             counter++;
         }
+        model.getSolver().printStatistics();
+        model.getSolver().printFeatures();
     }
-
-
-
     //constraint 1
     private static void seedTotalAmountOfHomeGamesPerTeam(Model m, IntVar[][][] matchDays, int amountOfMatchDays, int amountOfTeams) {
         for (int team = 0; team < amountOfTeams; team++){
@@ -167,14 +178,14 @@ public class CountOrAsIsConstraints {
         }
     }
 
-
-
-
-
-
-
-
-
+    private static void seedNeverPlayYS(Model m, IntVar[][][] matchdays,
+                                        int amountOfMatchdays, int amountOFTeams) {
+            for (int day = 0; day < amountOfMatchdays; day++) {
+                for (int teams = 0; teams < amountOFTeams; teams++) {
+                    m.arithm(matchdays[day][teams][teams], "=", 0).post();
+            }
+        }
+    }
 
 
 }

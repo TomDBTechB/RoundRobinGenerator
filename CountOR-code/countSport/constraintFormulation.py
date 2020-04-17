@@ -127,7 +127,7 @@ def count_consecutive_set(X):
             prev_val = X[i]
             continue
     splits = np.split(X,indices_or_sections=indices)
-    filtered = list(filter(lambda x: x.size > 1,splits))
+    filtered = list(filter(lambda x: x.size >= 2,splits))
     return len(filtered
                )
 

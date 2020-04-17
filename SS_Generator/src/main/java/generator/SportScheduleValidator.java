@@ -40,6 +40,7 @@ public class SportScheduleValidator {
             List<String> filenames= walk.filter(Files::isRegularFile).map(Path::toString).collect(Collectors.toList());
 
             double precisionFolder = validateSamples(filenames);
+            System.out.println("precision for "+ filenames.size()+" samples");
             System.out.println(precisionFolder);
 
 
@@ -56,7 +57,7 @@ public class SportScheduleValidator {
     private static double validateSamples(List<String> filenames) throws IOException {
         double validsamples = 0;
         for (String filename : filenames) {
-            int [][][] matchtensor = ValidateUtils.readSolution(filename);
+            int [][][] matchtensor = readSolution(filename);
 
 
             boolean b = validateAmountAwayGamesPerTeam(matchtensor);
@@ -65,6 +66,8 @@ public class SportScheduleValidator {
             boolean b3 = validateAmountOfAwaygamesPlayedPerDayPerTeam(matchtensor);
             boolean b4 = validateAmountOfHomegamesPlayedPerDayPerTeam(matchtensor);
             boolean b5 = validateGamesPerDay(matchtensor);
+            boolean U02 = validateNeverPlayYs(matchtensor);
+            //boolean P04 = validateDontPlayHomeInRound(matchtensor,int team, int round);
             if(b && b1
                     && b2 && b3
                     && b4 && b5){
@@ -192,5 +195,19 @@ public class SportScheduleValidator {
 
     }
 
+    //validate U02
+    private static boolean validateNeverPlayYs(int [][][] matchtensor){
+        int amtMatchdays = matchtensor.length;
+        int amtTeams = matchtensor[0].length;
+
+        for (int[][] ints : matchtensor) {
+            for(int i = 0; i<amtTeams;i++){
+                if(ints[i][i]!=0){
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
 
 }
