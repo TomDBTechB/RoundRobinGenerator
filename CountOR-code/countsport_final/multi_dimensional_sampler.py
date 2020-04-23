@@ -8,11 +8,12 @@ import numpy as np
 # run everything to 4d cycle
 # learn the model
 
-def generate_multi_dim_sample(bounds, directory, num_teams, num_md_per_cycle, numSam, numCycle, theoretical=False):
+def generate_multi_dim_sample(bounds, directory, num_teams, num_md_per_cycle, numSam, numCycle):
+
     # the list of sample dimensions, the +1
     cycle = list(range(numCycle))
     day = list(range(num_md_per_cycle))
-    days = list(range(num_md_per_cycle+1))
+    days = list(range(num_md_per_cycle + 1))
     home = away = list(range(num_teams))
 
     constrList = [[(0,), (1,)], [(0,), (2,)], [(0,), (3,)], [(0,), (1, 2)], [(0,), (1, 3)], [(0,), (2, 3)],
@@ -35,7 +36,6 @@ def generate_multi_dim_sample(bounds, directory, num_teams, num_md_per_cycle, nu
                   [(0, 1, 3), (2,)],
                   [(0, 2, 3), (1,)],
                   [(1, 2, 3), (0,)]]
-
     try:
         model = Model("sspSolver")
         # give verbose logging when 1, otherwise 0
@@ -56,11 +56,21 @@ def generate_multi_dim_sample(bounds, directory, num_teams, num_md_per_cycle, nu
         v = model.addVars(day, away, vtype=GRB.BINARY, name="v")
         w = model.addVars(home, away, vtype=GRB.BINARY, name="w")
 
+        y = model.addVars(cycle, day, home, away, vtype=GRB.BINARY, name="basetrans")
+        yn = model.addVars(cycle, day, home, vtype=GRB.BINARY, name="trans_n")
 
         cNA = model.addVars(cycle, day, day, away, vtype=GRB.BINARY, name="cons")
-        cNAs = model.addVars(cycle,days,day, away, vtype = GRB.BINARY, name="cons_min" )
-        cNH = model.addVars(cycle,day, day,home, vtype=GRB.BINARY, name="consHome")
-        cNHs = model.addVars(cycle,days,day,home, vtype=GRB.BINARY, name="consHomes")
+        cNAs = model.addVars(cycle, days, day, away, vtype=GRB.BINARY, name="cons_min")
+        cNH = model.addVars(cycle, day, day, home, vtype=GRB.BINARY, name="consHome")
+        cNHs = model.addVars(cycle, days, day, home, vtype=GRB.BINARY, name="consHomes")
+
+        cZy = model.addVars(cycle, day, day, home, vtype=GRB.BINARY, name="days_betw_games")
+        cZys = model.addVars(cycle, days, day, home, vtype=GRB.BINARY, name="days_btw_gamess")
+
+        # transpose function
+        model.addConstrs(
+            y[c, d, h, a] == x[c, d, h, a] + x[c, d, a, h] for c in cycle for d in day for a in away for h in home)
+        model.addConstrs((y.sum(c, d, h, '*') == yn[c, d, h] for c in cycle for d in day for h in home), "yn_y")
 
         model.addConstrs((x.sum(c, d, '*', a) == o[c, d, a] for c in cycle for d in day for a in away), "xo")
         model.addConstrs((x.sum(c, d, h, '*') == n[c, d, h] for c in cycle for d in day for h in home), "xn")
@@ -83,15 +93,13 @@ def generate_multi_dim_sample(bounds, directory, num_teams, num_md_per_cycle, nu
         model.addConstrs((v[d, a] <= q.sum(d, '*', a) for d in day for a in away), "vq")
         model.addConstrs((w[h, a] <= q.sum('*', h, a) for h in home for a in away), "wq")
 
-
-
-        if theoretical:
-            ### Hard constraints -- not yet in bounds ###
-            # never play yourself
-            model.addConstrs(x[c, d, i, i] == 0 for c in cycle for d in day for i in home)
-            # only play one game per day
-            model.addConstrs((x.sum(c, d, i, '*') + x.sum(c, d, '*', i) <= 1 for c in cycle for d in day for i in home),
-                             "1gamePerDay")
+        # if theoretical:
+        #     ### Hard constraints -- not yet in bounds ###
+        #     # never play yourself
+        #     model.addConstrs(x[c, d, i, i] == 0 for c in cycle for d in day for i in home)
+        #     # only play one game per day
+        #     model.addConstrs((x.sum(c, d, i, '*') + x.sum(c, d, '*', i) <= 1 for c in cycle for d in day for i in home),
+        #                      "1gamePerDay")
 
         ### Hard constraints from bounds files ###
         # bounds 0 = countLowerbound
@@ -100,6 +108,12 @@ def generate_multi_dim_sample(bounds, directory, num_teams, num_md_per_cycle, nu
         # bounds 3 = maxConsZero
         # bounds 4 = minConsNonZero
         # bounds 5 = maxConsNonZero
+        # bounds 6 = tracemin
+        # bounds 7 = tracemax
+        # bounds 8 = countplus_min
+        # bounds 9 = countplus_max
+        # bounds 10 = conszero_plus_min
+        # bounds 11 = conszero_plus_max
         for i in range(len(bounds)):
             ### SEED COUNT BOUNDS: bounds[i,0] is the lowerbound, bounds[i,1] is the upperbound
             if bounds[i, 0] > 0:
@@ -189,7 +203,6 @@ def generate_multi_dim_sample(bounds, directory, num_teams, num_md_per_cycle, nu
                                      "LWR_constr-(0,2), (1,3)")
 
                 elif constrList[i] == [(0, 3), (1,)]:
-                    bound = bounds[i, 0]
                     model.addConstrs((n.sum(c, '*', h) >= bounds[i, 0] for c in cycle for h in home),
                                      "LWR_constr-(0,3), (1,)")
                 elif constrList[i] == [(0, 3), (2,)]:
@@ -378,41 +391,96 @@ def generate_multi_dim_sample(bounds, directory, num_teams, num_md_per_cycle, nu
                 elif constrList[i] == [(1, 2, 3), (0,)]:
                     model.addConstrs((x.sum('*', d, a, h) <= bounds[i, 1] for d in day for a in away for h in home),
                                      "constr-(1,2,3), (0,)")
+            if bounds[i, 6] >= 0:
+                if constrList[i] == [(0,), (1, 2, 3)]:
+                    model.addConstrs((x.sum(c, '*', t, t) >= bounds[i, 6] for c in cycle for t in home),
+                                     "tracing-(0,), (1,2,3)")
+                elif constrList[i] == [(1,), (0, 2, 3)]:
+                    model.addConstrs((x.sum('*', d, t, t) >= bounds[i, 6] for d in day for t in home), "tracing (1,), (0,2,3)")
+                elif constrList[i] == [(3,), (0, 1, 2)]:
+                    model.addConstrs((x.sum('*', '*', a, a) >= bounds[i, 6] for a in away),
+                                     "tracing-(3,), (0,1,2)")
+                elif constrList[i] == [(0, 1, 2), (3,)]:
+                    model.addConstrs((x.sum(c, d, a, a) >= bounds[i, 6] for c in cycle for d in day for a in away),
+                                     "tracing-(0,1,2), (3,)")
+                elif constrList[i] == [(0, 1, 3), (2,)]:
+                    model.addConstrs((x.sum(c, d, h, h) >= bounds[i, 6] for c in cycle for d in day for h in home),
+                                     "tracing-(0,1,3), (2,)")
+            if bounds[i, 7] >= 0:
+                if constrList[i] == [(0,), (1, 2, 3)]:
+                    model.addConstrs((x.sum(c, '*', t, t) <= bounds[i, 7] for c in cycle for t in home),
+                                     "tracing-(0,), (1,2,3)")
+                elif constrList[i] == [(1,), (0, 2, 3)]:
+                    model.addConstrs((x.sum('*', d, t, t) >= bounds[i, 7] for d in day for t in home), "tracing (1,), (0,2,3)")
+                elif constrList[i] == [(3,), (0, 1, 2)]:
+                    model.addConstrs((x.sum('*', '*', a, a) >= bounds[i, 7] for a in away),
+                                     "tracing-(3,), (0,1,2)")
+                elif constrList[i] == [(0, 1, 2), (3,)]:
+                    model.addConstrs((x.sum(c, d, a, a) >= bounds[i, 7] for c in cycle for d in day for a in away),
+                                     "tracing-(0,1,2), (3,)")
+                elif constrList[i] == [(0, 1, 3), (2,)]:
+                    model.addConstrs((x.sum(c, d, h, h) >= bounds[i, 7] for c in cycle for d in day for h in home),
+                                     "tracing-(0,1,3), (2,)")
+            if bounds[i, 8] > 0:
+                if constrList[i] == [(0, 1, 2), (3,)]:
+                    model.addConstrs((x.sum(c, d, a, '*') + x.sum(c,d,'*',a) >= bounds[i, 8] for c in cycle for d in day for a in away),
+                                     "LWR_constr-(0,1,2), (3,)")
+                elif constrList[i] == [(0, 1, 3), (2,)]:
+                    model.addConstrs((x.sum(c, d, '*', h) + x.sum(c,d,h,'*') >= bounds[i, 8] for c in cycle for d in day for h in home),
+                                     "LWR_constr-(0,1,3), (2,)")
+            if bounds[i, 9] > 0:
+                if constrList[i] == [(0, 1, 2), (3,)]:
+                    model.addConstrs((x.sum(c, d, a, '*') + x.sum(c,d,'*',a) <= bounds[i, 9] for c in cycle for d in day for a in away),
+                                     "LWR_constr-(0,1,2), (3,)")
+                elif constrList[i] == [(0, 1, 3), (2,)]:
+                    model.addConstrs((x.sum(c, d, '*', h) + x.sum(c,d,h,'*') <= bounds[i, 9] for c in cycle for d in day for h in home),
+                                     "LWR_constr-(0,1,3), (2,)")
 
-        if bounds[20, 5] + bounds[20, 4] > 0:
+
+        if bounds[34, 5] + bounds[34, 4] > 0:
             # definition for the first day
-             model.addConstrs((cNH[c, 0, 0, h] == n[c, 0, h] for c in cycle for h in home), "cNH1")
-             model.addConstrs((cNH[c, d1 + 1, 0,h] <= n[c, d1 + 1, h]
-                               for c in cycle for h in home for d1 in day
-                               if d1 < len(day) - 1), "cNA2")
-             model.addConstrs((cNH[c, d1 + 1, 0,h] <= 1 - n[c, d1, h]
-                               for c in cycle for h in home for d1 in day
-                               if d1 < len(day) - 1), "cNA3")
-             model.addConstrs((cNH[c, d1 + 1, 0,h] >= n[c, d1 + 1, h] - n[c, d1, h]
-                               for c in cycle for d1 in day for h in home
-                               if d1 < len(day) - 1), "cNA4")
+            model.addConstrs((cNH[c, 0, 0, h] == n[c, 0, h] for c in cycle for h in home), "cNH1")
+            model.addConstrs((cNH[c, d1 + 1, 0, h] <= n[c, d1 + 1, h]
+                              for c in cycle for h in home for d1 in day
+                              if d1 < len(day) - 1), "cNA2")
+            model.addConstrs((cNH[c, d1 + 1, 0, h] <= 1 - n[c, d1, h]
+                              for c in cycle for h in home for d1 in day
+                              if d1 < len(day) - 1), "cNA3")
+            model.addConstrs((cNH[c, d1 + 1, 0, h] >= n[c, d1 + 1, h] - n[c, d1, h]
+                              for c in cycle for d1 in day for h in home
+                              if d1 < len(day) - 1), "cNA4")
 
             # # definition for the second day and the third, fourth, etc...
-             model.addConstrs((cNH[c, 0, d2, h] == 0 for c in cycle for d2 in day for h in home if d2>0), "2cNA1")
-             model.addConstrs(
-                 (cNH[c, d1, d2, h] <= cNH[c, d1 - 1, d2 - 1, h] for c in cycle for h in home for d1 in day for d2 in day
-                  if d1 > 0 if d2 > 0))
-             model.addConstrs(
-                 (cNH[c, d1, d2, h] <= n[c, d1, h] for c in cycle for d1 in day for d2 in day for h in home if d1 > 0 if
-                  d2 > 0))
-             model.addConstrs(
-                 (cNH[c, d1, d2, h] >= n[c, d1, h] + cNH[c, d1 - 1, d2 - 1, h] - 1 for c in cycle for d1 in day for d2 in
+            model.addConstrs((cNH[c, 0, d2, h] == 0 for c in cycle for d2 in day for h in home if d2 > 0), "2cNA1")
+            model.addConstrs(
+                (cNH[c, d1, d2, h] <= cNH[c, d1 - 1, d2 - 1, h] for c in cycle for h in home for d1 in day for d2 in day
+                 if d1 > 0 if d2 > 0))
+            model.addConstrs(
+                (cNH[c, d1, d2, h] <= n[c, d1, h] for c in cycle for d1 in day for d2 in day for h in home if d1 > 0 if
+                 d2 > 0))
+            model.addConstrs(
+                (cNH[c, d1, d2, h] >= n[c, d1, h] + cNH[c, d1 - 1, d2 - 1, h] - 1 for c in cycle for d1 in day for d2 in
                  day for h in home if d1 > 0 if d2 > 0))
-             if bounds[20, 5] > 0:
-                 model.addConstr((quicksum(cNH[c, d1, d2, a] for c in cycle for d1 in day for a in away for d2 in
-                                           range(bounds[31, 5].astype(int), len(day))) == 0), "cnASum")
-             if bounds[20,4] > 0:
-                 model.addConstrs((cNHs[c,0,d2,h] == 0 for c in cycle for d2 in day for h in home),"minConsPlay")
-                 model.addConstrs((cNHs[c,d1,d2,h] <= cNH[c,d1-1,d2,h] for c in cycle for h in home for d1 in day for d2 in day if d1>0))
-                 model.addConstrs((cNHs[c,d1,d2,h] <= 1-n[c,d1,h] for c in cycle for h in home for d1 in day for d2 in day for h in home if d1>0))
-                 model.addConstrs((cNHs[c,d1,d2,h] >= cNH[c,d1-1,d2,h]-n[c,d1,h] for c in cycle for d1 in day for d2 in day for h in home if d1>0))
-                 model.addConstrs((cNHs[c,num_md_per_cycle,d2,h] >= cNH[c,num_md_per_cycle-1,d2,h] for c in cycle for d2 in day for h in home))
-                 model.addConstr((quicksum(cNHs[c,d1,d2,a]*(bounds[20,4]-1-d2) for c in cycle for a in away for d1 in days for d2 in range(bounds[20,4].astype(int)-1))==0))
+            if bounds[34, 5] > 0:
+                model.addConstr((quicksum(cNH[c, d1, d2, a] for c in cycle for d1 in day for a in away for d2 in
+                                          range(bounds[34, 5].astype(int), len(day))) == 0), "cnASum")
+            if bounds[34, 4] > 0:
+                model.addConstrs((cNHs[c, 0, d2, h] == 0 for c in cycle for d2 in day for h in home), "minConsPlay")
+                model.addConstrs(
+                    (cNHs[c, d1, d2, h] <= cNH[c, d1 - 1, d2, h] for c in cycle for h in home for d1 in day for d2 in
+                     day if d1 > 0))
+                model.addConstrs(
+                    (cNHs[c, d1, d2, h] <= 1 - n[c, d1, h] for c in cycle for h in home for d1 in day for d2 in day for
+                     h in home if d1 > 0))
+                model.addConstrs(
+                    (cNHs[c, d1, d2, h] >= cNH[c, d1 - 1, d2, h] - n[c, d1, h] for c in cycle for d1 in day for d2 in
+                     day for h in home if d1 > 0))
+                model.addConstrs(
+                    (cNHs[c, num_md_per_cycle, d2, h] >= cNH[c, num_md_per_cycle - 1, d2, h] for c in cycle for d2 in
+                     day for h in home))
+                model.addConstr((quicksum(
+                    cNHs[c, d1, d2, a] * (bounds[34, 4] - 1 - d2) for c in cycle for a in away for d1 in days for d2 in
+                    range(bounds[20, 4].astype(int) - 1)) == 0))
 
         if bounds[31, 5] + bounds[31, 4] > 0:
             # definition for the first day
@@ -458,6 +526,48 @@ def generate_multi_dim_sample(bounds, directory, num_teams, num_md_per_cycle, nu
                 model.addConstr((quicksum(
                     cNAs[c, d1, d2, a] * (bounds[31, 4] - 1 - d2) for c in cycle for a in away for d1 in days for d2 in
                     range(bounds[31, 4].astype(int) - 1)) == 0))
+
+        '''
+        for j in range(len(newconst_bounds)):
+            if constrListNew[j] == 'tracebounds':
+                model.addConstrs((x.sum(c, d, i, i) >= newconst_bounds[j, 0] for c in cycle for d in day for i in home),
+                                 "tracelower")
+                model.addConstrs((x.sum(c, d, i, i) <= newconst_bounds[j, 1] for c in cycle for d in day for i in home),
+                                 "traceupper")
+            if constrListNew[j] == 'play_per_day_bounds':
+                model.addConstrs(
+                    (x.sum(c, d, i, '*') + x.sum(c, d, '*', i) >= newconst_bounds[j, 0] for c in cycle for i in home for
+                     d in day), "playlower")
+                model.addConstrs(
+                    (x.sum(c, d, i, '*') + x.sum(c, d, '*', i) <= newconst_bounds[j, 1] for c in cycle for i in home for
+                     d in day), "playupper")
+            if constrListNew[j] == 'between_games':
+                pass
+        if newconst_bounds[2, 1] + newconst_bounds[2, 0] > 0:
+            model.addConstrs((cZy[c, 0, 0, h] == 1 - yn[c, 0, h] for c in cycle for h in home))
+            model.addConstrs((cZy[c, d1 + 1, 0] <= yn[c, d1, h] for c in cycle for d1 in day for h in home if d1 < len(day) - 1))
+            model.addConstrs((cZy[c,d1 + 1,0] <= 1 - yn[c,d1+1,h] for c in cycle for d1 in day for h in home if d1< len(day) - 1))
+            model.addConstrs((cZy[c,d1+1,0] >= yn[c,d1,h] - yn[c,d1+1,h] for c in cycle for d1 in day for h in home if d1< len(day) - 1))
+
+            model.addConstrs((cZy[c,0,d2,h] == 0 for c in cycle for h in home for d2 in day if d2>0))
+            model.addConstrs((cZy[c,d1,d2,h] <= cZy[c,d1-1,d2-1,h] for c in cycle for d1 in day for d2 in day for h in home if d1>0 if d2>0))
+            model.addConstrs((cZy[c,d1,d2,h] <= 1- yn[c,d1,h] for c in cycle for h in home for d1 in day for d2 in day if d1>0 if d2>0))
+            model.addConstrs((cZy[c,d1,d2,h] >= cZy[c,d1-1,d2-1,h] - yn[c,d1,h] for c in cycle for h in home for d1 in day for d2 in day if d1>0 if d2>0))
+
+            if newconst_bounds[2,1] > 0:
+                model.addConstr((quicksum(cZy[c,d1,d2,h] for c in cycle for h in home for d1 in day for d2 in range(bounds[2,1].astype(int), len(day))) == 0),"test")
+
+            if newconst_bounds[2,0] > 0:
+                model.addConstrs(cZys[c,0,d2,h] == 0 for c in cycle for d2 in day for h in home)
+                model.addConstrs(cZys[c,d1,d2,h] <= cZy[c,d1-1,d2,h] for c in cycle for h in home for d1 in day for d2 in day if d1>0)
+                model.addConstrs(cZys[c,d1,d2,h] <= yn[c,d1,h] for c in cycle for h in home for d1 in day for d2 in day if d1>0)
+                model.addConstrs(cZys[c,d1,d2,h] >= cZy[c,d1-1,d2,h] + yn[c,d1,h] - 1 for c in cycle for d1 in day for d2 in day for h in home if d1>0)
+
+                model.addConstr((quicksum(cZys[c,d1,d2,h] * (bounds[2,0] - 1 - d2)
+                                         for c in cycle for h in home for d1 in days for d2 in range(bounds[2,0].astype(int) -1))==0),"boundinfo")
+
+        '''
+
 
         # Sets the number of solutions to be generated
         model.setParam(GRB.Param.PoolSolutions, numSam)

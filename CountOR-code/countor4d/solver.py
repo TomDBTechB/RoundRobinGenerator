@@ -6,12 +6,12 @@ import time
 
 import numpy as np
 
-from countSport import countor
-from countSport import countorUtils as cU
-from countSport import multi_dimensional_sampler as sampler
-from countSport import solverUtils as sU
+from countor4d import countor
+from countor4d import countorUtils as cU
+from countor4d import multi_dimensional_sampler as sampler
+from countor4d import solverUtils as sU
 
-
+'''
 def calculatePrecisionNonBounds(sampledir):
     files = next(os.walk(sampledir))[2]
     accept, checks = 0, 0
@@ -34,14 +34,12 @@ def calculatePrecisionNonBounds(sampledir):
                     accept += 1
                 checks += 2
     return accept / checks
-
-
-
+'''
 
 # region vars
-numSam = 100  # int(sys.argv[1])
+numSam = 15000  # int(sys.argv[1])
 numTeams = 8  # int(sys.argv[2])
-numCycle = 2
+numCycle = 4
 num_Matchdays = sU.calculateMatchDaysPerCycle(numTeams)
 solution_seed = [1, 5, 10, 25, 50, 100]
 tag = str(numCycle) + "_" + str(numTeams) + "_" + str(numSam)
@@ -218,6 +216,7 @@ def check_constrained(sampled_bound, model_bound):
 def column(matrix, i):
     return [row[i] for row in matrix]
 
+
 def check_non_bounds_constrained(file):
     data = cU.readCSV(file)
     data_tensor = cU.cleanData(data)[0]
@@ -227,12 +226,8 @@ def check_non_bounds_constrained(file):
             for i in range(len(data_tensor[0][0])):
                 trace += data_tensor[c][d][i][i]
                 games_played = 0
-                print(data_tensor[c][d][i])
-                print(column(data_tensor[c][d],i))
-
-
                 games_played += sum(data_tensor[c][d][i])
-                games_played += sum(column(data_tensor[c][d],i))
+                games_played += sum(column(data_tensor[c][d], i))
                 if games_played > 1:
                     return 0
             if trace != 0:
@@ -291,7 +286,7 @@ def calculateRecallFromFile(file, testsolndir):
 
     accept = 0
     for i in recallBounds:
-        accept += checkmoreconstrained(bound=i, benchmarkbound=aggregated_learned_bounds)
+        accept += check_constrained(sampled_bound=i, model_bound=aggregated_learned_bounds)
     return accept / len(recallBounds)
 
 
@@ -350,10 +345,10 @@ for numSol in solution_seed:
         # provide aggr bounds
         recall = calculateRecallFromFile(file=file, testsolndir=os.path.join(soln, "test"))
         precision = calculatePrecisionCorrect(model_bounds, tmpDir)
-        #precision = calculatePrecisionFromSampleDir(model_bounds=model_bounds, sampledir=tmpDir)
-        #precision_unbound = calculatePrecisionNonBounds(sampledir=tmpDir)
-        #precision+=precision_unbound
-        #precision/=2
+        # precision = calculatePrecisionFromSampleDir(model_bounds=model_bounds, sampledir=tmpDir)
+        # precision_unbound = calculatePrecisionNonBounds(sampledir=tmpDir)
+        # precision+=precision_unbound
+        # precision/=2
         all_pre[seed] = precision
         all_rec[seed] = recall
         all_time[seed] = timeTaken

@@ -17,7 +17,6 @@ from gurobipy import *
 
 
 def generateSample(num_teams, num_matchdays, numSam, bounds, directory):
-    #    print(bounds)
     # dir = where to put the new samples
     N = list(range(num_teams))
     D = list(range(num_matchdays))
@@ -243,7 +242,8 @@ def generateSample(num_teams, num_matchdays, numSam, bounds, directory):
                               for n in N for d2 in D), "MinConsFree")
 
                 m.addConstr(
-                    (quicksum(sf[n, d1, d2] * (bounds[6, 2] - 1 - d2) for n in N for d1 in Ds for d2 in
+                    (quicksum(sf[n, d1, d2] * (bounds[6, 2] - 1 - d2)
+                              for n in N for d1 in Ds for d2 in
                               range(bounds[6, 2] - 1)) == 0), "minconsfree"
                 )
 

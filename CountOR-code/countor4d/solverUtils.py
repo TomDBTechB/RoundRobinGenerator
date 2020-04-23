@@ -1,16 +1,13 @@
 """Util methods used by solver.py"""
+import csv
 import math
 import os
-import shutil
-from random import random
-
-from countSport import countorUtils as cU
-import numpy as np
-import csv
-from subprocess import *
 import time
-from countSport import multi_dimensional_sampler as sampler
+import numpy as np
 
+from subprocess import *
+from countor4d import countorUtils as cU
+from countor4d import multi_dimensional_sampler as sampler
 
 """
 Opens csv and returns the writer 
@@ -114,8 +111,8 @@ def aggrBounds(selbounds, num_constrType, num_constr, constrMaxval):
     bounds_learned = np.zeros([num_constrType, num_constr])
     for i in range(num_constrType):
         for j in range(num_constr):
-            row = int((i * num_constr + j) / 6)
-            col = (i * num_constr + j) % 6
+            row = int((i * num_constr + j) / num_constr)
+            col = (i * num_constr + j) % num_constr
             if j % 2 == 0:
                 bounds_learned[row, col] = np.min(selbounds[:, i, j])
             if j % 2 != 0:
@@ -175,6 +172,8 @@ def buildSolutionAndResultDirs(directory):
         os.makedirs(result)
 
     return soln, result,csvWriter,detCsvWriter,det_csv,my_csv
+
+
 
 def calculateBounds4D(amtTeams, amtCycles, actual_model_bounds):
     # # number of constraint values we capture: minCount(0), maxCount(1), minConsZero(2), maxConsZero(3), minConsOne(4), maxConsOne(5)

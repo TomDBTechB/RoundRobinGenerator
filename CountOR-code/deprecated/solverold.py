@@ -7,10 +7,10 @@ import time
 
 import numpy as np
 
-from countSport import solverUtils as sU
-from countSport import countorUtils as cU
-from countSport import countor
-from countSport import simple_sampler as sampler
+from countor4d import solverUtils as sU
+from countor4d import countorUtils as cU
+from countor4d import countor
+from countor4d import simple_sampler as sampler
 
 # region vars
 numSam = 100  # int(sys.argv[1])

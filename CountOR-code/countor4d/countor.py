@@ -3,8 +3,8 @@ import os
 import csv
 import numpy as np
 import time
-from countSport import countorUtils as cU
-from countSport import constraintFormulation as cF
+from countor4d import countorUtils as cU
+from countor4d import constraintFormulation as cF
 
 
 def learnConstraintsForAllDir(directory, num_teams, output):
@@ -91,8 +91,11 @@ def saveConstraintsForAll(dataTensor, variables, indicator, directory, tag, orde
 
                 # first filter base on orderingNotImp
                 if len(set(subset[1])) == 1 and len(set(orderingNotImp) & set(subset[1])) == 0:
-                    # second filter based on the (0,)(x,) constraints who are useles for us
-                    if not (len(newset) == 2 and newset[1] == 1):
+                    # second filter based on the (0,)(x,) constraints who are useles for us and filter constraints with
+                    # all the dimensions involved in |D|, also filter everything out with orderingnotImp completely in S
+                    # also filter everything out with cycle ordering in M, since this also is irrelevant to us
+                    if not (len(newset) == 2 and newset[1] == 1) and not (len(newset) == len(rep)) and not (
+                            subset[0] == tuple(orderingNotImp)) and not (subset[1] == 0):
                         minConsZero, maxConsZero, minConsNonZero, maxConsNonZero = cF.tensorConsZero(idTensor, sumSet,
                                                                                                      np.array(
                                                                                                          variables)[
