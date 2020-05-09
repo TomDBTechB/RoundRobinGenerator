@@ -537,7 +537,7 @@ def generate_multi_dim_sample(bounds, directory, num_teams, num_md_per_cycle, nu
             o0 = model.addVars(cycle, day, away, vtype=GRB.BINARY, name="o0")
             t0 = model.addVars(cycle, away, vtype=GRB.BINARY, name="t0")
             v0 = model.addVars(day, away, vtype=GRB.BINARY, name="v0")
-            r0 = model.addVars(cycle, day, vtype=GRB.BINARY, name="v0")
+            r0 = model.addVars(cycle, day, vtype=GRB.BINARY, name="r0")
             model.addConstrs(
                 (o0[c, d, a] <= quicksum(x[c, d, h, a] for h in skill_group0) for c in cycle for d in day for a in
                  away),

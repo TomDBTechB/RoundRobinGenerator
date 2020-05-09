@@ -92,7 +92,7 @@ numCycle = 2
 num_Matchdays = sU.calculateMatchDaysPerCycle(numTeams)
 solution_seed = [1, 5, 10, 25]
 unsolvable = False
-lost_data = True
+lost_data = False
 tag = str(numCycle) + "_" + str(numTeams) + "_" + str(numSam)
 
 constrList = [[(0,), (1,)], [(0,), (2,)], [(0,), (3,)], [(0,), (1, 2)], [(0,), (1, 3)], [(0,), (2, 3)],

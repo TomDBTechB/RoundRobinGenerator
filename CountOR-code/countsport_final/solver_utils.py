@@ -187,11 +187,13 @@ def calculateBounds4D(amtTeams, amtCycles, actual_model_bounds,bk=False):
 
     if bk:
         actual_model_bounds_sg0 = np.zeros([len(actual_model_bounds),len(actual_model_bounds[0])])
-        actual_model_bounds_sg0[31, 2] = 1
-        actual_model_bounds_sg0[31, 3] = 6
-        actual_model_bounds_sg0[31, 4] = 1
-        actual_model_bounds_sg0[31, 5] = 2
+        #actual_model_bounds_sg0[31, 2] = 1
+        #actual_model_bounds_sg0[31, 3] = 6
+        #actual_model_bounds_sg0[31, 4] = 1
+        #actual_model_bounds_sg0[31, 5] = 2
 
+        actual_model_bounds_sg0[34, 0] = cycle_home_lower_bound
+        actual_model_bounds_sg0[34, 1] = cycle_home_upper_bound
         actual_model_bounds_sg0[34,2] = 1
         actual_model_bounds_sg0[34,3] = 2
         actual_model_bounds_sg0[34,4] = 1
@@ -199,11 +201,13 @@ def calculateBounds4D(amtTeams, amtCycles, actual_model_bounds,bk=False):
 
 
         actual_model_bounds_sg1 = np.zeros([len(actual_model_bounds),len(actual_model_bounds[0])])
-        actual_model_bounds_sg1[31, 2] = 1
-        actual_model_bounds_sg1[31, 3] = 6
-        actual_model_bounds_sg1[31, 4] = 1
-        actual_model_bounds_sg1[31, 5] = 2
+        #actual_model_bounds_sg1[31, 2] = 1
+        #actual_model_bounds_sg1[31, 3] = 6
+        #actual_model_bounds_sg1[31, 4] = 1
+        #actual_model_bounds_sg1[31, 5] = 2
 
+        actual_model_bounds_sg1[34, 0] = cycle_home_lower_bound
+        actual_model_bounds_sg1[34, 1] = cycle_home_upper_bound
         actual_model_bounds_sg1[34,2] = 1
         actual_model_bounds_sg1[34,3] = 2
         actual_model_bounds_sg1[34,4] = 1

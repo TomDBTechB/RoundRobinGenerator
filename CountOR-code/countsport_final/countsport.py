@@ -6,7 +6,7 @@ import time
 from countor4d import countorUtils as cU
 from countsport_final import constraint_formulation as cF
 
-
+'''
 def learnConstraintsForAllDir(directory, num_teams, output):
     start = time.clock()
     tag = "Amt_T" + str(num_teams)
@@ -24,7 +24,7 @@ def learnConstraintsForAllDir(directory, num_teams, output):
         ind = 1
         saveConstraintsForAll(dataTensor, variables, ind, output, tag + str(0))
     return time.clock() - start
-
+'''
 
 def learnConstraintsForAll(directory, sampled_files, teamAmt, output,info=None,bk=False):
     tag = str(len(sampled_files)) + "Amt_T" + str(teamAmt)
@@ -41,17 +41,18 @@ def learnConstraintsForAll(directory, sampled_files, teamAmt, output,info=None,b
 
         if ind == 0:
             saveConstraintsForAll(dataTensor, variables, ind, output, tag + str(0))
-        ind = 1
-        saveConstraintsForAll(dataTensor, variables, ind, output, tag + str(0))
+            saveConstraintsForAll(dataTensor,variables,1,output,tag+str(0))
+        else:
+            saveConstraintsForAll(dataTensor, variables, ind, output, tag + str(0))
 
         if bk:
             strengthgroup = np.zeros([2,teamAmt])
             strengthgroup[0] = info
             strengthgroup[1] = [int(x==0) for x in info]
+            # ind = 0
 
-            for i in range(2):
-                ind=0
-                if i==0:
+            for f in range(2):
+                if f==0:
                     tmp = info
                 else:
                     tmp = [int(x==0) for x in info]
@@ -65,8 +66,12 @@ def learnConstraintsForAll(directory, sampled_files, teamAmt, output,info=None,b
                 updated_vars = variables[:]
                 updated_vars[dim] = [x for x, y in zip(variables[dim],tmp) if y==1]
                 mat = np.tensordot(dataTensor,strengthgroup,[dim,0])
-                saveConstraintsForAll(dataTensor=mat,variables=updated_vars,indicator=0,directory=output,tag=tag+str(0)+str(i))
-                saveConstraintsForAll(dataTensor=mat,variables=updated_vars,indicator=1,directory=output,tag=tag+str(0)+str(i))
+                if ind==0:
+                    saveConstraintsForAll(dataTensor=mat,variables=updated_vars,indicator=0,directory=output,tag=tag+str(0)+str(f))
+                    saveConstraintsForAll(dataTensor=mat,variables=updated_vars,indicator=1,directory=output,tag=tag+str(0)+str(f))
+                else:
+                    saveConstraintsForAll(dataTensor=mat,variables=updated_vars,indicator=ind,directory=output,tag=tag+str(0)+str(f))
+        ind=1
 
 def saveConstraintsForAll(dataTensor, variables, indicator, directory, tag, orderingNotImp=[2, 3]):
     repeatDim = ()
