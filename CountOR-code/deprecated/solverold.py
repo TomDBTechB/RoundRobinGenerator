@@ -2,7 +2,6 @@
 import glob
 import os
 import random
-import sys
 import time
 
 import numpy as np
@@ -10,7 +9,7 @@ import numpy as np
 from countor4d import solverUtils as sU
 from countor4d import countorUtils as cU
 from countor4d import countor
-from countor4d import simple_sampler as sampler
+from deprecated import simple_sampler as sampler
 
 # region vars
 numSam = 100  # int(sys.argv[1])

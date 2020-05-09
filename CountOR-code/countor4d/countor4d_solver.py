@@ -37,11 +37,11 @@ def calculatePrecisionNonBounds(sampledir):
 '''
 
 # region vars
-numSam = 15000  # int(sys.argv[1])
-numTeams = 8  # int(sys.argv[2])
-numCycle = 4
+numSam = 1500  # int(sys.argv[1])
+numTeams = 12  # int(sys.argv[2])
+numCycle = 2
 num_Matchdays = sU.calculateMatchDaysPerCycle(numTeams)
-solution_seed = [1, 5, 10, 25, 50, 100]
+solution_seed = [1, 5, 10, 25, 50]
 tag = str(numCycle) + "_" + str(numTeams) + "_" + str(numSam)
 # provides list of constraints
 # 0 is cycles, 1 is rounds, 2 is away, 3 is home
@@ -300,7 +300,7 @@ soln, result, prec, csvWriter, detCsvWriter, detcsv, mycsv = buildSolutionAndRes
 # generate the samples
 generate4DSamples(mbounds=model_bounds, numTeams=numTeams, numSam=numSam, numCycles=numCycle, sampleDir=soln)
 # split into 0.8 learn 0.2 testset
-randomSplit(soln, 0.9)
+randomSplit(soln, 0.1)
 
 numSeed = len(solution_seed)
 
@@ -340,7 +340,7 @@ for numSol in solution_seed:
         sampler.generate_multi_dim_sample(num_teams=numTeams, num_md_per_cycle=num_Matchdays, numSam=numsam,
                                           numCycle=numCycle,
                                           bounds=aggr_bounds,
-                                          directory=tmpDir)
+                                          directory=tmpDir,theoretical=False)
 
         # provide aggr bounds
         recall = calculateRecallFromFile(file=file, testsolndir=os.path.join(soln, "test"))

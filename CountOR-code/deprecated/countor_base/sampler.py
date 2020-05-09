@@ -83,6 +83,8 @@ def generateSample(num_nurses,num_days,num_shifts,numSam,extraConstPerc,nurse_sk
         m.addConstrs((x.sum(n,d,s,'*')==o[n,d,s] for n in N for d in D for s in S),"xo")        
         m.addConstrs((x[n,d,s,sk]==o[n,d,s] for n in N for d in D for s in S for sk in Sk if nurse_skill[n]==sk),"xo")
         m.addConstrs((x[n,d,s,sk]==0 for n in N for d in D for s in S for sk in Sk if nurse_skill[n]!=sk),"xo")
+
+
         m.addConstrs((q[n,s] <= o.sum(n,'*',s) for n in N for s in S ),"qo")
         m.addConstrs((q[n,s]*o.sum(n,'*',s) == o.sum(n,'*',s) for n in N for s in S ),"qo")
         m.addConstrs((r[s,d] <= o.sum('*',d,s) for d in D for s in S ),"ro")
@@ -415,19 +417,7 @@ def generateSample(num_nurses,num_days,num_shifts,numSam,extraConstPerc,nurse_sk
             
             tw_high = m.addVars(high_nurse,D,D, vtype=GRB.BINARY, name="tw_high")
             sw_high = m.addVars(high_nurse,Ds,D, vtype=GRB.BINARY, name="sw_high")
-            tw1_high = m.addVars(high_nurse,D,S,D, vtype=GRB.BINARY, name="tw1_high")
-            sw1_high = m.addVars(high_nurse,Ds,S,D, vtype=GRB.BINARY, name="sw1_high")
-            
-            
-            tws_high = m.addVars(high_nurse,S,S, vtype=GRB.BINARY, name="tws_high")
-            sws_high = m.addVars(high_nurse,Ss,S, vtype=GRB.BINARY, name="sws_high")
-            tfs_high = m.addVars(high_nurse,S,S, vtype=GRB.BINARY, name="tfs_high")
-            sfs_high = m.addVars(high_nurse,Ss,S, vtype=GRB.BINARY, name="sfs_high")
-            
-            tf_high = m.addVars(high_nurse,D,D, vtype=GRB.BINARY, name="tf_high")
-            sf_high = m.addVars(high_nurse,Ds,D, vtype=GRB.BINARY, name="sf_high")
-            tw1f_high = m.addVars(high_nurse,D,S,D, vtype=GRB.BINARY, name="tw1f_high")
-            sw1f_high = m.addVars(high_nurse,Ds,S,D, vtype=GRB.BINARY, name="sw1f_high")
+
             
             for i in range(len(subset1_bounds)):
                 if subset1_bounds[i,0]>0:
@@ -439,7 +429,7 @@ def generateSample(num_nurses,num_days,num_shifts,numSam,extraConstPerc,nurse_sk
                         
                     elif constrList[i]==[(0,),(1,2)]:
                         m.addConstrs((quicksum(o[n,d,s] for n in high_nurse for s in S) >= subset1_bounds[i,0] for d in D),"constr")
-                        
+
                     elif constrList[i]==[(1,),(0,)]:
                         m.addConstrs((r1.sum(s,'*') >= subset1_bounds[i,0] for s in S),"constr")
                         
@@ -448,7 +438,10 @@ def generateSample(num_nurses,num_days,num_shifts,numSam,extraConstPerc,nurse_sk
                         
                     elif constrList[i]==[(1,),(0,2)]:
                         m.addConstrs((quicksum(o[n,d,s] for n in high_nurse for d in D) >= subset1_bounds[i,0] for s in S),"constr")
-                        
+
+
+
+
                     elif constrList[i]==[(2,),(0,)]:
                         m.addConstrs((p.sum(n,'*') >= subset1_bounds[i,0] for n in high_nurse),"constr")
                         

@@ -6,14 +6,13 @@ Created on Thu Jun  7 11:45:50 2018
 @author: mohit
 """
 
-from countor_base import countor, sampler
+from deprecated.countor_base import countor
 import numpy as np
 import glob
 import os
 import csv
 import random
 import time
-import sys
 from os.path import expanduser
 
 

@@ -1,7 +1,7 @@
 import csv
 import numpy as np
 from collections import OrderedDict
-from countor_base import constraintFormulation as cf
+from deprecated.countor_base import constraintFormulation as cf
 import operator
 import time
 import glob

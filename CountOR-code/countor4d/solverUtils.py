@@ -1,4 +1,4 @@
-"""Util methods used by solver.py"""
+"""Util methods used by countsport_solver.py"""
 import csv
 import math
 import os
@@ -176,10 +176,9 @@ def buildSolutionAndResultDirs(directory):
 
 
 def calculateBounds4D(amtTeams, amtCycles, actual_model_bounds):
-    # # number of constraint values we capture: minCount(0), maxCount(1), minConsZero(2), maxConsZero(3), minConsOne(4), maxConsOne(5)
     matchdays_per_cycle = calculateMatchDaysPerCycle(amtTeams)
-    upperbound_hg_per_team = upperbound_ag_per_team = math.ceil((amtTeams-1)*amtCycles/2)
-    lowerbound_hg_per_team = lowerbound_ag_per_team = math.floor((amtTeams-1)*amtCycles/2)
+    upperbound_hg_per_team = upperbound_ag_per_team = math.ceil((amtTeams - 1) * amtCycles / 2)
+    lowerbound_hg_per_team = lowerbound_ag_per_team = math.floor((amtTeams - 1) * amtCycles / 2)
     upperbound_fixture_occuring = math.floor(amtCycles / 2) + amtCycles % 2
     lowerbound_fixture_occuring = 0
     lowerbound_total_games_per_day = upperbound_total_games_per_day = math.floor(amtTeams / 2)
@@ -188,17 +187,12 @@ def calculateBounds4D(amtTeams, amtCycles, actual_model_bounds):
     cycle_away_upper_bound = amtTeams / 2 + amtTeams % 2
     cycle_away_lower_bound = amtTeams / 2 - 1
 
-
     actual_model_bounds[6, 0] = lowerbound_total_games_per_day * matchdays_per_cycle
     actual_model_bounds[6, 1] = upperbound_total_games_per_day * matchdays_per_cycle
-    actual_model_bounds[20,0] = lowerbound_hg_per_team
-    actual_model_bounds[20,1] = upperbound_hg_per_team
-    actual_model_bounds[20,4] = 1
-    actual_model_bounds[20,5] = 2
-    actual_model_bounds[27,0] = lowerbound_ag_per_team
-    actual_model_bounds[27,1] = upperbound_ag_per_team
-    actual_model_bounds[31,4] = 1
-    actual_model_bounds[31,5] = 2
+    actual_model_bounds[20, 0] = lowerbound_hg_per_team
+    actual_model_bounds[20, 1] = upperbound_hg_per_team
+    actual_model_bounds[27, 0] = lowerbound_ag_per_team
+    actual_model_bounds[27, 1] = upperbound_ag_per_team
     actual_model_bounds[28, 0] = lowerbound_total_games_per_day
     actual_model_bounds[28, 1] = upperbound_total_games_per_day
     actual_model_bounds[29, 0] = lowerbound_total_games_per_day
@@ -207,8 +201,16 @@ def calculateBounds4D(amtTeams, amtCycles, actual_model_bounds):
     actual_model_bounds[30, 1] = upperbound_total_games_per_day
     actual_model_bounds[31, 0] = cycle_away_lower_bound
     actual_model_bounds[31, 1] = cycle_away_upper_bound
+    actual_model_bounds[31, 2] = 1
+    actual_model_bounds[31, 3] = 2
+    actual_model_bounds[31, 4] = 1
+    actual_model_bounds[31, 5] = 2
     actual_model_bounds[34, 0] = cycle_home_lower_bound
     actual_model_bounds[34, 1] = cycle_home_upper_bound
+    actual_model_bounds[34, 2] = 1
+    actual_model_bounds[34, 3] = 2
+    actual_model_bounds[34, 4] = 1
+    actual_model_bounds[34, 5] = 2
     actual_model_bounds[43, 0] = lowerbound_fixture_occuring
     actual_model_bounds[43, 1] = upperbound_fixture_occuring
     actual_model_bounds[46, 1] = 1

@@ -10,13 +10,12 @@ import csv
 import glob
 import os
 import random
-import sys
 import time
 from os.path import expanduser
 
 import numpy as np
 
-from countor_base import countor, sampler
+from deprecated.countor_base import sampler, countor
 
 
 def readBounds(file, num_constrType, num_constr):

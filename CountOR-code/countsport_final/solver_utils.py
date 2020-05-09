@@ -1,4 +1,4 @@
-"""Util methods used by solver.py"""
+"""Util methods used by countsport_solver.py"""
 import csv
 import math
 import os
@@ -84,7 +84,7 @@ def readBounds(file, num_constrType, num_constr):
 """Aggregates over the selected bounds to recalculate  """
 
 
-def aggrBounds(selbounds, num_constrType, num_constr, constrMaxval):
+def aggrBounds(selbounds, num_constrType, num_constr, constrMaxval=None):
     bounds_learned = np.zeros([num_constrType, num_constr])
     for i in range(num_constrType):
         for j in range(num_constr):
@@ -94,8 +94,9 @@ def aggrBounds(selbounds, num_constrType, num_constr, constrMaxval):
                 bounds_learned[row, col] = np.min(selbounds[:, i, j])
             if j % 2 != 0:
                 bounds_learned[row, col] = np.max(selbounds[:, i, j])
-                if bounds_learned[row, col] == constrMaxval[i]:
-                    bounds_learned[row, col] = 0
+                if constrMaxval:
+                    if bounds_learned[row, col] == constrMaxval[i]:
+                        bounds_learned[row, col] = 0
     return bounds_learned.astype(np.int64)
 
 def calculateMatchDaysPerCycle(numTeams):
@@ -123,7 +124,7 @@ def buildSolutionAndResultDirs(directory):
 
 
 
-def calculateBounds4D(amtTeams, amtCycles, actual_model_bounds):
+def calculateBounds4D(amtTeams, amtCycles, actual_model_bounds,bk=False):
     # # number of constraint values we capture: minCount(0), maxCount(1), minConsZero(2), maxConsZero(3), minConsOne(4),
     # maxConsOne(5) tracemin (6) tracemax(7)  countplus_min(8) countplus_max(9) conszero_plus_min(10) conszero_plus_max(11)
     matchdays_per_cycle = calculateMatchDaysPerCycle(amtTeams)
@@ -132,10 +133,10 @@ def calculateBounds4D(amtTeams, amtCycles, actual_model_bounds):
     upperbound_fixture_occuring = math.floor(amtCycles / 2) + amtCycles % 2
     lowerbound_fixture_occuring = 0
     lowerbound_total_games_per_day = upperbound_total_games_per_day = math.floor(amtTeams / 2)
-    cycle_home_upper_bound = amtTeams / 2 + amtTeams % 2
-    cycle_home_lower_bound = amtTeams / 2 - 1
-    cycle_away_upper_bound = amtTeams / 2 + amtTeams % 2
-    cycle_away_lower_bound = amtTeams / 2 - 1
+    cycle_home_upper_bound = cycle_away_upper_bound =  math.ceil((amtTeams-1) / 2)
+    cycle_home_lower_bound = cycle_away_lower_bound = math.floor((amtTeams-1) / 2)
+    #cycle_away_upper_bound = amtTeams / 2 + amtTeams % 2
+    #cycle_away_lower_bound = amtTeams / 2 - 1
 
     actual_model_bounds[6, 0] = lowerbound_total_games_per_day * matchdays_per_cycle
     actual_model_bounds[6, 1] = upperbound_total_games_per_day * matchdays_per_cycle
@@ -184,8 +185,41 @@ def calculateBounds4D(amtTeams, amtCycles, actual_model_bounds):
     actual_model_bounds[48, 1] = 1
     actual_model_bounds[49, 1] = 1
 
+    if bk:
+        actual_model_bounds_sg0 = np.zeros([len(actual_model_bounds),len(actual_model_bounds[0])])
+        actual_model_bounds_sg0[31, 2] = 1
+        actual_model_bounds_sg0[31, 3] = 6
+        actual_model_bounds_sg0[31, 4] = 1
+        actual_model_bounds_sg0[31, 5] = 2
+
+        actual_model_bounds_sg0[34,2] = 1
+        actual_model_bounds_sg0[34,3] = 2
+        actual_model_bounds_sg0[34,4] = 1
+        actual_model_bounds_sg0[34,5] = 2
 
 
+        actual_model_bounds_sg1 = np.zeros([len(actual_model_bounds),len(actual_model_bounds[0])])
+        actual_model_bounds_sg1[31, 2] = 1
+        actual_model_bounds_sg1[31, 3] = 6
+        actual_model_bounds_sg1[31, 4] = 1
+        actual_model_bounds_sg1[31, 5] = 2
+
+        actual_model_bounds_sg1[34,2] = 1
+        actual_model_bounds_sg1[34,3] = 2
+        actual_model_bounds_sg1[34,4] = 1
+        actual_model_bounds_sg1[34,5] = 2
+
+
+
+        target_cc = np.count_nonzero(actual_model_bounds)
+        actual_model_bounds_sg0 = actual_model_bounds_sg0.astype(np.int64)
+        actual_model_bounds_sg1 = actual_model_bounds_sg1.astype(np.int64)
+
+        target_cc+=np.count_nonzero(actual_model_bounds_sg0)
+        target_cc+=np.count_nonzero(actual_model_bounds_sg1)
+
+
+        return actual_model_bounds,actual_model_bounds_sg0,actual_model_bounds_sg1
     return actual_model_bounds
 
 def generate4DSamples(numTeams,numSam,numCycles,sampleDir,mbounds):

@@ -1,0 +1,2337 @@
+/home/tom/anaconda3/bin/python /snap/pycharm-professional/196/plugins/python/helpers/pydev/pydevconsole.py --mode=client --port=40137
+import sys; print('Python %s on %s' % (sys.version, sys.platform))
+sys.path.extend(['/home/tom/Documents/Masterproef/Codebase/Sport-Scheduling-using-Tensor/CountOR-code'])
+Python 3.7.4 (default, Aug 13 2019, 20:35:49)
+Type 'copyright', 'credits' or 'license' for more information
+IPython 7.8.0 -- An enhanced Interactive Python. Type '?' for help.
+PyDev console: using IPython 7.8.0
+Python 3.7.4 (default, Aug 13 2019, 20:35:49)
+[GCC 7.3.0] on linux
+runfile('/home/tom/Documents/Masterproef/Codebase/Sport-Scheduling-using-Tensor/CountOR-code/countor4d/countor4d_solver.py', wdir='/home/tom/Documents/Masterproef/Codebase/Sport-Scheduling-using-Tensor/CountOR-code/countor4d')
+Generating 1500 samples for 12teams and 2 cycles teams from Gurobi
+/home/tom/Documents/Masterproef/Codebase/Sport-Scheduling-using-Tensor/CountOR-code/countor4d/countor4d_solver.py:104: DeprecationWarning: time.clock has been deprecated in Python 3.3 and will be removed from Python 3.8: use time.perf_counter or time.process_time instead
+  start = time.clock()
+Using license file /home/tom/gurobi.lic
+Academic license - for non-commercial use only
+Parameter OutputFlag unchanged
+   Value: 1  Min: 0  Max: 1  Default: 1
+Changed value of parameter PoolSolutions to 1500
+   Prev: 10  Min: 1  Max: 2000000000  Default: 10
+Changed value of parameter PoolSearchMode to 2
+   Prev: 0  Min: 0  Max: 2  Default: 0
+Gurobi Optimizer version 9.0.0 build v9.0.0rc2 (linux64)
+Optimize a model with 39976 rows, 24262 columns and 150812 nonzeros
+Model fingerprint: 0x724109c6
+Variable types: 0 continuous, 24262 integer (24262 binary)
+Coefficient statistics:
+  Matrix range     [1e+00, 2e+00]
+  Objective range  [0e+00, 0e+00]
+  Bounds range     [1e+00, 1e+00]
+  RHS range        [1e+00, 7e+01]
+Presolve removed 31462 rows and 10608 columns
+Presolve time: 0.16s
+Presolved: 8514 rows, 13654 columns, 47880 nonzeros
+Variable types: 0 continuous, 13654 integer (13654 binary)
+Root simplex log...
+Iteration    Objective       Primal Inf.    Dual Inf.      Time
+   13677    4.7933289e-04   2.918112e+02   0.000000e+00      5s
+   15056    0.0000000e+00   0.000000e+00   0.000000e+00      6s
+Root relaxation: objective 0.000000e+00, 15056 iterations, 5.54 seconds
+Total elapsed time = 11.61s
+Total elapsed time = 16.15s
+Total elapsed time = 22.16s
+    Nodes    |    Current Node    |     Objective Bounds      |     Work
+ Expl Unexpl |  Obj  Depth IntInf | Incumbent    BestBd   Gap | It/Node Time
+     0     0    0.00000    0 1223          -    0.00000      -     -   25s
+     0     0    0.00000    0 1656          -    0.00000      -     -   28s
+     0     0    0.00000    0  740          -    0.00000      -     -   49s
+     0     0    0.00000    0  794          -    0.00000      -     -   50s
+*    0     0               0       0.0000000    0.00000  0.00%     -   58s
+Optimal solution found at node 0 - now completing solution pool...
+    Nodes    |    Current Node    |      Pool Obj. Bounds     |     Work
+             |                    |   Worst                   |
+ Expl Unexpl |  Obj  Depth IntInf | Incumbent    BestBd   Gap | It/Node Time
+     0     0          -    0               -    0.00000      -     -   58s
+     0     0          -    0               -    0.00000      -     -   58s
+     0     2          -    0               -    0.00000      -     -   58s
+     2     4    0.00000    1 1383          -    0.00000      -  2347   60s
+     4     8    0.00000    2 1452          -    0.00000      -  1862   76s
+    11    16    0.00000    3 1495          -    0.00000      -  2616   81s
+    30    40    0.00000    7  886          -    0.00000      -  1591  102s
+    39    48    0.00000   11  728          -    0.00000      -  3823  122s
+    49    63    0.00000   13  998          -    0.00000      -  4839  148s
+    64   111    0.00000   21  697          -    0.00000      -  5551  185s
+   115   192    0.00000   31  774          -    0.00000      -  4900  247s
+   204   363    0.00000   40  500          -    0.00000      -  4882  369s
+   395  1241    0.00000   71  475          -    0.00000      -  4585  493s
+  1435  2489          -  220               -    0.00000      -  1910  495s
+Cutting planes:
+  Implied bound: 377
+  Clique: 2
+  MIR: 33
+  Zero half: 22
+  RLT: 101
+Explored 4183 nodes (2874975 simplex iterations) in 497.48 seconds
+Thread count was 8 (of 8 available processors)
+Solution count 1500: 0 0 0 ... 0
+Optimal solution found (tolerance 1.00e-04)
+Best objective 0.000000000000e+00, best bound 0.000000000000e+00, gap 0.0000%
+Number of solutions found for the model: 1500
+/home/tom/Documents/Masterproef/Codebase/Sport-Scheduling-using-Tensor/CountOR-code/countor4d/countor4d_solver.py:110: DeprecationWarning: time.clock has been deprecated in Python 3.3 and will be removed from Python 3.8: use time.perf_counter or time.process_time instead
+  print("Generated ", numSam, " samples in ", time.clock() - start, " secs")
+Generated  1500  samples in  1884.767714  secs
+/home/tom/Documents/Masterproef/Codebase/Sport-Scheduling-using-Tensor/CountOR-code/countor4d/countor4d_solver.py:177: DeprecationWarning: time.clock has been deprecated in Python 3.3 and will be removed from Python 3.8: use time.perf_counter or time.process_time instead
+  start = time.clock()
+0: Learned bounds for  1  samples in  0.26081585400015683  secs
+Parameter OutputFlag unchanged
+   Value: 1  Min: 0  Max: 1  Default: 1
+Changed value of parameter PoolSolutions to 1350
+   Prev: 10  Min: 1  Max: 2000000000  Default: 10
+Changed value of parameter PoolSearchMode to 2
+   Prev: 0  Min: 0  Max: 2  Default: 0
+Gurobi Optimizer version 9.0.0 build v9.0.0rc2 (linux64)
+Optimize a model with 40840 rows, 24262 columns and 194924 nonzeros
+Model fingerprint: 0x4445a05f
+Variable types: 0 continuous, 24262 integer (24262 binary)
+Coefficient statistics:
+  Matrix range     [1e+00, 1e+00]
+  Objective range  [0e+00, 0e+00]
+  Bounds range     [1e+00, 1e+00]
+  RHS range        [1e+00, 7e+01]
+Presolve removed 31525 rows and 10176 columns
+Presolve time: 0.18s
+Presolved: 9315 rows, 14086 columns, 72936 nonzeros
+Variable types: 0 continuous, 14086 integer (14086 binary)
+Root simplex log...
+Iteration    Objective       Primal Inf.    Dual Inf.      Time
+   11025    6.4550802e-04   4.602577e+02   0.000000e+00      5s
+   11743    0.0000000e+00   0.000000e+00   0.000000e+00      5s
+Root relaxation: objective 0.000000e+00, 11743 iterations, 5.25 seconds
+Total elapsed time = 12.16s
+Total elapsed time = 19.32s
+Total elapsed time = 22.72s
+Total elapsed time = 26.07s
+    Nodes    |    Current Node    |     Objective Bounds      |     Work
+ Expl Unexpl |  Obj  Depth IntInf | Incumbent    BestBd   Gap | It/Node Time
+     0     0    0.00000    0  929          -    0.00000      -     -   28s
+     0     0    0.00000    0 1482          -    0.00000      -     -   32s
+     0     0    0.00000    0 1493          -    0.00000      -     -   33s
+     0     0    0.00000    0  761          -    0.00000      -     -   64s
+     0     0    0.00000    0  947          -    0.00000      -     -   65s
+     0     0    0.00000    0  116          -    0.00000      -     -   94s
+     0     0    0.00000    0 1180          -    0.00000      -     -   99s
+H    0     0                       0.0000000    0.00000  0.00%     -  113s
+     0     0    0.00000    0  157    0.00000    0.00000  0.00%     -  113s
+Optimal solution found at node 0 - now completing solution pool...
+    Nodes    |    Current Node    |      Pool Obj. Bounds     |     Work
+             |                    |   Worst                   |
+ Expl Unexpl |  Obj  Depth IntInf | Incumbent    BestBd   Gap | It/Node Time
+     0     0    0.00000    0  156          -    0.00000      -     -  113s
+     0     0    0.00000    0   54          -    0.00000      -     -  122s
+     0     0    0.00000    0   53          -    0.00000      -     -  122s
+     0     0    0.00000    0  117          -    0.00000      -     -  132s
+     0     0    0.00000    0  117          -    0.00000      -     -  136s
+     0     2    0.00000    0  117          -    0.00000      -     -  158s
+     1     4    0.00000    1  647          -    0.00000      -  9787  160s
+     7    12    0.00000    3 1066          -    0.00000      -  3733  165s
+    28    39    0.00000    8 1072          -    0.00000      -  1892  193s
+    38    48          -   10               -    0.00000      -  4460  226s
+    47    82    0.00000   11 1065          -    0.00000      -  5723  276s
+    81   142    0.00000   21   17          -    0.00000      -  5702  352s
+   141   282    0.00000   32   70          -    0.00000      -  5839  478s
+   298   561    0.00000   61 1087          -    0.00000      -  4811  677s
+   618   921    0.00000   39 1180          -    0.00000      -  3927  823s
+  1024  1355    0.00000   32 1232          -    0.00000      -  3020  933s
+  1492  1289    0.00000   27 1042          -    0.00000      -  2432  978s
+  1493  1225    0.00000  327    0          -    0.00000      -  2430 1009s
+  1496  1002    0.00000   15   60          -    0.00000      -  2516 1014s
+  1498   820          -   16               -    0.00000      -  2513 1086s
+  1502   607          -   17               -    0.00000      -  2512 1134s
+  1506   499    0.00000   17  156          -    0.00000      -  2513 1218s
+  1510   453    0.00000   18   83          -    0.00000      -  2517 1308s
+  1514   374          -   19               -    0.00000      -  2530 1370s
+  1518   378    0.00000   18   61          -    0.00000      -  2532 1411s
+  1523   346    0.00000   19  121          -    0.00000      -  2534 1435s
+  1528   357    0.00000   21  171          -    0.00000      -  2535 1485s
+  1541   302          -   24               -    0.00000      -  2575 1599s
+  1575   252    0.00000   28  101          -    0.00000      -  2694 1802s
+  1689   551    0.00000   38 1260          -    0.00000      -  3025 2209s
+  2055   932 infeasible   75               -    0.00000      -  3583 2529s
+  2442  1373    0.00000  125  660          -    0.00000      -  3720 2799s
+  2883  1976          -  174               -    0.00000      -  3791 3035s
+  3486  3276    0.00000  214  136          -    0.00000      -  3547 3134s
+Cutting planes:
+  Implied bound: 165
+  MIR: 7
+  Flow cover: 14
+  Zero half: 19
+  RLT: 12
+Explored 4846 nodes (13120219 simplex iterations) in 3134.59 seconds
+Thread count was 8 (of 8 available processors)
+Solution count 1350: 0 0 0 ... 0
+Optimal solution found (tolerance 1.00e-04)
+Best objective 0.000000000000e+00, best bound 0.000000000000e+00, gap 0.0000%
+Number of solutions found for the model: 1350
+[12, 1500, 1, 1.0, 0.0, 0.26081585400015683]
+1: Learned bounds for  1  samples in  0.24361795199911285  secs
+Parameter OutputFlag unchanged
+   Value: 1  Min: 0  Max: 1  Default: 1
+Changed value of parameter PoolSolutions to 1350
+   Prev: 10  Min: 1  Max: 2000000000  Default: 10
+Changed value of parameter PoolSearchMode to 2
+   Prev: 0  Min: 0  Max: 2  Default: 0
+Gurobi Optimizer version 9.0.0 build v9.0.0rc2 (linux64)
+Optimize a model with 40840 rows, 24262 columns and 194924 nonzeros
+Model fingerprint: 0x4445a05f
+Variable types: 0 continuous, 24262 integer (24262 binary)
+Coefficient statistics:
+  Matrix range     [1e+00, 1e+00]
+  Objective range  [0e+00, 0e+00]
+  Bounds range     [1e+00, 1e+00]
+  RHS range        [1e+00, 7e+01]
+Presolve removed 31525 rows and 10176 columns
+Presolve time: 0.19s
+Presolved: 9315 rows, 14086 columns, 72936 nonzeros
+Variable types: 0 continuous, 14086 integer (14086 binary)
+Root simplex log...
+Iteration    Objective       Primal Inf.    Dual Inf.      Time
+   10915    6.4494858e-04   2.487816e+03   0.000000e+00      5s
+   11743    0.0000000e+00   0.000000e+00   0.000000e+00      6s
+Root relaxation: objective 0.000000e+00, 11743 iterations, 5.28 seconds
+Total elapsed time = 12.30s
+Total elapsed time = 19.52s
+Total elapsed time = 22.88s
+Total elapsed time = 26.21s
+    Nodes    |    Current Node    |     Objective Bounds      |     Work
+ Expl Unexpl |  Obj  Depth IntInf | Incumbent    BestBd   Gap | It/Node Time
+     0     0    0.00000    0  929          -    0.00000      -     -   28s
+     0     0    0.00000    0 1482          -    0.00000      -     -   32s
+     0     0    0.00000    0 1493          -    0.00000      -     -   33s
+     0     0    0.00000    0  761          -    0.00000      -     -   64s
+     0     0    0.00000    0  947          -    0.00000      -     -   65s
+     0     0    0.00000    0  116          -    0.00000      -     -  100s
+     0     0    0.00000    0 1180          -    0.00000      -     -  105s
+H    0     0                       0.0000000    0.00000  0.00%     -  121s
+     0     0    0.00000    0  157    0.00000    0.00000  0.00%     -  121s
+Optimal solution found at node 0 - now completing solution pool...
+    Nodes    |    Current Node    |      Pool Obj. Bounds     |     Work
+             |                    |   Worst                   |
+ Expl Unexpl |  Obj  Depth IntInf | Incumbent    BestBd   Gap | It/Node Time
+     0     0    0.00000    0  156          -    0.00000      -     -  122s
+     0     0    0.00000    0   54          -    0.00000      -     -  131s
+     0     0    0.00000    0   53          -    0.00000      -     -  131s
+     0     0    0.00000    0  117          -    0.00000      -     -  142s
+     0     0    0.00000    0  117          -    0.00000      -     -  146s
+     0     2    0.00000    0  117          -    0.00000      -     -  171s
+     3     8    0.00000    2  844          -    0.00000      -  5437  177s
+    11    16    0.00000    4  983          -    0.00000      -  3186  180s
+    28    39    0.00000    8 1072          -    0.00000      -  1892  209s
+    38    48          -   10               -    0.00000      -  4460  248s
+    47    82    0.00000   11 1065          -    0.00000      -  5723  300s
+    81   142    0.00000   21   17          -    0.00000      -  5702  381s
+   141   282    0.00000   32   70          -    0.00000      -  5839  512s
+   298   561    0.00000   61 1087          -    0.00000      -  4811  721s
+   618   921    0.00000   39 1180          -    0.00000      -  3927  880s
+  1024  1355    0.00000   32 1232          -    0.00000      -  3020  998s
+  1492  1289    0.00000   27 1042          -    0.00000      -  2432 1043s
+  1493  1225    0.00000  327    0          -    0.00000      -  2430 1083s
+  1496  1002    0.00000   15   60          -    0.00000      -  2516 1088s
+  1498   820          -   16               -    0.00000      -  2513 1170s
+  1502   607          -   17               -    0.00000      -  2512 1221s
+  1506   499    0.00000   17  156          -    0.00000      -  2513 1320s
+  1510   453    0.00000   18   83          -    0.00000      -  2517 1439s
+  1514   374          -   19               -    0.00000      -  2530 1513s
+  1518   378    0.00000   18   61          -    0.00000      -  2532 1564s
+  1523   346    0.00000   19  121          -    0.00000      -  2534 1591s
+  1528   357    0.00000   21  171          -    0.00000      -  2535 1655s
+  1541   302          -   24               -    0.00000      -  2575 1820s
+  1575   252    0.00000   28  101          -    0.00000      -  2694 2068s
+  1689   551    0.00000   38 1260          -    0.00000      -  3025 2538s
+  2055   932 infeasible   75               -    0.00000      -  3583 2880s
+  2442  1373    0.00000  125  660          -    0.00000      -  3720 3165s
+  2883  1976          -  174               -    0.00000      -  3791 3431s
+  3486  3276    0.00000  214  136          -    0.00000      -  3547 3544s
+  3826  3276          -  195               -    0.00000      -  3246 3545s
+Cutting planes:
+  Implied bound: 165
+  MIR: 7
+  Flow cover: 14
+  Zero half: 19
+  RLT: 12
+Explored 4846 nodes (13120219 simplex iterations) in 3545.36 seconds
+Thread count was 8 (of 8 available processors)
+Solution count 1350: 0 0 0 ... 0
+Optimal solution found (tolerance 1.00e-04)
+Best objective 0.000000000000e+00, best bound 0.000000000000e+00, gap 0.0000%
+Number of solutions found for the model: 1350
+[12, 1500, 1, 1.0, 0.0, 0.24361795199911285]
+2: Learned bounds for  1  samples in  0.24222821600051248  secs
+Parameter OutputFlag unchanged
+   Value: 1  Min: 0  Max: 1  Default: 1
+Changed value of parameter PoolSolutions to 1350
+   Prev: 10  Min: 1  Max: 2000000000  Default: 10
+Changed value of parameter PoolSearchMode to 2
+   Prev: 0  Min: 0  Max: 2  Default: 0
+Gurobi Optimizer version 9.0.0 build v9.0.0rc2 (linux64)
+Optimize a model with 40840 rows, 24262 columns and 194924 nonzeros
+Model fingerprint: 0x4445a05f
+Variable types: 0 continuous, 24262 integer (24262 binary)
+Coefficient statistics:
+  Matrix range     [1e+00, 1e+00]
+  Objective range  [0e+00, 0e+00]
+  Bounds range     [1e+00, 1e+00]
+  RHS range        [1e+00, 7e+01]
+Presolve removed 31525 rows and 10176 columns
+Presolve time: 0.20s
+Presolved: 9315 rows, 14086 columns, 72936 nonzeros
+Variable types: 0 continuous, 14086 integer (14086 binary)
+Root simplex log...
+Iteration    Objective       Primal Inf.    Dual Inf.      Time
+   10449    6.4204964e-04   4.236810e+03   0.000000e+00      5s
+   11743    0.0000000e+00   0.000000e+00   0.000000e+00      6s
+Root relaxation: objective 0.000000e+00, 11743 iterations, 5.64 seconds
+Total elapsed time = 13.00s
+Total elapsed time = 20.50s
+Total elapsed time = 27.44s
+    Nodes    |    Current Node    |     Objective Bounds      |     Work
+ Expl Unexpl |  Obj  Depth IntInf | Incumbent    BestBd   Gap | It/Node Time
+     0     0    0.00000    0  929          -    0.00000      -     -   29s
+     0     0    0.00000    0 1482          -    0.00000      -     -   34s
+     0     0    0.00000    0 1493          -    0.00000      -     -   35s
+     0     0    0.00000    0  761          -    0.00000      -     -   66s
+     0     0    0.00000    0  947          -    0.00000      -     -   67s
+     0     0    0.00000    0  116          -    0.00000      -     -   99s
+     0     0    0.00000    0 1180          -    0.00000      -     -  104s
+H    0     0                       0.0000000    0.00000  0.00%     -  119s
+     0     0    0.00000    0  157    0.00000    0.00000  0.00%     -  119s
+Optimal solution found at node 0 - now completing solution pool...
+    Nodes    |    Current Node    |      Pool Obj. Bounds     |     Work
+             |                    |   Worst                   |
+ Expl Unexpl |  Obj  Depth IntInf | Incumbent    BestBd   Gap | It/Node Time
+     0     0    0.00000    0  156          -    0.00000      -     -  119s
+     0     0    0.00000    0   54          -    0.00000      -     -  128s
+     0     0    0.00000    0   53          -    0.00000      -     -  128s
+     0     0    0.00000    0  117          -    0.00000      -     -  138s
+     0     0    0.00000    0  117          -    0.00000      -     -  142s
+     0     2    0.00000    0  117          -    0.00000      -     -  165s
+     3     8    0.00000    2  844          -    0.00000      -  5437  170s
+    19    24    0.00000    6  676          -    0.00000      -  2388  175s
+    28    39    0.00000    8 1072          -    0.00000      -  1892  202s
+    38    48          -   10               -    0.00000      -  4460  237s
+    47    82    0.00000   11 1065          -    0.00000      -  5723  290s
+    81   142    0.00000   21   17          -    0.00000      -  5702  373s
+   141   282    0.00000   32   70          -    0.00000      -  5839  506s
+   298   561    0.00000   61 1087          -    0.00000      -  4811  712s
+   618   921    0.00000   39 1180          -    0.00000      -  3927  868s
+  1024  1355    0.00000   32 1232          -    0.00000      -  3020  986s
+  1492  1289    0.00000   27 1042          -    0.00000      -  2432 1032s
+  1493  1225    0.00000  327    0          -    0.00000      -  2430 1065s
+  1496  1002    0.00000   15   60          -    0.00000      -  2516 1070s
+  1498   820          -   16               -    0.00000      -  2513 1148s
+  1502   607          -   17               -    0.00000      -  2512 1201s
+  1506   499    0.00000   17  156          -    0.00000      -  2513 1294s
+  1510   453    0.00000   18   83          -    0.00000      -  2517 1396s
+  1514   374          -   19               -    0.00000      -  2530 1462s
+  1518   378    0.00000   18   61          -    0.00000      -  2532 1505s
+  1523   346    0.00000   19  121          -    0.00000      -  2534 1531s
+  1528   357    0.00000   21  171          -    0.00000      -  2535 1584s
+  1541   302          -   24               -    0.00000      -  2575 1722s
+  1575   252    0.00000   28  101          -    0.00000      -  2694 1972s
+  1689   551    0.00000   38 1260          -    0.00000      -  3025 2463s
+  2055   932 infeasible   75               -    0.00000      -  3583 2845s
+  2442  1373    0.00000  125  660          -    0.00000      -  3720 3147s
+  2883  1976          -  174               -    0.00000      -  3791 3410s
+  3486  3276    0.00000  214  136          -    0.00000      -  3547 3519s
+  3826  3276          -  195               -    0.00000      -  3246 3520s
+Cutting planes:
+  Implied bound: 165
+  MIR: 7
+  Flow cover: 14
+  Zero half: 19
+  RLT: 12
+Explored 4846 nodes (13120219 simplex iterations) in 3520.35 seconds
+Thread count was 8 (of 8 available processors)
+Solution count 1350: 0 0 0 ... 0
+Optimal solution found (tolerance 1.00e-04)
+Best objective 0.000000000000e+00, best bound 0.000000000000e+00, gap 0.0000%
+Number of solutions found for the model: 1350
+[12, 1500, 1, 1.0, 0.0, 0.24222821600051248]
+3: Learned bounds for  1  samples in  0.24951855299877934  secs
+Parameter OutputFlag unchanged
+   Value: 1  Min: 0  Max: 1  Default: 1
+Changed value of parameter PoolSolutions to 1350
+   Prev: 10  Min: 1  Max: 2000000000  Default: 10
+Changed value of parameter PoolSearchMode to 2
+   Prev: 0  Min: 0  Max: 2  Default: 0
+Gurobi Optimizer version 9.0.0 build v9.0.0rc2 (linux64)
+Optimize a model with 40840 rows, 24262 columns and 194924 nonzeros
+Model fingerprint: 0xf87023f9
+Variable types: 0 continuous, 24262 integer (24262 binary)
+Coefficient statistics:
+  Matrix range     [1e+00, 1e+00]
+  Objective range  [0e+00, 0e+00]
+  Bounds range     [1e+00, 1e+00]
+  RHS range        [1e+00, 7e+01]
+Presolve removed 31525 rows and 10176 columns
+Presolve time: 0.18s
+Presolved: 9315 rows, 14086 columns, 72936 nonzeros
+Variable types: 0 continuous, 14086 integer (14086 binary)
+Root simplex log...
+Iteration    Objective       Primal Inf.    Dual Inf.      Time
+   11221    5.9133335e-04   3.996022e+01   0.000000e+00      5s
+   11493    0.0000000e+00   0.000000e+00   0.000000e+00      5s
+Root relaxation: objective 0.000000e+00, 11493 iterations, 4.97 seconds
+Total elapsed time = 11.57s
+Total elapsed time = 16.86s
+Total elapsed time = 22.88s
+Total elapsed time = 30.42s
+    Nodes    |    Current Node    |     Objective Bounds      |     Work
+ Expl Unexpl |  Obj  Depth IntInf | Incumbent    BestBd   Gap | It/Node Time
+     0     0    0.00000    0 1109          -    0.00000      -     -   33s
+     0     0    0.00000    0 1488          -    0.00000      -     -   38s
+     0     0    0.00000    0 1445          -    0.00000      -     -   39s
+     0     0    0.00000    0  632          -    0.00000      -     -   77s
+     0     0    0.00000    0  635          -    0.00000      -     -   79s
+     0     0    0.00000    0  360          -    0.00000      -     -  119s
+H    0     0                       0.0000000    0.00000  0.00%     -  119s
+     0     0    0.00000    0  342    0.00000    0.00000  0.00%     -  119s
+Optimal solution found at node 0 - now completing solution pool...
+Total elapsed time = 123.47s
+Total elapsed time = 130.86s
+Total elapsed time = 135.08s
+Total elapsed time = 141.74s
+    Nodes    |    Current Node    |      Pool Obj. Bounds     |     Work
+             |                    |   Worst                   |
+ Expl Unexpl |  Obj  Depth IntInf | Incumbent    BestBd   Gap | It/Node Time
+     0     0    0.00000    0  331          -    0.00000      -     -  149s
+     0     0    0.00000    0  370          -    0.00000      -     -  151s
+     0     0          -    0               -    0.00000      -     -  160s
+     0     0          -    0               -    0.00000      -     -  160s
+     0     0          -    0               -    0.00000      -     -  160s
+     0     2          -    0               -    0.00000      -     -  160s
+     3     8    0.00000    2 1083          -    0.00000      -  1959  185s
+    11    16    0.00000    4 1168          -    0.00000      -  1908  194s
+    15    20    0.00000    5 1100          -    0.00000      -  2268  195s
+    19    24    0.00000    6 1017          -    0.00000      -  1933  212s
+    28    40    0.00000    8 1108          -    0.00000      -  2234  238s
+    39    57    0.00000   11   52          -    0.00000      -  3361  257s
+    56    80    0.00000   16 1337          -    0.00000      -  3563  302s
+    81   143    0.00000   21  883          -    0.00000      -  4491  372s
+   148   262    0.00000   41  895          -    0.00000      -  4324  517s
+   284   397    0.00000   11   94          -    0.00000      -  4182  739s
+   435   674    0.00000   40  290          -    0.00000      -  4619  964s
+   739   870    0.00000  107 1055          -    0.00000      -  4132 1168s
+  1006  1094          -   30               -    0.00000      -  3920 1387s
+  1287  1041    0.00000   83  667          -    0.00000      -  3818 1436s
+  1288  1042    0.00000   50  223          -    0.00000      -  3816 1483s
+  1292   732          -   15               -    0.00000      -  3911 1561s
+  1294   735    0.00000   16 1169          -    0.00000      -  3917 1654s
+  1298   667    0.00000   17 1429          -    0.00000      -  3914 1738s
+  1302   605    0.00000   18 1269          -    0.00000      -  3913 1814s
+  1306   608    0.00000   19 1201          -    0.00000      -  3916 1835s
+  1310   611    0.00000   20  972          -    0.00000      -  3907 1854s
+  1314   615    0.00000   21  946          -    0.00000      -  3897 1919s
+  1320   623    0.00000   22 1034          -    0.00000      -  3894 2002s
+  1330   659    0.00000   25   88          -    0.00000      -  3970 2113s
+  1369   382          -   34               -    0.00000      -  3997 2384s
+  1487   648    0.00000   45  268          -    0.00000      -  4263 2877s
+  1938  1002    0.00000   93 1323          -    0.00000      -  4492 3246s
+  2298  1425          -  124               -    0.00000      -  4505 3554s
+  2729  2032          -  154               -    0.00000      -  4414 3827s
+  3366  3374          -  184               -    0.00000      -  3989 3962s
+  4742  5026          -  283               -    0.00000      -  2999 3965s
+Cutting planes:
+  Gomory: 4
+  Implied bound: 128
+  MIR: 2
+  Flow cover: 10
+  Zero half: 25
+  RLT: 7
+Explored 6394 nodes (14448252 simplex iterations) in 3965.70 seconds
+Thread count was 8 (of 8 available processors)
+Solution count 1350: 0 0 0 ... 0
+Optimal solution found (tolerance 1.00e-04)
+Best objective 0.000000000000e+00, best bound 0.000000000000e+00, gap 0.0000%
+Number of solutions found for the model: 1350
+[12, 1500, 1, 1.0, 0.0, 0.24951855299877934]
+4: Learned bounds for  1  samples in  0.2350105200021062  secs
+Parameter OutputFlag unchanged
+   Value: 1  Min: 0  Max: 1  Default: 1
+Changed value of parameter PoolSolutions to 1350
+   Prev: 10  Min: 1  Max: 2000000000  Default: 10
+Changed value of parameter PoolSearchMode to 2
+   Prev: 0  Min: 0  Max: 2  Default: 0
+Gurobi Optimizer version 9.0.0 build v9.0.0rc2 (linux64)
+Optimize a model with 40840 rows, 24262 columns and 194924 nonzeros
+Model fingerprint: 0xf87023f9
+Variable types: 0 continuous, 24262 integer (24262 binary)
+Coefficient statistics:
+  Matrix range     [1e+00, 1e+00]
+  Objective range  [0e+00, 0e+00]
+  Bounds range     [1e+00, 1e+00]
+  RHS range        [1e+00, 7e+01]
+Presolve removed 31525 rows and 10176 columns
+Presolve time: 0.19s
+Presolved: 9315 rows, 14086 columns, 72936 nonzeros
+Variable types: 0 continuous, 14086 integer (14086 binary)
+Root simplex log...
+Iteration    Objective       Primal Inf.    Dual Inf.      Time
+   11321    5.9140510e-04   1.377967e+01   0.000000e+00      5s
+   11493    0.0000000e+00   0.000000e+00   0.000000e+00      5s
+Root relaxation: objective 0.000000e+00, 11493 iterations, 4.88 seconds
+Total elapsed time = 11.50s
+Total elapsed time = 16.73s
+Total elapsed time = 22.58s
+Total elapsed time = 29.42s
+    Nodes    |    Current Node    |     Objective Bounds      |     Work
+ Expl Unexpl |  Obj  Depth IntInf | Incumbent    BestBd   Gap | It/Node Time
+     0     0    0.00000    0 1109          -    0.00000      -     -   32s
+     0     0    0.00000    0 1488          -    0.00000      -     -   36s
+     0     0    0.00000    0 1445          -    0.00000      -     -   37s
+     0     0    0.00000    0  632          -    0.00000      -     -   66s
+     0     0    0.00000    0  635          -    0.00000      -     -   67s
+     0     0    0.00000    0  360          -    0.00000      -     -   96s
+H    0     0                       0.0000000    0.00000  0.00%     -   96s
+     0     0    0.00000    0  342    0.00000    0.00000  0.00%     -   96s
+Optimal solution found at node 0 - now completing solution pool...
+Total elapsed time = 98.95s
+Total elapsed time = 104.94s
+Total elapsed time = 108.21s
+Total elapsed time = 113.17s
+    Nodes    |    Current Node    |      Pool Obj. Bounds     |     Work
+             |                    |   Worst                   |
+ Expl Unexpl |  Obj  Depth IntInf | Incumbent    BestBd   Gap | It/Node Time
+     0     0    0.00000    0  331          -    0.00000      -     -  119s
+     0     0    0.00000    0  370          -    0.00000      -     -  121s
+     0     0          -    0               -    0.00000      -     -  128s
+     0     0          -    0               -    0.00000      -     -  128s
+     0     0          -    0               -    0.00000      -     -  128s
+     0     2          -    0               -    0.00000      -     -  128s
+     3     8    0.00000    2 1083          -    0.00000      -  1959  146s
+    11    16    0.00000    4 1168          -    0.00000      -  1908  152s
+    19    24    0.00000    6 1017          -    0.00000      -  1933  165s
+    28    40    0.00000    8 1108          -    0.00000      -  2234  184s
+    39    57    0.00000   11   52          -    0.00000      -  3361  198s
+    56    80    0.00000   16 1337          -    0.00000      -  3563  232s
+    81   143    0.00000   21  883          -    0.00000      -  4491  288s
+   148   262    0.00000   41  895          -    0.00000      -  4324  400s
+   284   397    0.00000   11   94          -    0.00000      -  4182  583s
+   435   674    0.00000   40  290          -    0.00000      -  4619  784s
+   739   870    0.00000  107 1055          -    0.00000      -  4132  970s
+  1006  1094          -   30               -    0.00000      -  3920 1165s
+  1287  1041    0.00000   83  667          -    0.00000      -  3818 1206s
+  1288  1042    0.00000   50  223          -    0.00000      -  3816 1248s
+  1292   732          -   15               -    0.00000      -  3911 1316s
+  1294   735    0.00000   16 1169          -    0.00000      -  3917 1403s
+  1298   667    0.00000   17 1429          -    0.00000      -  3914 1483s
+  1302   605    0.00000   18 1269          -    0.00000      -  3913 1551s
+  1306   608    0.00000   19 1201          -    0.00000      -  3916 1570s
+  1310   611    0.00000   20  972          -    0.00000      -  3907 1588s
+  1314   615    0.00000   21  946          -    0.00000      -  3897 1646s
+  1320   623    0.00000   22 1034          -    0.00000      -  3894 1727s
+  1330   659    0.00000   25   88          -    0.00000      -  3970 1832s
+  1369   382          -   34               -    0.00000      -  3997 2090s
+  1487   648    0.00000   45  268          -    0.00000      -  4263 2577s
+  1938  1002    0.00000   93 1323          -    0.00000      -  4492 2907s
+  2298  1425          -  124               -    0.00000      -  4505 3193s
+  2729  2032          -  154               -    0.00000      -  4414 3451s
+  3366  3374          -  184               -    0.00000      -  3989 3574s
+  4742  5026          -  283               -    0.00000      -  2999 3577s
+Cutting planes:
+  Gomory: 4
+  Implied bound: 128
+  MIR: 2
+  Flow cover: 10
+  Zero half: 25
+  RLT: 7
+Explored 6394 nodes (14448252 simplex iterations) in 3577.66 seconds
+Thread count was 8 (of 8 available processors)
+Solution count 1350: 0 0 0 ... 0
+Optimal solution found (tolerance 1.00e-04)
+Best objective 0.000000000000e+00, best bound 0.000000000000e+00, gap 0.0000%
+Number of solutions found for the model: 1350
+[12, 1500, 1, 1.0, 0.0, 0.2350105200021062]
+0: Learned bounds for  5  samples in  1.0949430780019611  secs
+Parameter OutputFlag unchanged
+   Value: 1  Min: 0  Max: 1  Default: 1
+Changed value of parameter PoolSolutions to 1350
+   Prev: 10  Min: 1  Max: 2000000000  Default: 10
+Changed value of parameter PoolSearchMode to 2
+   Prev: 0  Min: 0  Max: 2  Default: 0
+Gurobi Optimizer version 9.0.0 build v9.0.0rc2 (linux64)
+Optimize a model with 40840 rows, 24262 columns and 194924 nonzeros
+Model fingerprint: 0x72598ef2
+Variable types: 0 continuous, 24262 integer (24262 binary)
+Coefficient statistics:
+  Matrix range     [1e+00, 1e+00]
+  Objective range  [0e+00, 0e+00]
+  Bounds range     [1e+00, 1e+00]
+  RHS range        [1e+00, 7e+01]
+Presolve removed 31525 rows and 10176 columns
+Presolve time: 0.16s
+Presolved: 9315 rows, 14086 columns, 72936 nonzeros
+Variable types: 0 continuous, 14086 integer (14086 binary)
+Root relaxation: objective 0.000000e+00, 11383 iterations, 4.31 seconds
+Total elapsed time = 9.97s
+Total elapsed time = 15.31s
+Total elapsed time = 21.11s
+    Nodes    |    Current Node    |     Objective Bounds      |     Work
+ Expl Unexpl |  Obj  Depth IntInf | Incumbent    BestBd   Gap | It/Node Time
+     0     0    0.00000    0 1314          -    0.00000      -     -   23s
+     0     0    0.00000    0 1733          -    0.00000      -     -   27s
+     0     0    0.00000    0  664          -    0.00000      -     -   50s
+     0     0    0.00000    0  850          -    0.00000      -     -   51s
+     0     0    0.00000    0  174          -    0.00000      -     -   72s
+     0     0    0.00000    0  375          -    0.00000      -     -   72s
+     0     0    0.00000    0  723          -    0.00000      -     -   85s
+     0     0    0.00000    0 1159          -    0.00000      -     -   86s
+H    0     0                       0.0000000    0.00000  0.00%     -  106s
+     0     0          -    0         0.00000    0.00000  0.00%     -  106s
+Optimal solution found at node 0 - now completing solution pool...
+    Nodes    |    Current Node    |      Pool Obj. Bounds     |     Work
+             |                    |   Worst                   |
+ Expl Unexpl |  Obj  Depth IntInf | Incumbent    BestBd   Gap | It/Node Time
+     0     0          -    0               -    0.00000      -     -  106s
+     0     0          -    0               -    0.00000      -     -  106s
+     0     2          -    0               -    0.00000      -     -  106s
+     3     8          -    2               -    0.00000      -   771  112s
+     7    12    0.00000    3 1096          -    0.00000      -  2381  115s
+    11    16    0.00000    4 1239          -    0.00000      -  2132  127s
+    19    24    0.00000    6  900          -    0.00000      -  1595  139s
+    23    28    0.00000    7  979          -    0.00000      -  2175  141s
+    27    41    0.00000    8 1152          -    0.00000      -  2175  160s
+    40    60    0.00000    9 1144          -    0.00000      -  3734  186s
+    59    76          -   10               -    0.00000      -  5079  230s
+    75   161    0.00000   11 1365          -    0.00000      -  6451  292s
+   162   291    0.00000   31 1274          -    0.00000      -  4997  425s
+   316   494          -   11               -    0.00000      -  4604  604s
+   557   690    0.00000   53 1203          -    0.00000      -  4326  778s
+   792   874    0.00000   21  857          -    0.00000      -  4298  964s
+  1055   832    0.00000   42 1173          -    0.00000      -  4161 1004s
+  1056   752    0.00000   60   19          -    0.00000      -  4157 1029s
+  1057   715    0.00000   20    0          -    0.00000      -  4153 1035s
+  1070   199          -   17               -    0.00000      -  4234 1111s
+  1074   167          -   18               -    0.00000      -  4247 1149s
+  1080   122    0.00000   19  855          -    0.00000      -  4226 1179s
+  1082   117          -   19               -    0.00000      -  4220 1219s
+  1088    94    0.00000   20 1598          -    0.00000      -  4214 1313s
+  1093    91    0.00000   21 1493          -    0.00000      -  4225 1370s
+  1098    96    0.00000   22 1467          -    0.00000      -  4220 1412s
+  1105    98    0.00000   23 1331          -    0.00000      -  4244 1465s
+  1115   100          -   22               -    0.00000      -  4252 1530s
+  1141   131    0.00000   26 1344          -    0.00000      -  4328 1622s
+  1189   250          -   34               -    0.00000      -  4384 1802s
+  1310   618    0.00000   46 1172          -    0.00000      -  4621 2163s
+  1688   952    0.00000   93 1072          -    0.00000      -  4687 2427s
+  2022  1303          -  114               -    0.00000      -  4705 2672s
+  2387  1633          -  134               -    0.00000      -  4671 2905s
+  2717  2496    0.00000  155 1109          -    0.00000      -  4536 3101s
+  3610  3701    0.00000  211  737          -    0.00000      -  3764 3208s
+Cutting planes:
+  Gomory: 2
+  Implied bound: 198
+  MIR: 9
+  Flow cover: 22
+  Inf proof: 1
+  Zero half: 31
+  RLT: 11
+Explored 4837 nodes (14203104 simplex iterations) in 3209.53 seconds
+Thread count was 8 (of 8 available processors)
+Solution count 1350: 0 0 0 ... 0
+Optimal solution found (tolerance 1.00e-04)
+Best objective 0.000000000000e+00, best bound 0.000000000000e+00, gap 0.0000%
+Number of solutions found for the model: 1350
+[12, 1500, 5, 1.0, 0.0, 1.0949430780019611]
+1: Learned bounds for  5  samples in  1.061372743002721  secs
+Parameter OutputFlag unchanged
+   Value: 1  Min: 0  Max: 1  Default: 1
+Changed value of parameter PoolSolutions to 1350
+   Prev: 10  Min: 1  Max: 2000000000  Default: 10
+Changed value of parameter PoolSearchMode to 2
+   Prev: 0  Min: 0  Max: 2  Default: 0
+Gurobi Optimizer version 9.0.0 build v9.0.0rc2 (linux64)
+Optimize a model with 40840 rows, 24262 columns and 194924 nonzeros
+Model fingerprint: 0xe235a558
+Variable types: 0 continuous, 24262 integer (24262 binary)
+Coefficient statistics:
+  Matrix range     [1e+00, 1e+00]
+  Objective range  [0e+00, 0e+00]
+  Bounds range     [1e+00, 1e+00]
+  RHS range        [1e+00, 7e+01]
+Presolve removed 31525 rows and 10176 columns
+Presolve time: 0.16s
+Presolved: 9315 rows, 14086 columns, 72936 nonzeros
+Variable types: 0 continuous, 14086 integer (14086 binary)
+Root relaxation: objective 0.000000e+00, 11743 iterations, 4.57 seconds
+Total elapsed time = 10.70s
+Total elapsed time = 16.92s
+Total elapsed time = 22.53s
+    Nodes    |    Current Node    |     Objective Bounds      |     Work
+ Expl Unexpl |  Obj  Depth IntInf | Incumbent    BestBd   Gap | It/Node Time
+     0     0    0.00000    0 1271          -    0.00000      -     -   25s
+     0     0    0.00000    0 1741          -    0.00000      -     -   30s
+     0     0    0.00000    0 1733          -    0.00000      -     -   30s
+     0     0    0.00000    0  885          -    0.00000      -     -   52s
+     0     0    0.00000    0 1144          -    0.00000      -     -   53s
+     0     0    0.00000    0  164          -    0.00000      -     -   75s
+     0     0    0.00000    0  139          -    0.00000      -     -   75s
+*    0     0               0       0.0000000    0.00000  0.00%     -   82s
+Optimal solution found at node 0 - now completing solution pool...
+    Nodes    |    Current Node    |      Pool Obj. Bounds     |     Work
+             |                    |   Worst                   |
+ Expl Unexpl |  Obj  Depth IntInf | Incumbent    BestBd   Gap | It/Node Time
+     0     0          -    0               -    0.00000      -     -   82s
+     0     0          -    0               -    0.00000      -     -   82s
+     0     2          -    0               -    0.00000      -     -   82s
+     2     4    0.00000    1 1417          -    0.00000      -  2112   85s
+     3     8    0.00000    2 1282          -    0.00000      -  2791   99s
+     7    12    0.00000    3 1187          -    0.00000      -  2057  101s
+    27    40    0.00000    8 1132          -    0.00000      -  1476  118s
+    39    46    0.00000    9 1109          -    0.00000      -  3042  146s
+    45    77    0.00000   11 1465          -    0.00000      -  5024  181s
+    76   142          -   21               -    0.00000      -  5188  235s
+   143   271    0.00000   33 1339          -    0.00000      -  4857  326s
+   290   452    0.00000   66 1280          -    0.00000      -  4333  472s
+   513   652    0.00000   21  256          -    0.00000      -  3993  621s
+   744   845    0.00000   70  453          -    0.00000      -  3881  766s
+  1023   804    0.00000   46  987          -    0.00000      -  3671  803s
+  1024   765    0.00000   16    0          -    0.00000      -  3668  832s
+  1027   566          -   15               -    0.00000      -  3775  905s
+  1029   569    0.00000   16   42          -    0.00000      -  3777  978s
+  1033   517    0.00000   17 1372          -    0.00000      -  3776 1056s
+  1037   471          -   18               -    0.00000      -  3777 1098s
+  1041   428          -   17               -    0.00000      -  3771 1114s
+  1045   431    0.00000   18  107          -    0.00000      -  3760 1169s
+  1049   394          -   19               -    0.00000      -  3773 1187s
+  1054   329          -   19               -    0.00000      -  3764 1200s
+  1060   258          -   20               -    0.00000      -  3754 1235s
+  1072   233    0.00000   23 1257          -    0.00000      -  3788 1329s
+  1111   201    0.00000   27  167          -    0.00000      -  3888 1500s
+  1226   504          -   44               -    0.00000      -  4105 1850s
+  1545   817          -   74               -    0.00000      -  4499 2153s
+  1864  1205    0.00000  102 1214          -    0.00000      -  4541 2426s
+  2254  1591          -  124               -    0.00000      -  4552 2680s
+  2640  2537    0.00000  161 1133          -    0.00000      -  4382 2883s
+  3620  3997 infeasible  205               -    0.00000      -  3572 2972s
+Cutting planes:
+  Gomory: 4
+  Implied bound: 159
+  MIR: 10
+  Flow cover: 19
+  Inf proof: 1
+  Zero half: 12
+  RLT: 16
+Explored 5100 nodes (13461058 simplex iterations) in 2972.89 seconds
+Thread count was 8 (of 8 available processors)
+Solution count 1350: 0 0 0 ... 0
+Optimal solution found (tolerance 1.00e-04)
+Best objective 0.000000000000e+00, best bound 0.000000000000e+00, gap 0.0000%
+Number of solutions found for the model: 1350
+[12, 1500, 5, 1.0, 0.0, 1.061372743002721]
+2: Learned bounds for  5  samples in  1.0611212079966208  secs
+Parameter OutputFlag unchanged
+   Value: 1  Min: 0  Max: 1  Default: 1
+Changed value of parameter PoolSolutions to 1350
+   Prev: 10  Min: 1  Max: 2000000000  Default: 10
+Changed value of parameter PoolSearchMode to 2
+   Prev: 0  Min: 0  Max: 2  Default: 0
+Gurobi Optimizer version 9.0.0 build v9.0.0rc2 (linux64)
+Optimize a model with 40840 rows, 24262 columns and 194924 nonzeros
+Model fingerprint: 0x85a88a4c
+Variable types: 0 continuous, 24262 integer (24262 binary)
+Coefficient statistics:
+  Matrix range     [1e+00, 1e+00]
+  Objective range  [0e+00, 0e+00]
+  Bounds range     [1e+00, 1e+00]
+  RHS range        [1e+00, 7e+01]
+Presolve removed 31525 rows and 10176 columns
+Presolve time: 0.16s
+Presolved: 9315 rows, 14086 columns, 72936 nonzeros
+Variable types: 0 continuous, 14086 integer (14086 binary)
+Root relaxation: objective 0.000000e+00, 11383 iterations, 4.26 seconds
+Total elapsed time = 10.41s
+Total elapsed time = 15.53s
+Total elapsed time = 20.83s
+    Nodes    |    Current Node    |     Objective Bounds      |     Work
+ Expl Unexpl |  Obj  Depth IntInf | Incumbent    BestBd   Gap | It/Node Time
+     0     0    0.00000    0 1314          -    0.00000      -     -   23s
+     0     0    0.00000    0 1648          -    0.00000      -     -   27s
+     0     0    0.00000    0 1633          -    0.00000      -     -   27s
+     0     0    0.00000    0  652          -    0.00000      -     -   53s
+     0     0    0.00000    0  693          -    0.00000      -     -   54s
+     0     0    0.00000    0  526          -    0.00000      -     -   77s
+     0     0    0.00000    0 1014          -    0.00000      -     -   79s
+H    0     0                       0.0000000    0.00000  0.00%     -   94s
+     0     0    0.00000    0  126    0.00000    0.00000  0.00%     -   94s
+Optimal solution found at node 0 - now completing solution pool...
+Total elapsed time = 95.16s
+    Nodes    |    Current Node    |      Pool Obj. Bounds     |     Work
+             |                    |   Worst                   |
+ Expl Unexpl |  Obj  Depth IntInf | Incumbent    BestBd   Gap | It/Node Time
+     0     0    0.00000    0  128          -    0.00000      -     -  101s
+     0     0    0.00000    0  128          -    0.00000      -     -  106s
+     0     2    0.00000    0  128          -    0.00000      -     -  137s
+     3     8    0.00000    2  957          -    0.00000      -  5743  141s
+    15    20    0.00000    5 1021          -    0.00000      -  3018  151s
+    27    39    0.00000    8 1041          -    0.00000      -  2563  182s
+    38    62    0.00000   11  652          -    0.00000      -  5160  217s
+    61   103    0.00000   21 1094          -    0.00000      -  6240  284s
+   108   194    0.00000   25 1297          -    0.00000      -  5862  378s
+   217   460    0.00000   28 1141          -    0.00000      -  5343  540s
+   499   803    0.00000   81  823          -    0.00000      -  4331  702s
+   878  1050    0.00000  129 1129          -    0.00000      -  3439  837s
+  1180   998    0.00000   27  128          -    0.00000      -  3304  840s
+  1182   999    0.00000  254  864          -    0.00000      -  3299  876s
+  1183   950    0.00000   27    0          -    0.00000      -  3296  884s
+  1186   778    0.00000   15 1207          -    0.00000      -  3373  940s
+  1188   705    0.00000   16 1192          -    0.00000      -  3370 1006s
+  1192   640    0.00000   17 1127          -    0.00000      -  3369 1049s
+  1196   581    0.00000   18 1336          -    0.00000      -  3367 1121s
+  1200   583    0.00000   19 1087          -    0.00000      -  3371 1133s
+  1204   531    0.00000   20 1069          -    0.00000      -  3362 1183s
+  1208   534    0.00000   21 1200          -    0.00000      -  3382 1199s
+  1212   536    0.00000   22 1142          -    0.00000      -  3380 1212s
+  1216   548    0.00000   23 1306          -    0.00000      -  3380 1247s
+  1229   375    0.00000   22  957          -    0.00000      -  3439 1340s
+  1282   224    0.00000   31  629          -    0.00000      -  3517 1535s
+  1389   512          -   54               -    0.00000      -  3843 1895s
+  1704   850          -   94               -    0.00000      -  4335 2235s
+  2042  1253          -  134               -    0.00000      -  4464 2516s
+  2445  1650          -  174               -    0.00000      -  4489 2774s
+  2852  2533          -  234               -    0.00000      -  4315 2977s
+  3767  3786          -  324               -    0.00000      -  3622 3090s
+Cutting planes:
+  Implied bound: 127
+  MIR: 5
+  Flow cover: 18
+  Zero half: 26
+  RLT: 1
+Explored 5024 nodes (14244535 simplex iterations) in 3090.96 seconds
+Thread count was 8 (of 8 available processors)
+Solution count 1350: 0 0 0 ... 0
+Optimal solution found (tolerance 1.00e-04)
+Best objective 0.000000000000e+00, best bound 0.000000000000e+00, gap 0.0000%
+Number of solutions found for the model: 1350
+[12, 1500, 5, 1.0, 0.0, 1.0611212079966208]
+3: Learned bounds for  5  samples in  1.0654277099965839  secs
+Parameter OutputFlag unchanged
+   Value: 1  Min: 0  Max: 1  Default: 1
+Changed value of parameter PoolSolutions to 1350
+   Prev: 10  Min: 1  Max: 2000000000  Default: 10
+Changed value of parameter PoolSearchMode to 2
+   Prev: 0  Min: 0  Max: 2  Default: 0
+Gurobi Optimizer version 9.0.0 build v9.0.0rc2 (linux64)
+Optimize a model with 40840 rows, 24262 columns and 194924 nonzeros
+Model fingerprint: 0x72598ef2
+Variable types: 0 continuous, 24262 integer (24262 binary)
+Coefficient statistics:
+  Matrix range     [1e+00, 1e+00]
+  Objective range  [0e+00, 0e+00]
+  Bounds range     [1e+00, 1e+00]
+  RHS range        [1e+00, 7e+01]
+Presolve removed 31525 rows and 10176 columns
+Presolve time: 0.16s
+Presolved: 9315 rows, 14086 columns, 72936 nonzeros
+Variable types: 0 continuous, 14086 integer (14086 binary)
+Root relaxation: objective 0.000000e+00, 11383 iterations, 4.26 seconds
+Total elapsed time = 9.91s
+Total elapsed time = 15.20s
+Total elapsed time = 20.98s
+    Nodes    |    Current Node    |     Objective Bounds      |     Work
+ Expl Unexpl |  Obj  Depth IntInf | Incumbent    BestBd   Gap | It/Node Time
+     0     0    0.00000    0 1314          -    0.00000      -     -   23s
+     0     0    0.00000    0 1733          -    0.00000      -     -   27s
+     0     0    0.00000    0  664          -    0.00000      -     -   50s
+     0     0    0.00000    0  850          -    0.00000      -     -   51s
+     0     0    0.00000    0  174          -    0.00000      -     -   70s
+     0     0    0.00000    0  375          -    0.00000      -     -   71s
+     0     0    0.00000    0  723          -    0.00000      -     -   83s
+     0     0    0.00000    0 1159          -    0.00000      -     -   85s
+H    0     0                       0.0000000    0.00000  0.00%     -  104s
+     0     0          -    0         0.00000    0.00000  0.00%     -  104s
+Optimal solution found at node 0 - now completing solution pool...
+    Nodes    |    Current Node    |      Pool Obj. Bounds     |     Work
+             |                    |   Worst                   |
+ Expl Unexpl |  Obj  Depth IntInf | Incumbent    BestBd   Gap | It/Node Time
+     0     0          -    0               -    0.00000      -     -  104s
+     0     0          -    0               -    0.00000      -     -  104s
+     0     2          -    0               -    0.00000      -     -  104s
+     1     4          -    1               -    0.00000      -  2312  105s
+     3     8          -    2               -    0.00000      -   771  110s
+    11    16    0.00000    4 1239          -    0.00000      -  2132  125s
+    19    24    0.00000    6  900          -    0.00000      -  1595  136s
+    27    41    0.00000    8 1152          -    0.00000      -  2175  156s
+    40    60    0.00000    9 1144          -    0.00000      -  3734  181s
+    59    76          -   10               -    0.00000      -  5079  223s
+    75   161    0.00000   11 1365          -    0.00000      -  6451  280s
+   162   291    0.00000   31 1274          -    0.00000      -  4997  410s
+   316   494          -   11               -    0.00000      -  4604  587s
+   557   690    0.00000   53 1203          -    0.00000      -  4326  757s
+   792   874    0.00000   21  857          -    0.00000      -  4298  940s
+  1055   832    0.00000   42 1173          -    0.00000      -  4161  979s
+  1056   752    0.00000   60   19          -    0.00000      -  4157 1005s
+  1057   715    0.00000   20    0          -    0.00000      -  4153 1011s
+  1070   199          -   17               -    0.00000      -  4234 1084s
+  1074   167          -   18               -    0.00000      -  4247 1122s
+  1080   122    0.00000   19  855          -    0.00000      -  4226 1151s
+  1082   117          -   19               -    0.00000      -  4220 1191s
+  1088    94    0.00000   20 1598          -    0.00000      -  4214 1285s
+  1093    91    0.00000   21 1493          -    0.00000      -  4225 1341s
+  1098    96    0.00000   22 1467          -    0.00000      -  4220 1381s
+  1105    98    0.00000   23 1331          -    0.00000      -  4244 1434s
+  1115   100          -   22               -    0.00000      -  4252 1498s
+  1141   131    0.00000   26 1344          -    0.00000      -  4328 1590s
+  1189   250          -   34               -    0.00000      -  4384 1770s
+  1310   618    0.00000   46 1172          -    0.00000      -  4621 2128s
+  1688   952    0.00000   93 1072          -    0.00000      -  4687 2390s
+  2022  1303          -  114               -    0.00000      -  4705 2640s
+  2387  1633          -  134               -    0.00000      -  4671 2870s
+  2717  2496    0.00000  155 1109          -    0.00000      -  4536 3063s
+  3610  3701    0.00000  211  737          -    0.00000      -  3764 3171s
+Cutting planes:
+  Gomory: 2
+  Implied bound: 198
+  MIR: 9
+  Flow cover: 22
+  Inf proof: 1
+  Zero half: 31
+  RLT: 11
+Explored 4837 nodes (14203104 simplex iterations) in 3172.55 seconds
+Thread count was 8 (of 8 available processors)
+Solution count 1350: 0 0 0 ... 0
+Optimal solution found (tolerance 1.00e-04)
+Best objective 0.000000000000e+00, best bound 0.000000000000e+00, gap 0.0000%
+Number of solutions found for the model: 1350
+[12, 1500, 5, 1.0, 0.0, 1.0654277099965839]
+4: Learned bounds for  5  samples in  1.0610287909948966  secs
+Parameter OutputFlag unchanged
+   Value: 1  Min: 0  Max: 1  Default: 1
+Changed value of parameter PoolSolutions to 1350
+   Prev: 10  Min: 1  Max: 2000000000  Default: 10
+Changed value of parameter PoolSearchMode to 2
+   Prev: 0  Min: 0  Max: 2  Default: 0
+Gurobi Optimizer version 9.0.0 build v9.0.0rc2 (linux64)
+Optimize a model with 40840 rows, 24262 columns and 194924 nonzeros
+Model fingerprint: 0x72598ef2
+Variable types: 0 continuous, 24262 integer (24262 binary)
+Coefficient statistics:
+  Matrix range     [1e+00, 1e+00]
+  Objective range  [0e+00, 0e+00]
+  Bounds range     [1e+00, 1e+00]
+  RHS range        [1e+00, 7e+01]
+Presolve removed 31525 rows and 10176 columns
+Presolve time: 0.16s
+Presolved: 9315 rows, 14086 columns, 72936 nonzeros
+Variable types: 0 continuous, 14086 integer (14086 binary)
+Root relaxation: objective 0.000000e+00, 11383 iterations, 4.28 seconds
+Total elapsed time = 9.95s
+Total elapsed time = 15.27s
+Total elapsed time = 21.07s
+    Nodes    |    Current Node    |     Objective Bounds      |     Work
+ Expl Unexpl |  Obj  Depth IntInf | Incumbent    BestBd   Gap | It/Node Time
+     0     0    0.00000    0 1314          -    0.00000      -     -   23s
+     0     0    0.00000    0 1733          -    0.00000      -     -   27s
+     0     0    0.00000    0  664          -    0.00000      -     -   50s
+     0     0    0.00000    0  850          -    0.00000      -     -   51s
+     0     0    0.00000    0  174          -    0.00000      -     -   71s
+     0     0    0.00000    0  375          -    0.00000      -     -   71s
+     0     0    0.00000    0  723          -    0.00000      -     -   83s
+     0     0    0.00000    0 1159          -    0.00000      -     -   85s
+H    0     0                       0.0000000    0.00000  0.00%     -  105s
+     0     0          -    0         0.00000    0.00000  0.00%     -  105s
+Optimal solution found at node 0 - now completing solution pool...
+    Nodes    |    Current Node    |      Pool Obj. Bounds     |     Work
+             |                    |   Worst                   |
+ Expl Unexpl |  Obj  Depth IntInf | Incumbent    BestBd   Gap | It/Node Time
+     0     0          -    0               -    0.00000      -     -  105s
+     0     0          -    0               -    0.00000      -     -  105s
+     0     2          -    0               -    0.00000      -     -  105s
+     3     8          -    2               -    0.00000      -   771  110s
+    11    16    0.00000    4 1239          -    0.00000      -  2132  125s
+    19    24    0.00000    6  900          -    0.00000      -  1595  137s
+    27    41    0.00000    8 1152          -    0.00000      -  2175  156s
+    40    60    0.00000    9 1144          -    0.00000      -  3734  181s
+    59    76          -   10               -    0.00000      -  5079  223s
+    75   161    0.00000   11 1365          -    0.00000      -  6451  281s
+   162   291    0.00000   31 1274          -    0.00000      -  4997  411s
+   316   494          -   11               -    0.00000      -  4604  587s
+   557   690    0.00000   53 1203          -    0.00000      -  4326  758s
+   792   874    0.00000   21  857          -    0.00000      -  4298  941s
+  1055   832    0.00000   42 1173          -    0.00000      -  4161  982s
+  1056   752    0.00000   60   19          -    0.00000      -  4157 1008s
+  1057   715    0.00000   20    0          -    0.00000      -  4153 1013s
+  1062   435          -   16               -    0.00000      -  4259 1016s
+  1070   199          -   17               -    0.00000      -  4234 1086s
+  1074   167          -   18               -    0.00000      -  4247 1122s
+  1080   122    0.00000   19  855          -    0.00000      -  4226 1152s
+  1082   117          -   19               -    0.00000      -  4220 1191s
+  1088    94    0.00000   20 1598          -    0.00000      -  4214 1288s
+  1093    91    0.00000   21 1493          -    0.00000      -  4225 1344s
+  1098    96    0.00000   22 1467          -    0.00000      -  4220 1385s
+  1105    98    0.00000   23 1331          -    0.00000      -  4244 1438s
+  1115   100          -   22               -    0.00000      -  4252 1502s
+  1141   131    0.00000   26 1344          -    0.00000      -  4328 1593s
+  1189   250          -   34               -    0.00000      -  4384 1772s
+  1310   618    0.00000   46 1172          -    0.00000      -  4621 2129s
+  1688   952    0.00000   93 1072          -    0.00000      -  4687 2391s
+  2022  1303          -  114               -    0.00000      -  4705 2637s
+  2387  1633          -  134               -    0.00000      -  4671 2867s
+  2717  2496    0.00000  155 1109          -    0.00000      -  4536 3060s
+  3610  3701    0.00000  211  737          -    0.00000      -  3764 3170s
+Cutting planes:
+  Gomory: 2
+  Implied bound: 198
+  MIR: 9
+  Flow cover: 22
+  Inf proof: 1
+  Zero half: 31
+  RLT: 11
+Explored 4837 nodes (14203104 simplex iterations) in 3171.20 seconds
+Thread count was 8 (of 8 available processors)
+Solution count 1350: 0 0 0 ... 0
+Optimal solution found (tolerance 1.00e-04)
+Best objective 0.000000000000e+00, best bound 0.000000000000e+00, gap 0.0000%
+Number of solutions found for the model: 1350
+[12, 1500, 5, 1.0, 0.0, 1.0610287909948966]
+0: Learned bounds for  10  samples in  2.1254481289943215  secs
+Parameter OutputFlag unchanged
+   Value: 1  Min: 0  Max: 1  Default: 1
+Changed value of parameter PoolSolutions to 1350
+   Prev: 10  Min: 1  Max: 2000000000  Default: 10
+Changed value of parameter PoolSearchMode to 2
+   Prev: 0  Min: 0  Max: 2  Default: 0
+Gurobi Optimizer version 9.0.0 build v9.0.0rc2 (linux64)
+Optimize a model with 40840 rows, 24262 columns and 194924 nonzeros
+Model fingerprint: 0x72598ef2
+Variable types: 0 continuous, 24262 integer (24262 binary)
+Coefficient statistics:
+  Matrix range     [1e+00, 1e+00]
+  Objective range  [0e+00, 0e+00]
+  Bounds range     [1e+00, 1e+00]
+  RHS range        [1e+00, 7e+01]
+Presolve removed 31525 rows and 10176 columns
+Presolve time: 0.16s
+Presolved: 9315 rows, 14086 columns, 72936 nonzeros
+Variable types: 0 continuous, 14086 integer (14086 binary)
+Root relaxation: objective 0.000000e+00, 11383 iterations, 4.26 seconds
+Total elapsed time = 9.93s
+Total elapsed time = 15.24s
+Total elapsed time = 21.05s
+    Nodes    |    Current Node    |     Objective Bounds      |     Work
+ Expl Unexpl |  Obj  Depth IntInf | Incumbent    BestBd   Gap | It/Node Time
+     0     0    0.00000    0 1314          -    0.00000      -     -   23s
+     0     0    0.00000    0 1733          -    0.00000      -     -   27s
+     0     0    0.00000    0  664          -    0.00000      -     -   50s
+     0     0    0.00000    0  850          -    0.00000      -     -   51s
+     0     0    0.00000    0  174          -    0.00000      -     -   71s
+     0     0    0.00000    0  375          -    0.00000      -     -   71s
+     0     0    0.00000    0  723          -    0.00000      -     -   83s
+     0     0    0.00000    0 1159          -    0.00000      -     -   85s
+H    0     0                       0.0000000    0.00000  0.00%     -  104s
+     0     0          -    0         0.00000    0.00000  0.00%     -  104s
+Optimal solution found at node 0 - now completing solution pool...
+    Nodes    |    Current Node    |      Pool Obj. Bounds     |     Work
+             |                    |   Worst                   |
+ Expl Unexpl |  Obj  Depth IntInf | Incumbent    BestBd   Gap | It/Node Time
+     0     0          -    0               -    0.00000      -     -  104s
+     0     0          -    0               -    0.00000      -     -  104s
+     0     2          -    0               -    0.00000      -     -  104s
+     1     4          -    1               -    0.00000      -  2312  106s
+     3     8          -    2               -    0.00000      -   771  110s
+    11    16    0.00000    4 1239          -    0.00000      -  2132  125s
+    19    24    0.00000    6  900          -    0.00000      -  1595  137s
+    27    41    0.00000    8 1152          -    0.00000      -  2175  156s
+    40    60    0.00000    9 1144          -    0.00000      -  3734  182s
+    59    76          -   10               -    0.00000      -  5079  224s
+    75   161    0.00000   11 1365          -    0.00000      -  6451  281s
+   162   291    0.00000   31 1274          -    0.00000      -  4997  411s
+   316   494          -   11               -    0.00000      -  4604  587s
+   557   690    0.00000   53 1203          -    0.00000      -  4326  758s
+   792   874    0.00000   21  857          -    0.00000      -  4298  941s
+  1055   832    0.00000   42 1173          -    0.00000      -  4161  981s
+  1056   752    0.00000   60   19          -    0.00000      -  4157 1006s
+  1057   715    0.00000   20    0          -    0.00000      -  4153 1012s
+  1070   199          -   17               -    0.00000      -  4234 1085s
+  1074   167          -   18               -    0.00000      -  4247 1122s
+  1080   122    0.00000   19  855          -    0.00000      -  4226 1152s
+  1082   117          -   19               -    0.00000      -  4220 1192s
+  1088    94    0.00000   20 1598          -    0.00000      -  4214 1287s
+  1093    91    0.00000   21 1493          -    0.00000      -  4225 1342s
+  1098    96    0.00000   22 1467          -    0.00000      -  4220 1383s
+  1105    98    0.00000   23 1331          -    0.00000      -  4244 1436s
+  1115   100          -   22               -    0.00000      -  4252 1499s
+  1141   131    0.00000   26 1344          -    0.00000      -  4328 1591s
+  1189   250          -   34               -    0.00000      -  4384 1769s
+  1310   618    0.00000   46 1172          -    0.00000      -  4621 2127s
+  1688   952    0.00000   93 1072          -    0.00000      -  4687 2391s
+  2022  1303          -  114               -    0.00000      -  4705 2639s
+  2102  1303          -  114               -    0.00000      -  4713 2640s
+  2387  1633          -  134               -    0.00000      -  4671 2871s
+  2717  2496    0.00000  155 1109          -    0.00000      -  4536 3066s
+  3610  3701    0.00000  211  737          -    0.00000      -  3764 3174s
+  4714  1499     cutoff  171         0.00000    0.00000  0.00%  2910 3175s
+Cutting planes:
+  Gomory: 2
+  Implied bound: 198
+  MIR: 9
+  Flow cover: 22
+  Inf proof: 1
+  Zero half: 31
+  RLT: 11
+Explored 4837 nodes (14203104 simplex iterations) in 3175.20 seconds
+Thread count was 8 (of 8 available processors)
+Solution count 1350: 0 0 0 ... 0
+Optimal solution found (tolerance 1.00e-04)
+Best objective 0.000000000000e+00, best bound 0.000000000000e+00, gap 0.0000%
+Number of solutions found for the model: 1350
+[12, 1500, 10, 1.0, 0.0, 2.1254481289943215]
+1: Learned bounds for  10  samples in  2.343663146981271  secs
+Parameter OutputFlag unchanged
+   Value: 1  Min: 0  Max: 1  Default: 1
+Changed value of parameter PoolSolutions to 1350
+   Prev: 10  Min: 1  Max: 2000000000  Default: 10
+Changed value of parameter PoolSearchMode to 2
+   Prev: 0  Min: 0  Max: 2  Default: 0
+Gurobi Optimizer version 9.0.0 build v9.0.0rc2 (linux64)
+Optimize a model with 40840 rows, 24262 columns and 194924 nonzeros
+Model fingerprint: 0xe235a558
+Variable types: 0 continuous, 24262 integer (24262 binary)
+Coefficient statistics:
+  Matrix range     [1e+00, 1e+00]
+  Objective range  [0e+00, 0e+00]
+  Bounds range     [1e+00, 1e+00]
+  RHS range        [1e+00, 7e+01]
+Presolve removed 31525 rows and 10176 columns
+Presolve time: 0.18s
+Presolved: 9315 rows, 14086 columns, 72936 nonzeros
+Variable types: 0 continuous, 14086 integer (14086 binary)
+Root simplex log...
+Iteration    Objective       Primal Inf.    Dual Inf.      Time
+   11235    6.4627397e-04   1.753915e+02   0.000000e+00      5s
+   11743    0.0000000e+00   0.000000e+00   0.000000e+00      5s
+Root relaxation: objective 0.000000e+00, 11743 iterations, 5.12 seconds
+Total elapsed time = 11.94s
+Total elapsed time = 18.85s
+Total elapsed time = 22.15s
+Total elapsed time = 25.06s
+    Nodes    |    Current Node    |     Objective Bounds      |     Work
+ Expl Unexpl |  Obj  Depth IntInf | Incumbent    BestBd   Gap | It/Node Time
+     0     0    0.00000    0 1271          -    0.00000      -     -   28s
+     0     0    0.00000    0 1741          -    0.00000      -     -   33s
+     0     0    0.00000    0 1733          -    0.00000      -     -   34s
+     0     0    0.00000    0  885          -    0.00000      -     -   59s
+     0     0    0.00000    0 1144          -    0.00000      -     -   61s
+     0     0    0.00000    0  164          -    0.00000      -     -   85s
+     0     0    0.00000    0  139          -    0.00000      -     -   85s
+*    0     0               0       0.0000000    0.00000  0.00%     -   94s
+Optimal solution found at node 0 - now completing solution pool...
+    Nodes    |    Current Node    |      Pool Obj. Bounds     |     Work
+             |                    |   Worst                   |
+ Expl Unexpl |  Obj  Depth IntInf | Incumbent    BestBd   Gap | It/Node Time
+     0     0          -    0               -    0.00000      -     -   94s
+     0     0          -    0               -    0.00000      -     -   94s
+     0     2          -    0               -    0.00000      -     -   94s
+     2     4    0.00000    1 1417          -    0.00000      -  2112   96s
+     3     8    0.00000    2 1282          -    0.00000      -  2791  114s
+     7    12    0.00000    3 1187          -    0.00000      -  2057  117s
+    23    28    0.00000    7 1195          -    0.00000      -  1554  120s
+    27    40    0.00000    8 1132          -    0.00000      -  1476  136s
+    39    46    0.00000    9 1109          -    0.00000      -  3042  169s
+    45    77    0.00000   11 1465          -    0.00000      -  5024  210s
+    76   142          -   21               -    0.00000      -  5188  277s
+   143   271    0.00000   33 1339          -    0.00000      -  4857  388s
+   290   452    0.00000   66 1280          -    0.00000      -  4333  556s
+   513   652    0.00000   21  256          -    0.00000      -  3993  720s
+   744   845    0.00000   70  453          -    0.00000      -  3881  889s
+  1021   803    0.00000   28    0          -    0.00000      -  3679  890s
+  1023   804    0.00000   46  987          -    0.00000      -  3671  931s
+  1024   765    0.00000   16    0          -    0.00000      -  3668  964s
+  1027   566          -   15               -    0.00000      -  3775 1046s
+  1029   569    0.00000   16   42          -    0.00000      -  3777 1125s
+  1033   517    0.00000   17 1372          -    0.00000      -  3776 1213s
+  1037   471          -   18               -    0.00000      -  3777 1261s
+  1041   428          -   17               -    0.00000      -  3771 1279s
+  1045   431    0.00000   18  107          -    0.00000      -  3760 1342s
+  1049   394          -   19               -    0.00000      -  3773 1362s
+  1054   329          -   19               -    0.00000      -  3764 1376s
+  1060   258          -   20               -    0.00000      -  3754 1414s
+  1072   233    0.00000   23 1257          -    0.00000      -  3788 1518s
+  1111   201    0.00000   27  167          -    0.00000      -  3888 1715s
+  1226   504          -   44               -    0.00000      -  4105 2131s
+  1545   817          -   74               -    0.00000      -  4499 2465s
+  1864  1205    0.00000  102 1214          -    0.00000      -  4541 2790s
+  2254  1591          -  124               -    0.00000      -  4552 3075s
+  2640  2537    0.00000  161 1133          -    0.00000      -  4382 3288s
+  3620  3997 infeasible  205               -    0.00000      -  3572 3383s
+Cutting planes:
+  Gomory: 4
+  Implied bound: 159
+  MIR: 10
+  Flow cover: 19
+  Inf proof: 1
+  Zero half: 12
+  RLT: 16
+Explored 5100 nodes (13461058 simplex iterations) in 3384.15 seconds
+Thread count was 8 (of 8 available processors)
+Solution count 1350: 0 0 0 ... 0
+Optimal solution found (tolerance 1.00e-04)
+Best objective 0.000000000000e+00, best bound 0.000000000000e+00, gap 0.0000%
+Number of solutions found for the model: 1350
+[12, 1500, 10, 1.0, 0.0, 2.343663146981271]
+2: Learned bounds for  10  samples in  2.2877290910109878  secs
+Parameter OutputFlag unchanged
+   Value: 1  Min: 0  Max: 1  Default: 1
+Changed value of parameter PoolSolutions to 1350
+   Prev: 10  Min: 1  Max: 2000000000  Default: 10
+Changed value of parameter PoolSearchMode to 2
+   Prev: 0  Min: 0  Max: 2  Default: 0
+Gurobi Optimizer version 9.0.0 build v9.0.0rc2 (linux64)
+Optimize a model with 40840 rows, 24262 columns and 194924 nonzeros
+Model fingerprint: 0x85a88a4c
+Variable types: 0 continuous, 24262 integer (24262 binary)
+Coefficient statistics:
+  Matrix range     [1e+00, 1e+00]
+  Objective range  [0e+00, 0e+00]
+  Bounds range     [1e+00, 1e+00]
+  RHS range        [1e+00, 7e+01]
+Presolve removed 31525 rows and 10176 columns
+Presolve time: 0.18s
+Presolved: 9315 rows, 14086 columns, 72936 nonzeros
+Variable types: 0 continuous, 14086 integer (14086 binary)
+Root relaxation: objective 0.000000e+00, 11383 iterations, 4.64 seconds
+Total elapsed time = 11.10s
+Total elapsed time = 16.38s
+Total elapsed time = 21.83s
+    Nodes    |    Current Node    |     Objective Bounds      |     Work
+ Expl Unexpl |  Obj  Depth IntInf | Incumbent    BestBd   Gap | It/Node Time
+     0     0    0.00000    0 1314          -    0.00000      -     -   24s
+     0     0    0.00000    0 1648          -    0.00000      -     -   28s
+     0     0    0.00000    0 1633          -    0.00000      -     -   29s
+     0     0    0.00000    0  652          -    0.00000      -     -   56s
+     0     0    0.00000    0  693          -    0.00000      -     -   57s
+     0     0    0.00000    0  526          -    0.00000      -     -   81s
+     0     0    0.00000    0 1014          -    0.00000      -     -   83s
+H    0     0                       0.0000000    0.00000  0.00%     -   99s
+     0     0    0.00000    0  126    0.00000    0.00000  0.00%     -   99s
+Optimal solution found at node 0 - now completing solution pool...
+Total elapsed time = 100.06s
+    Nodes    |    Current Node    |      Pool Obj. Bounds     |     Work
+             |                    |   Worst                   |
+ Expl Unexpl |  Obj  Depth IntInf | Incumbent    BestBd   Gap | It/Node Time
+     0     0    0.00000    0  128          -    0.00000      -     -  106s
+     0     0    0.00000    0  128          -    0.00000      -     -  112s
+     0     2    0.00000    0  128          -    0.00000      -     -  143s
+     3     8    0.00000    2  957          -    0.00000      -  5743  147s
+    11    16    0.00000    4 1159          -    0.00000      -  3680  151s
+    15    20    0.00000    5 1021          -    0.00000      -  3018  158s
+    23    28    0.00000    7  995          -    0.00000      -  2785  160s
+    27    39    0.00000    8 1041          -    0.00000      -  2563  189s
+    38    62    0.00000   11  652          -    0.00000      -  5160  224s
+    61   103    0.00000   21 1094          -    0.00000      -  6240  292s
+   108   194    0.00000   25 1297          -    0.00000      -  5862  388s
+   217   460    0.00000   28 1141          -    0.00000      -  5343  549s
+   499   803    0.00000   81  823          -    0.00000      -  4331  708s
+   878  1050    0.00000  129 1129          -    0.00000      -  3439  840s
+  1182   999    0.00000  254  864          -    0.00000      -  3299  879s
+  1183   950    0.00000   27    0          -    0.00000      -  3296  887s
+  1186   778    0.00000   15 1207          -    0.00000      -  3373  942s
+  1188   705    0.00000   16 1192          -    0.00000      -  3370 1007s
+  1192   640    0.00000   17 1127          -    0.00000      -  3369 1049s
+  1196   581    0.00000   18 1336          -    0.00000      -  3367 1118s
+  1200   583    0.00000   19 1087          -    0.00000      -  3371 1130s
+  1204   531    0.00000   20 1069          -    0.00000      -  3362 1179s
+  1208   534    0.00000   21 1200          -    0.00000      -  3382 1195s
+  1212   536    0.00000   22 1142          -    0.00000      -  3380 1207s
+  1216   548    0.00000   23 1306          -    0.00000      -  3380 1241s
+  1229   375    0.00000   22  957          -    0.00000      -  3439 1332s
+  1282   224    0.00000   31  629          -    0.00000      -  3517 1532s
+  1389   512          -   54               -    0.00000      -  3843 1936s
+  1704   850          -   94               -    0.00000      -  4335 2310s
+  2042  1253          -  134               -    0.00000      -  4464 2622s
+  2445  1650          -  174               -    0.00000      -  4489 2917s
+  2852  2533          -  234               -    0.00000      -  4315 3137s
+  3767  3786          -  324               -    0.00000      -  3622 3259s
+  4137  3786    0.00000  221  818          -    0.00000      -  3298 3260s
+Cutting planes:
+  Implied bound: 127
+  MIR: 5
+  Flow cover: 18
+  Zero half: 26
+  RLT: 1
+Explored 5024 nodes (14244535 simplex iterations) in 3260.18 seconds
+Thread count was 8 (of 8 available processors)
+Solution count 1350: 0 0 0 ... 0
+Optimal solution found (tolerance 1.00e-04)
+Best objective 0.000000000000e+00, best bound 0.000000000000e+00, gap 0.0000%
+Number of solutions found for the model: 1350
+[12, 1500, 10, 1.0, 0.0, 2.2877290910109878]
+3: Learned bounds for  10  samples in  2.435010015993612  secs
+Parameter OutputFlag unchanged
+   Value: 1  Min: 0  Max: 1  Default: 1
+Changed value of parameter PoolSolutions to 1350
+   Prev: 10  Min: 1  Max: 2000000000  Default: 10
+Changed value of parameter PoolSearchMode to 2
+   Prev: 0  Min: 0  Max: 2  Default: 0
+Gurobi Optimizer version 9.0.0 build v9.0.0rc2 (linux64)
+Optimize a model with 40840 rows, 24262 columns and 194924 nonzeros
+Model fingerprint: 0x85a88a4c
+Variable types: 0 continuous, 24262 integer (24262 binary)
+Coefficient statistics:
+  Matrix range     [1e+00, 1e+00]
+  Objective range  [0e+00, 0e+00]
+  Bounds range     [1e+00, 1e+00]
+  RHS range        [1e+00, 7e+01]
+Presolve removed 31525 rows and 10176 columns
+Presolve time: 0.20s
+Presolved: 9315 rows, 14086 columns, 72936 nonzeros
+Variable types: 0 continuous, 14086 integer (14086 binary)
+Root simplex log...
+Iteration    Objective       Primal Inf.    Dual Inf.      Time
+   11060    5.9413691e-04   1.519184e+01   0.000000e+00      5s
+   11383    0.0000000e+00   0.000000e+00   0.000000e+00      5s
+Root relaxation: objective 0.000000e+00, 11383 iterations, 4.95 seconds
+Total elapsed time = 12.15s
+Total elapsed time = 18.09s
+Total elapsed time = 21.28s
+    Nodes    |    Current Node    |     Objective Bounds      |     Work
+ Expl Unexpl |  Obj  Depth IntInf | Incumbent    BestBd   Gap | It/Node Time
+     0     0    0.00000    0 1314          -    0.00000      -     -   27s
+     0     0    0.00000    0 1648          -    0.00000      -     -   31s
+     0     0    0.00000    0 1633          -    0.00000      -     -   32s
+     0     0    0.00000    0  652          -    0.00000      -     -   62s
+     0     0    0.00000    0  693          -    0.00000      -     -   63s
+     0     0    0.00000    0  526          -    0.00000      -     -   89s
+     0     0    0.00000    0 1014          -    0.00000      -     -   91s
+H    0     0                       0.0000000    0.00000  0.00%     -  109s
+     0     0    0.00000    0  126    0.00000    0.00000  0.00%     -  109s
+Optimal solution found at node 0 - now completing solution pool...
+Total elapsed time = 110.16s
+Total elapsed time = 115.18s
+    Nodes    |    Current Node    |      Pool Obj. Bounds     |     Work
+             |                    |   Worst                   |
+ Expl Unexpl |  Obj  Depth IntInf | Incumbent    BestBd   Gap | It/Node Time
+     0     0    0.00000    0  128          -    0.00000      -     -  117s
+     0     0    0.00000    0  128          -    0.00000      -     -  123s
+     0     2    0.00000    0  128          -    0.00000      -     -  157s
+     3     8    0.00000    2  957          -    0.00000      -  5743  161s
+    11    16    0.00000    4 1159          -    0.00000      -  3680  165s
+    15    20    0.00000    5 1021          -    0.00000      -  3018  173s
+    23    28    0.00000    7  995          -    0.00000      -  2785  176s
+    27    39    0.00000    8 1041          -    0.00000      -  2563  208s
+    38    62    0.00000   11  652          -    0.00000      -  5160  246s
+    61   103    0.00000   21 1094          -    0.00000      -  6240  319s
+   108   194    0.00000   25 1297          -    0.00000      -  5862  423s
+   217   460    0.00000   28 1141          -    0.00000      -  5343  597s
+   499   803    0.00000   81  823          -    0.00000      -  4331  793s
+   878  1050    0.00000  129 1129          -    0.00000      -  3439  958s
+  1180   998    0.00000   27  128          -    0.00000      -  3304  961s
+  1182   999    0.00000  254  864          -    0.00000      -  3299 1006s
+  1183   950    0.00000   27    0          -    0.00000      -  3296 1017s
+  1186   778    0.00000   15 1207          -    0.00000      -  3373 1084s
+  1188   705    0.00000   16 1192          -    0.00000      -  3370 1161s
+  1192   640    0.00000   17 1127          -    0.00000      -  3369 1209s
+  1196   581    0.00000   18 1336          -    0.00000      -  3367 1284s
+  1200   583    0.00000   19 1087          -    0.00000      -  3371 1298s
+  1204   531    0.00000   20 1069          -    0.00000      -  3362 1358s
+  1208   534    0.00000   21 1200          -    0.00000      -  3382 1375s
+  1212   536    0.00000   22 1142          -    0.00000      -  3380 1391s
+  1216   548    0.00000   23 1306          -    0.00000      -  3380 1429s
+  1229   375    0.00000   22  957          -    0.00000      -  3439 1524s
+  1282   224    0.00000   31  629          -    0.00000      -  3517 1735s
+  1389   512          -   54               -    0.00000      -  3843 2091s
+  1704   850          -   94               -    0.00000      -  4335 2436s
+  2042  1253          -  134               -    0.00000      -  4464 2746s
+  2445  1650          -  174               -    0.00000      -  4489 3029s
+  2852  2533          -  234               -    0.00000      -  4315 3253s
+  3767  3786          -  324               -    0.00000      -  3622 3364s
+  4877  1504     cutoff  173         0.00000    0.00000  0.00%  2816 3365s
+Cutting planes:
+  Implied bound: 127
+  MIR: 5
+  Flow cover: 18
+  Zero half: 26
+  RLT: 1
+Explored 5024 nodes (14244535 simplex iterations) in 3365.08 seconds
+Thread count was 8 (of 8 available processors)
+Solution count 1350: 0 0 0 ... 0
+Optimal solution found (tolerance 1.00e-04)
+Best objective 0.000000000000e+00, best bound 0.000000000000e+00, gap 0.0000%
+Number of solutions found for the model: 1350
+[12, 1500, 10, 1.0, 0.0, 2.435010015993612]
+4: Learned bounds for  10  samples in  2.184565945994109  secs
+Parameter OutputFlag unchanged
+   Value: 1  Min: 0  Max: 1  Default: 1
+Changed value of parameter PoolSolutions to 1350
+   Prev: 10  Min: 1  Max: 2000000000  Default: 10
+Changed value of parameter PoolSearchMode to 2
+   Prev: 0  Min: 0  Max: 2  Default: 0
+Gurobi Optimizer version 9.0.0 build v9.0.0rc2 (linux64)
+Optimize a model with 40840 rows, 24262 columns and 194924 nonzeros
+Model fingerprint: 0x72598ef2
+Variable types: 0 continuous, 24262 integer (24262 binary)
+Coefficient statistics:
+  Matrix range     [1e+00, 1e+00]
+  Objective range  [0e+00, 0e+00]
+  Bounds range     [1e+00, 1e+00]
+  RHS range        [1e+00, 7e+01]
+Presolve removed 31525 rows and 10176 columns
+Presolve time: 0.16s
+Presolved: 9315 rows, 14086 columns, 72936 nonzeros
+Variable types: 0 continuous, 14086 integer (14086 binary)
+Root relaxation: objective 0.000000e+00, 11383 iterations, 4.37 seconds
+Total elapsed time = 10.16s
+Total elapsed time = 15.61s
+Total elapsed time = 21.57s
+    Nodes    |    Current Node    |     Objective Bounds      |     Work
+ Expl Unexpl |  Obj  Depth IntInf | Incumbent    BestBd   Gap | It/Node Time
+     0     0    0.00000    0 1314          -    0.00000      -     -   23s
+     0     0    0.00000    0 1733          -    0.00000      -     -   28s
+     0     0    0.00000    0  664          -    0.00000      -     -   51s
+     0     0    0.00000    0  850          -    0.00000      -     -   52s
+     0     0    0.00000    0  174          -    0.00000      -     -   72s
+     0     0    0.00000    0  375          -    0.00000      -     -   73s
+     0     0    0.00000    0  723          -    0.00000      -     -   84s
+     0     0    0.00000    0 1159          -    0.00000      -     -   86s
+H    0     0                       0.0000000    0.00000  0.00%     -  105s
+     0     0          -    0         0.00000    0.00000  0.00%     -  105s
+Optimal solution found at node 0 - now completing solution pool...
+    Nodes    |    Current Node    |      Pool Obj. Bounds     |     Work
+             |                    |   Worst                   |
+ Expl Unexpl |  Obj  Depth IntInf | Incumbent    BestBd   Gap | It/Node Time
+     0     0          -    0               -    0.00000      -     -  105s
+     0     0          -    0               -    0.00000      -     -  105s
+     0     2          -    0               -    0.00000      -     -  105s
+     3     8          -    2               -    0.00000      -   771  111s
+    11    16    0.00000    4 1239          -    0.00000      -  2132  126s
+    19    24    0.00000    6  900          -    0.00000      -  1595  138s
+    27    41    0.00000    8 1152          -    0.00000      -  2175  157s
+    40    60    0.00000    9 1144          -    0.00000      -  3734  182s
+    59    76          -   10               -    0.00000      -  5079  224s
+    75   161    0.00000   11 1365          -    0.00000      -  6451  281s
+   162   291    0.00000   31 1274          -    0.00000      -  4997  407s
+   316   494          -   11               -    0.00000      -  4604  577s
+   557   690    0.00000   53 1203          -    0.00000      -  4326  741s
+   792   874    0.00000   21  857          -    0.00000      -  4298  915s
+  1055   832    0.00000   42 1173          -    0.00000      -  4161  954s
+  1056   752    0.00000   60   19          -    0.00000      -  4157  978s
+  1057   715    0.00000   20    0          -    0.00000      -  4153  983s
+  1062   435          -   16               -    0.00000      -  4259  986s
+  1070   199          -   17               -    0.00000      -  4234 1053s
+  1074   167          -   18               -    0.00000      -  4247 1089s
+  1080   122    0.00000   19  855          -    0.00000      -  4226 1117s
+  1082   117          -   19               -    0.00000      -  4220 1156s
+  1088    94    0.00000   20 1598          -    0.00000      -  4214 1248s
+  1093    91    0.00000   21 1493          -    0.00000      -  4225 1302s
+  1098    96    0.00000   22 1467          -    0.00000      -  4220 1342s
+  1105    98    0.00000   23 1331          -    0.00000      -  4244 1393s
+  1115   100          -   22               -    0.00000      -  4252 1455s
+  1141   131    0.00000   26 1344          -    0.00000      -  4328 1543s
+  1189   250          -   34               -    0.00000      -  4384 1714s
+  1310   618    0.00000   46 1172          -    0.00000      -  4621 2053s
+  1688   952    0.00000   93 1072          -    0.00000      -  4687 2337s
+  2022  1303          -  114               -    0.00000      -  4705 2589s
+  2387  1633          -  134               -    0.00000      -  4671 2839s
+  2717  2496    0.00000  155 1109          -    0.00000      -  4536 3045s
+  3610  3701    0.00000  211  737          -    0.00000      -  3764 3161s
+Cutting planes:
+  Gomory: 2
+  Implied bound: 198
+  MIR: 9
+  Flow cover: 22
+  Inf proof: 1
+  Zero half: 31
+  RLT: 11
+Explored 4837 nodes (14203104 simplex iterations) in 3162.35 seconds
+Thread count was 8 (of 8 available processors)
+Solution count 1350: 0 0 0 ... 0
+Optimal solution found (tolerance 1.00e-04)
+Best objective 0.000000000000e+00, best bound 0.000000000000e+00, gap 0.0000%
+Number of solutions found for the model: 1350
+[12, 1500, 10, 1.0, 0.0, 2.184565945994109]
+0: Learned bounds for  25  samples in  5.843272802972933  secs
+Parameter OutputFlag unchanged
+   Value: 1  Min: 0  Max: 1  Default: 1
+Changed value of parameter PoolSolutions to 1350
+   Prev: 10  Min: 1  Max: 2000000000  Default: 10
+Changed value of parameter PoolSearchMode to 2
+   Prev: 0  Min: 0  Max: 2  Default: 0
+Gurobi Optimizer version 9.0.0 build v9.0.0rc2 (linux64)
+Optimize a model with 40840 rows, 24262 columns and 194924 nonzeros
+Model fingerprint: 0x85a88a4c
+Variable types: 0 continuous, 24262 integer (24262 binary)
+Coefficient statistics:
+  Matrix range     [1e+00, 1e+00]
+  Objective range  [0e+00, 0e+00]
+  Bounds range     [1e+00, 1e+00]
+  RHS range        [1e+00, 7e+01]
+Presolve removed 31525 rows and 10176 columns
+Presolve time: 0.18s
+Presolved: 9315 rows, 14086 columns, 72936 nonzeros
+Variable types: 0 continuous, 14086 integer (14086 binary)
+Root relaxation: objective 0.000000e+00, 11383 iterations, 4.73 seconds
+Total elapsed time = 11.44s
+Total elapsed time = 16.89s
+Total elapsed time = 22.49s
+    Nodes    |    Current Node    |     Objective Bounds      |     Work
+ Expl Unexpl |  Obj  Depth IntInf | Incumbent    BestBd   Gap | It/Node Time
+     0     0    0.00000    0 1314          -    0.00000      -     -   25s
+     0     0    0.00000    0 1648          -    0.00000      -     -   29s
+     0     0    0.00000    0 1633          -    0.00000      -     -   29s
+     0     0    0.00000    0  652          -    0.00000      -     -   57s
+     0     0    0.00000    0  693          -    0.00000      -     -   58s
+     0     0    0.00000    0  526          -    0.00000      -     -   84s
+     0     0    0.00000    0 1014          -    0.00000      -     -   85s
+H    0     0                       0.0000000    0.00000  0.00%     -  102s
+     0     0    0.00000    0  126    0.00000    0.00000  0.00%     -  102s
+Optimal solution found at node 0 - now completing solution pool...
+Total elapsed time = 103.26s
+Total elapsed time = 107.88s
+    Nodes    |    Current Node    |      Pool Obj. Bounds     |     Work
+             |                    |   Worst                   |
+ Expl Unexpl |  Obj  Depth IntInf | Incumbent    BestBd   Gap | It/Node Time
+     0     0    0.00000    0  128          -    0.00000      -     -  109s
+     0     0    0.00000    0  128          -    0.00000      -     -  115s
+     0     2    0.00000    0  128          -    0.00000      -     -  148s
+     3     8    0.00000    2  957          -    0.00000      -  5743  152s
+    11    16    0.00000    4 1159          -    0.00000      -  3680  155s
+    15    20    0.00000    5 1021          -    0.00000      -  3018  162s
+    23    28    0.00000    7  995          -    0.00000      -  2785  165s
+    27    39    0.00000    8 1041          -    0.00000      -  2563  196s
+    38    62    0.00000   11  652          -    0.00000      -  5160  233s
+    61   103    0.00000   21 1094          -    0.00000      -  6240  307s
+   108   194    0.00000   25 1297          -    0.00000      -  5862  414s
+   217   460    0.00000   28 1141          -    0.00000      -  5343  597s
+   499   803    0.00000   81  823          -    0.00000      -  4331  772s
+   878  1050    0.00000  129 1129          -    0.00000      -  3439  916s
+  1182   999    0.00000  254  864          -    0.00000      -  3299  957s
+  1183   950    0.00000   27    0          -    0.00000      -  3296  965s
+  1186   778    0.00000   15 1207          -    0.00000      -  3373 1022s
+  1188   705    0.00000   16 1192          -    0.00000      -  3370 1092s
+  1192   640    0.00000   17 1127          -    0.00000      -  3369 1139s
+  1196   581    0.00000   18 1336          -    0.00000      -  3367 1220s
+  1200   583    0.00000   19 1087          -    0.00000      -  3371 1234s
+  1204   531    0.00000   20 1069          -    0.00000      -  3362 1289s
+  1208   534    0.00000   21 1200          -    0.00000      -  3382 1307s
+  1212   536    0.00000   22 1142          -    0.00000      -  3380 1321s
+  1216   548    0.00000   23 1306          -    0.00000      -  3380 1358s
+  1229   375    0.00000   22  957          -    0.00000      -  3439 1457s
+  1282   224    0.00000   31  629          -    0.00000      -  3517 1682s
+  1389   512          -   54               -    0.00000      -  3843 2088s
+  1704   850          -   94               -    0.00000      -  4335 2458s
+  2042  1253          -  134               -    0.00000      -  4464 2763s
+  2445  1650          -  174               -    0.00000      -  4489 3058s
+  2852  2533          -  234               -    0.00000      -  4315 3287s
+  3767  3786          -  324               -    0.00000      -  3622 3419s
+Cutting planes:
+  Implied bound: 127
+  MIR: 5
+  Flow cover: 18
+  Zero half: 26
+  RLT: 1
+Explored 5024 nodes (14244535 simplex iterations) in 3419.99 seconds
+Thread count was 8 (of 8 available processors)
+Solution count 1350: 0 0 0 ... 0
+Optimal solution found (tolerance 1.00e-04)
+Best objective 0.000000000000e+00, best bound 0.000000000000e+00, gap 0.0000%
+Number of solutions found for the model: 1350
+[12, 1500, 25, 1.0, 0.0, 5.843272802972933]
+1: Learned bounds for  25  samples in  5.894114959985018  secs
+Parameter OutputFlag unchanged
+   Value: 1  Min: 0  Max: 1  Default: 1
+Changed value of parameter PoolSolutions to 1350
+   Prev: 10  Min: 1  Max: 2000000000  Default: 10
+Changed value of parameter PoolSearchMode to 2
+   Prev: 0  Min: 0  Max: 2  Default: 0
+Gurobi Optimizer version 9.0.0 build v9.0.0rc2 (linux64)
+Optimize a model with 40840 rows, 24262 columns and 194924 nonzeros
+Model fingerprint: 0x85a88a4c
+Variable types: 0 continuous, 24262 integer (24262 binary)
+Coefficient statistics:
+  Matrix range     [1e+00, 1e+00]
+  Objective range  [0e+00, 0e+00]
+  Bounds range     [1e+00, 1e+00]
+  RHS range        [1e+00, 7e+01]
+Presolve removed 31525 rows and 10176 columns
+Presolve time: 0.18s
+Presolved: 9315 rows, 14086 columns, 72936 nonzeros
+Variable types: 0 continuous, 14086 integer (14086 binary)
+Root relaxation: objective 0.000000e+00, 11383 iterations, 4.62 seconds
+Total elapsed time = 12.88s
+Total elapsed time = 19.14s
+Total elapsed time = 23.00s
+Total elapsed time = 26.53s
+    Nodes    |    Current Node    |     Objective Bounds      |     Work
+ Expl Unexpl |  Obj  Depth IntInf | Incumbent    BestBd   Gap | It/Node Time
+     0     0    0.00000    0 1314          -    0.00000      -     -   29s
+     0     0    0.00000    0 1648          -    0.00000      -     -   34s
+     0     0    0.00000    0 1633          -    0.00000      -     -   34s
+     0     0    0.00000    0  652          -    0.00000      -     -   65s
+     0     0    0.00000    0  693          -    0.00000      -     -   66s
+     0     0    0.00000    0  526          -    0.00000      -     -   93s
+     0     0    0.00000    0 1014          -    0.00000      -     -   95s
+H    0     0                       0.0000000    0.00000  0.00%     -  115s
+     0     0    0.00000    0  126    0.00000    0.00000  0.00%     -  115s
+Optimal solution found at node 0 - now completing solution pool...
+Total elapsed time = 115.44s
+Total elapsed time = 120.59s
+    Nodes    |    Current Node    |      Pool Obj. Bounds     |     Work
+             |                    |   Worst                   |
+ Expl Unexpl |  Obj  Depth IntInf | Incumbent    BestBd   Gap | It/Node Time
+     0     0    0.00000    0  128          -    0.00000      -     -  122s
+     0     0    0.00000    0  128          -    0.00000      -     -  128s
+     0     2    0.00000    0  128          -    0.00000      -     -  163s
+     3     8    0.00000    2  957          -    0.00000      -  5743  167s
+    11    16    0.00000    4 1159          -    0.00000      -  3680  171s
+    15    20    0.00000    5 1021          -    0.00000      -  3018  178s
+    23    28    0.00000    7  995          -    0.00000      -  2785  180s
+    27    39    0.00000    8 1041          -    0.00000      -  2563  213s
+    38    62    0.00000   11  652          -    0.00000      -  5160  256s
+    61   103    0.00000   21 1094          -    0.00000      -  6240  339s
+   108   194    0.00000   25 1297          -    0.00000      -  5862  447s
+   217   460    0.00000   28 1141          -    0.00000      -  5343  622s
+   499   803    0.00000   81  823          -    0.00000      -  4331  803s
+   878  1050    0.00000  129 1129          -    0.00000      -  3439  957s
+  1180   998    0.00000   27  128          -    0.00000      -  3304  960s
+  1182   999    0.00000  254  864          -    0.00000      -  3299 1003s
+  1183   950    0.00000   27    0          -    0.00000      -  3296 1014s
+  1186   778    0.00000   15 1207          -    0.00000      -  3373 1074s
+  1188   705    0.00000   16 1192          -    0.00000      -  3370 1148s
+  1192   640    0.00000   17 1127          -    0.00000      -  3369 1198s
+  1196   581    0.00000   18 1336          -    0.00000      -  3367 1276s
+  1200   583    0.00000   19 1087          -    0.00000      -  3371 1290s
+  1204   531    0.00000   20 1069          -    0.00000      -  3362 1343s
+  1208   534    0.00000   21 1200          -    0.00000      -  3382 1360s
+  1212   536    0.00000   22 1142          -    0.00000      -  3380 1373s
+  1216   548    0.00000   23 1306          -    0.00000      -  3380 1408s
+  1229   375    0.00000   22  957          -    0.00000      -  3439 1500s
+  1282   224    0.00000   31  629          -    0.00000      -  3517 1696s
+  1389   512          -   54               -    0.00000      -  3843 2092s
+  1704   850          -   94               -    0.00000      -  4335 2476s
+  2042  1253          -  134               -    0.00000      -  4464 2803s
+  2445  1650          -  174               -    0.00000      -  4489 3092s
+  2852  2533          -  234               -    0.00000      -  4315 3317s
+  3767  3786          -  324               -    0.00000      -  3622 3439s
+  4137  3786    0.00000  221  818          -    0.00000      -  3298 3440s
+Cutting planes:
+  Implied bound: 127
+  MIR: 5
+  Flow cover: 18
+  Zero half: 26
+  RLT: 1
+Explored 5024 nodes (14244535 simplex iterations) in 3440.27 seconds
+Thread count was 8 (of 8 available processors)
+Solution count 1350: 0 0 0 ... 0
+Optimal solution found (tolerance 1.00e-04)
+Best objective 0.000000000000e+00, best bound 0.000000000000e+00, gap 0.0000%
+Number of solutions found for the model: 1350
+[12, 1500, 25, 1.0, 0.0, 5.894114959985018]
+2: Learned bounds for  25  samples in  5.737073063995922  secs
+Parameter OutputFlag unchanged
+   Value: 1  Min: 0  Max: 1  Default: 1
+Changed value of parameter PoolSolutions to 1350
+   Prev: 10  Min: 1  Max: 2000000000  Default: 10
+Changed value of parameter PoolSearchMode to 2
+   Prev: 0  Min: 0  Max: 2  Default: 0
+Gurobi Optimizer version 9.0.0 build v9.0.0rc2 (linux64)
+Optimize a model with 40840 rows, 24262 columns and 194924 nonzeros
+Model fingerprint: 0x85a88a4c
+Variable types: 0 continuous, 24262 integer (24262 binary)
+Coefficient statistics:
+  Matrix range     [1e+00, 1e+00]
+  Objective range  [0e+00, 0e+00]
+  Bounds range     [1e+00, 1e+00]
+  RHS range        [1e+00, 7e+01]
+Presolve removed 31525 rows and 10176 columns
+Presolve time: 0.18s
+Presolved: 9315 rows, 14086 columns, 72936 nonzeros
+Variable types: 0 continuous, 14086 integer (14086 binary)
+Root relaxation: objective 0.000000e+00, 11383 iterations, 4.60 seconds
+Total elapsed time = 11.02s
+Total elapsed time = 16.54s
+Total elapsed time = 22.32s
+    Nodes    |    Current Node    |     Objective Bounds      |     Work
+ Expl Unexpl |  Obj  Depth IntInf | Incumbent    BestBd   Gap | It/Node Time
+     0     0    0.00000    0 1314          -    0.00000      -     -   24s
+     0     0    0.00000    0 1648          -    0.00000      -     -   29s
+     0     0    0.00000    0 1633          -    0.00000      -     -   30s
+     0     0    0.00000    0  652          -    0.00000      -     -   57s
+     0     0    0.00000    0  693          -    0.00000      -     -   58s
+     0     0    0.00000    0  526          -    0.00000      -     -   83s
+     0     0    0.00000    0 1014          -    0.00000      -     -   85s
+H    0     0                       0.0000000    0.00000  0.00%     -  101s
+     0     0    0.00000    0  126    0.00000    0.00000  0.00%     -  101s
+Optimal solution found at node 0 - now completing solution pool...
+Total elapsed time = 102.28s
+Total elapsed time = 106.92s
+    Nodes    |    Current Node    |      Pool Obj. Bounds     |     Work
+             |                    |   Worst                   |
+ Expl Unexpl |  Obj  Depth IntInf | Incumbent    BestBd   Gap | It/Node Time
+     0     0    0.00000    0  128          -    0.00000      -     -  108s
+     0     0    0.00000    0  128          -    0.00000      -     -  114s
+     0     2    0.00000    0  128          -    0.00000      -     -  146s
+     7    12    0.00000    3 1338          -    0.00000      -  4363  152s
+    15    20    0.00000    5 1021          -    0.00000      -  3018  160s
+    27    39    0.00000    8 1041          -    0.00000      -  2563  192s
+    38    62    0.00000   11  652          -    0.00000      -  5160  229s
+    61   103    0.00000   21 1094          -    0.00000      -  6240  301s
+   108   194    0.00000   25 1297          -    0.00000      -  5862  400s
+   217   460    0.00000   28 1141          -    0.00000      -  5343  571s
+   499   803    0.00000   81  823          -    0.00000      -  4331  749s
+   878  1050    0.00000  129 1129          -    0.00000      -  3439  892s
+  1180   998    0.00000   27  128          -    0.00000      -  3304  895s
+  1182   999    0.00000  254  864          -    0.00000      -  3299  932s
+  1183   950    0.00000   27    0          -    0.00000      -  3296  941s
+  1186   778    0.00000   15 1207          -    0.00000      -  3373  998s
+  1188   705    0.00000   16 1192          -    0.00000      -  3370 1069s
+  1192   640    0.00000   17 1127          -    0.00000      -  3369 1114s
+  1196   581    0.00000   18 1336          -    0.00000      -  3367 1191s
+  1200   583    0.00000   19 1087          -    0.00000      -  3371 1205s
+  1204   531    0.00000   20 1069          -    0.00000      -  3362 1262s
+  1208   534    0.00000   21 1200          -    0.00000      -  3382 1280s
+  1212   536    0.00000   22 1142          -    0.00000      -  3380 1294s
+  1216   548    0.00000   23 1306          -    0.00000      -  3380 1331s
+  1229   375    0.00000   22  957          -    0.00000      -  3439 1432s
+  1282   224    0.00000   31  629          -    0.00000      -  3517 1647s
+  1389   512          -   54               -    0.00000      -  3843 2064s
+  1704   850          -   94               -    0.00000      -  4335 2451s
+  2042  1253          -  134               -    0.00000      -  4464 2757s
+  2445  1650          -  174               -    0.00000      -  4489 3014s
+  2852  2533          -  234               -    0.00000      -  4315 3218s
+  3767  3786          -  324               -    0.00000      -  3622 3335s
+Cutting planes:
+  Implied bound: 127
+  MIR: 5
+  Flow cover: 18
+  Zero half: 26
+  RLT: 1
+Explored 5024 nodes (14244535 simplex iterations) in 3335.62 seconds
+Thread count was 8 (of 8 available processors)
+Solution count 1350: 0 0 0 ... 0
+Optimal solution found (tolerance 1.00e-04)
+Best objective 0.000000000000e+00, best bound 0.000000000000e+00, gap 0.0000%
+Number of solutions found for the model: 1350
+[12, 1500, 25, 1.0, 0.0, 5.737073063995922]
+3: Learned bounds for  25  samples in  5.771417796990136  secs
+Parameter OutputFlag unchanged
+   Value: 1  Min: 0  Max: 1  Default: 1
+Changed value of parameter PoolSolutions to 1350
+   Prev: 10  Min: 1  Max: 2000000000  Default: 10
+Changed value of parameter PoolSearchMode to 2
+   Prev: 0  Min: 0  Max: 2  Default: 0
+Gurobi Optimizer version 9.0.0 build v9.0.0rc2 (linux64)
+Optimize a model with 40840 rows, 24262 columns and 194924 nonzeros
+Model fingerprint: 0x85a88a4c
+Variable types: 0 continuous, 24262 integer (24262 binary)
+Coefficient statistics:
+  Matrix range     [1e+00, 1e+00]
+  Objective range  [0e+00, 0e+00]
+  Bounds range     [1e+00, 1e+00]
+  RHS range        [1e+00, 7e+01]
+Presolve removed 31525 rows and 10176 columns
+Presolve time: 0.20s
+Presolved: 9315 rows, 14086 columns, 72936 nonzeros
+Variable types: 0 continuous, 14086 integer (14086 binary)
+Root simplex log...
+Iteration    Objective       Primal Inf.    Dual Inf.      Time
+   11280    5.9434196e-04   5.414529e+00   0.000000e+00      5s
+   11383    0.0000000e+00   0.000000e+00   0.000000e+00      5s
+Root relaxation: objective 0.000000e+00, 11383 iterations, 4.88 seconds
+Total elapsed time = 11.94s
+Total elapsed time = 17.59s
+Total elapsed time = 20.49s
+    Nodes    |    Current Node    |     Objective Bounds      |     Work
+ Expl Unexpl |  Obj  Depth IntInf | Incumbent    BestBd   Gap | It/Node Time
+     0     0    0.00000    0 1314          -    0.00000      -     -   25s
+     0     0    0.00000    0 1648          -    0.00000      -     -   30s
+     0     0    0.00000    0 1633          -    0.00000      -     -   30s
+     0     0    0.00000    0  652          -    0.00000      -     -   59s
+     0     0    0.00000    0  693          -    0.00000      -     -   60s
+     0     0    0.00000    0  526          -    0.00000      -     -   86s
+     0     0    0.00000    0 1014          -    0.00000      -     -   87s
+H    0     0                       0.0000000    0.00000  0.00%     -  105s
+     0     0    0.00000    0  126    0.00000    0.00000  0.00%     -  105s
+Optimal solution found at node 0 - now completing solution pool...
+Total elapsed time = 105.48s
+Total elapsed time = 110.12s
+    Nodes    |    Current Node    |      Pool Obj. Bounds     |     Work
+             |                    |   Worst                   |
+ Expl Unexpl |  Obj  Depth IntInf | Incumbent    BestBd   Gap | It/Node Time
+     0     0    0.00000    0  128          -    0.00000      -     -  111s
+     0     0    0.00000    0  128          -    0.00000      -     -  117s
+     0     2    0.00000    0  128          -    0.00000      -     -  151s
+     3     8    0.00000    2  957          -    0.00000      -  5743  155s
+    15    20    0.00000    5 1021          -    0.00000      -  3018  165s
+    27    39    0.00000    8 1041          -    0.00000      -  2563  198s
+    38    62    0.00000   11  652          -    0.00000      -  5160  236s
+    61   103    0.00000   21 1094          -    0.00000      -  6240  309s
+   108   194    0.00000   25 1297          -    0.00000      -  5862  409s
+   217   460    0.00000   28 1141          -    0.00000      -  5343  588s
+   499   803    0.00000   81  823          -    0.00000      -  4331  768s
+   878  1050    0.00000  129 1129          -    0.00000      -  3439  919s
+  1180   998    0.00000   27  128          -    0.00000      -  3304  922s
+  1182   999    0.00000  254  864          -    0.00000      -  3299  961s
+  1183   950    0.00000   27    0          -    0.00000      -  3296  969s
+  1186   778    0.00000   15 1207          -    0.00000      -  3373 1026s
+  1188   705    0.00000   16 1192          -    0.00000      -  3370 1092s
+  1192   640    0.00000   17 1127          -    0.00000      -  3369 1135s
+  1196   581    0.00000   18 1336          -    0.00000      -  3367 1206s
+  1200   583    0.00000   19 1087          -    0.00000      -  3371 1219s
+  1204   531    0.00000   20 1069          -    0.00000      -  3362 1267s
+  1208   534    0.00000   21 1200          -    0.00000      -  3382 1283s
+  1212   536    0.00000   22 1142          -    0.00000      -  3380 1296s
+  1216   548    0.00000   23 1306          -    0.00000      -  3380 1331s
+  1229   375    0.00000   22  957          -    0.00000      -  3439 1433s
+  1282   224    0.00000   31  629          -    0.00000      -  3517 1641s
+  1389   512          -   54               -    0.00000      -  3843 2050s
+  1704   850          -   94               -    0.00000      -  4335 2438s
+  2042  1253          -  134               -    0.00000      -  4464 2770s
+  2445  1650          -  174               -    0.00000      -  4489 3060s
+  2852  2533          -  234               -    0.00000      -  4315 3292s
+  3767  3786          -  324               -    0.00000      -  3622 3412s
+Cutting planes:
+  Implied bound: 127
+  MIR: 5
+  Flow cover: 18
+  Zero half: 26
+  RLT: 1
+Explored 5024 nodes (14244535 simplex iterations) in 3413.12 seconds
+Thread count was 8 (of 8 available processors)
+Solution count 1350: 0 0 0 ... 0
+Optimal solution found (tolerance 1.00e-04)
+Best objective 0.000000000000e+00, best bound 0.000000000000e+00, gap 0.0000%
+Number of solutions found for the model: 1350
+[12, 1500, 25, 1.0, 0.0, 5.771417796990136]
+4: Learned bounds for  25  samples in  5.396638436999638  secs
+Parameter OutputFlag unchanged
+   Value: 1  Min: 0  Max: 1  Default: 1
+Changed value of parameter PoolSolutions to 1350
+   Prev: 10  Min: 1  Max: 2000000000  Default: 10
+Changed value of parameter PoolSearchMode to 2
+   Prev: 0  Min: 0  Max: 2  Default: 0
+Gurobi Optimizer version 9.0.0 build v9.0.0rc2 (linux64)
+Optimize a model with 40840 rows, 24262 columns and 194924 nonzeros
+Model fingerprint: 0x85a88a4c
+Variable types: 0 continuous, 24262 integer (24262 binary)
+Coefficient statistics:
+  Matrix range     [1e+00, 1e+00]
+  Objective range  [0e+00, 0e+00]
+  Bounds range     [1e+00, 1e+00]
+  RHS range        [1e+00, 7e+01]
+Presolve removed 31525 rows and 10176 columns
+Presolve time: 0.17s
+Presolved: 9315 rows, 14086 columns, 72936 nonzeros
+Variable types: 0 continuous, 14086 integer (14086 binary)
+Root relaxation: objective 0.000000e+00, 11383 iterations, 4.34 seconds
+Total elapsed time = 10.62s
+Total elapsed time = 15.84s
+Total elapsed time = 21.26s
+    Nodes    |    Current Node    |     Objective Bounds      |     Work
+ Expl Unexpl |  Obj  Depth IntInf | Incumbent    BestBd   Gap | It/Node Time
+     0     0    0.00000    0 1314          -    0.00000      -     -   23s
+     0     0    0.00000    0 1648          -    0.00000      -     -   27s
+     0     0    0.00000    0 1633          -    0.00000      -     -   28s
+     0     0    0.00000    0  652          -    0.00000      -     -   54s
+     0     0    0.00000    0  693          -    0.00000      -     -   55s
+     0     0    0.00000    0  526          -    0.00000      -     -   79s
+     0     0    0.00000    0 1014          -    0.00000      -     -   80s
+H    0     0                       0.0000000    0.00000  0.00%     -   96s
+     0     0    0.00000    0  126    0.00000    0.00000  0.00%     -   96s
+Optimal solution found at node 0 - now completing solution pool...
+Total elapsed time = 97.39s
+Total elapsed time = 101.91s
+    Nodes    |    Current Node    |      Pool Obj. Bounds     |     Work
+             |                    |   Worst                   |
+ Expl Unexpl |  Obj  Depth IntInf | Incumbent    BestBd   Gap | It/Node Time
+     0     0    0.00000    0  128          -    0.00000      -     -  103s
+     0     0    0.00000    0  128          -    0.00000      -     -  109s
+     0     2    0.00000    0  128          -    0.00000      -     -  141s
+     3     8    0.00000    2  957          -    0.00000      -  5743  145s
+    15    20    0.00000    5 1021          -    0.00000      -  3018  155s
+    27    39    0.00000    8 1041          -    0.00000      -  2563  188s
+    38    62    0.00000   11  652          -    0.00000      -  5160  224s
+    61   103    0.00000   21 1094          -    0.00000      -  6240  295s
+   108   194    0.00000   25 1297          -    0.00000      -  5862  397s
+   217   460    0.00000   28 1141          -    0.00000      -  5343  575s
+   499   803    0.00000   81  823          -    0.00000      -  4331  737s
+   878  1050    0.00000  129 1129          -    0.00000      -  3439  870s
+  1182   999    0.00000  254  864          -    0.00000      -  3299  909s
+  1183   950    0.00000   27    0          -    0.00000      -  3296  917s
+  1186   778    0.00000   15 1207          -    0.00000      -  3373  972s
+  1188   705    0.00000   16 1192          -    0.00000      -  3370 1038s
+  1192   640    0.00000   17 1127          -    0.00000      -  3369 1080s
+  1196   581    0.00000   18 1336          -    0.00000      -  3367 1151s
+  1200   583    0.00000   19 1087          -    0.00000      -  3371 1163s
+  1204   531    0.00000   20 1069          -    0.00000      -  3362 1211s
+  1208   534    0.00000   21 1200          -    0.00000      -  3382 1227s
+  1212   536    0.00000   22 1142          -    0.00000      -  3380 1240s
+  1216   548    0.00000   23 1306          -    0.00000      -  3380 1276s
+  1229   375    0.00000   22  957          -    0.00000      -  3439 1377s
+  1282   224    0.00000   31  629          -    0.00000      -  3517 1589s
+  1389   512          -   54               -    0.00000      -  3843 2008s
+  1704   850          -   94               -    0.00000      -  4335 2389s
+  2042  1253          -  134               -    0.00000      -  4464 2706s
+  2445  1650          -  174               -    0.00000      -  4489 3006s
+  2852  2533          -  234               -    0.00000      -  4315 3259s
+  3767  3786          -  324               -    0.00000      -  3622 3392s
+Cutting planes:
+  Implied bound: 127
+  MIR: 5
+  Flow cover: 18
+  Zero half: 26
+  RLT: 1
+Explored 5024 nodes (14244535 simplex iterations) in 3393.40 seconds
+Thread count was 8 (of 8 available processors)
+Solution count 1350: 0 0 0 ... 0
+Optimal solution found (tolerance 1.00e-04)
+Best objective 0.000000000000e+00, best bound 0.000000000000e+00, gap 0.0000%
+Number of solutions found for the model: 1350
+[12, 1500, 25, 1.0, 0.0, 5.396638436999638]
+0: Learned bounds for  50  samples in  11.54336557496572  secs
+Parameter OutputFlag unchanged
+   Value: 1  Min: 0  Max: 1  Default: 1
+Changed value of parameter PoolSolutions to 1350
+   Prev: 10  Min: 1  Max: 2000000000  Default: 10
+Changed value of parameter PoolSearchMode to 2
+   Prev: 0  Min: 0  Max: 2  Default: 0
+Gurobi Optimizer version 9.0.0 build v9.0.0rc2 (linux64)
+Optimize a model with 40840 rows, 24262 columns and 194924 nonzeros
+Model fingerprint: 0x85a88a4c
+Variable types: 0 continuous, 24262 integer (24262 binary)
+Coefficient statistics:
+  Matrix range     [1e+00, 1e+00]
+  Objective range  [0e+00, 0e+00]
+  Bounds range     [1e+00, 1e+00]
+  RHS range        [1e+00, 7e+01]
+Presolve removed 31525 rows and 10176 columns
+Presolve time: 0.17s
+Presolved: 9315 rows, 14086 columns, 72936 nonzeros
+Variable types: 0 continuous, 14086 integer (14086 binary)
+Root relaxation: objective 0.000000e+00, 11383 iterations, 4.51 seconds
+Total elapsed time = 11.30s
+Total elapsed time = 16.85s
+Total elapsed time = 22.69s
+    Nodes    |    Current Node    |     Objective Bounds      |     Work
+ Expl Unexpl |  Obj  Depth IntInf | Incumbent    BestBd   Gap | It/Node Time
+     0     0    0.00000    0 1314          -    0.00000      -     -   25s
+     0     0    0.00000    0 1648          -    0.00000      -     -   29s
+     0     0    0.00000    0 1633          -    0.00000      -     -   30s
+     0     0    0.00000    0  652          -    0.00000      -     -   61s
+     0     0    0.00000    0  693          -    0.00000      -     -   62s
+     0     0    0.00000    0  526          -    0.00000      -     -   92s
+     0     0    0.00000    0 1014          -    0.00000      -     -   94s
+H    0     0                       0.0000000    0.00000  0.00%     -  112s
+     0     0    0.00000    0  126    0.00000    0.00000  0.00%     -  112s
+Optimal solution found at node 0 - now completing solution pool...
+Total elapsed time = 113.40s
+Total elapsed time = 118.65s
+    Nodes    |    Current Node    |      Pool Obj. Bounds     |     Work
+             |                    |   Worst                   |
+ Expl Unexpl |  Obj  Depth IntInf | Incumbent    BestBd   Gap | It/Node Time
+     0     0    0.00000    0  128          -    0.00000      -     -  120s
+     0     0    0.00000    0  128          -    0.00000      -     -  126s
+     0     2    0.00000    0  128          -    0.00000      -     -  161s
+     3     8    0.00000    2  957          -    0.00000      -  5743  165s
+    15    20    0.00000    5 1021          -    0.00000      -  3018  178s
+    23    28    0.00000    7  995          -    0.00000      -  2785  180s
+    27    39    0.00000    8 1041          -    0.00000      -  2563  215s
+    38    62    0.00000   11  652          -    0.00000      -  5160  254s
+    61   103    0.00000   21 1094          -    0.00000      -  6240  327s
+   108   194    0.00000   25 1297          -    0.00000      -  5862  433s
+   217   460    0.00000   28 1141          -    0.00000      -  5343  621s
+   499   803    0.00000   81  823          -    0.00000      -  4331  808s
+   878  1050    0.00000  129 1129          -    0.00000      -  3439  961s
+  1182   999    0.00000  254  864          -    0.00000      -  3299 1004s
+  1183   950    0.00000   27    0          -    0.00000      -  3296 1013s
+  1186   778    0.00000   15 1207          -    0.00000      -  3373 1073s
+  1188   705    0.00000   16 1192          -    0.00000      -  3370 1146s
+  1192   640    0.00000   17 1127          -    0.00000      -  3369 1190s
+  1196   581    0.00000   18 1336          -    0.00000      -  3367 1262s
+  1200   583    0.00000   19 1087          -    0.00000      -  3371 1274s
+  1204   531    0.00000   20 1069          -    0.00000      -  3362 1325s
+  1208   534    0.00000   21 1200          -    0.00000      -  3382 1342s
+  1212   536    0.00000   22 1142          -    0.00000      -  3380 1355s
+  1216   548    0.00000   23 1306          -    0.00000      -  3380 1390s
+  1229   375    0.00000   22  957          -    0.00000      -  3439 1484s
+  1282   224    0.00000   31  629          -    0.00000      -  3517 1693s
+  1389   512          -   54               -    0.00000      -  3843 2055s
+  1704   850          -   94               -    0.00000      -  4335 2395s
+  2042  1253          -  134               -    0.00000      -  4464 2671s
+  2445  1650          -  174               -    0.00000      -  4489 2923s
+  2852  2533          -  234               -    0.00000      -  4315 3122s
+  3767  3786          -  324               -    0.00000      -  3622 3233s
+Cutting planes:
+  Implied bound: 127
+  MIR: 5
+  Flow cover: 18
+  Zero half: 26
+  RLT: 1
+Explored 5024 nodes (14244535 simplex iterations) in 3234.27 seconds
+Thread count was 8 (of 8 available processors)
+Solution count 1350: 0 0 0 ... 0
+Optimal solution found (tolerance 1.00e-04)
+Best objective 0.000000000000e+00, best bound 0.000000000000e+00, gap 0.0000%
+Number of solutions found for the model: 1350
+[12, 1500, 50, 1.0, 0.0, 11.54336557496572]
+1: Learned bounds for  50  samples in  11.276934411027469  secs
+Parameter OutputFlag unchanged
+   Value: 1  Min: 0  Max: 1  Default: 1
+Changed value of parameter PoolSolutions to 1350
+   Prev: 10  Min: 1  Max: 2000000000  Default: 10
+Changed value of parameter PoolSearchMode to 2
+   Prev: 0  Min: 0  Max: 2  Default: 0
+Gurobi Optimizer version 9.0.0 build v9.0.0rc2 (linux64)
+Optimize a model with 40840 rows, 24262 columns and 194924 nonzeros
+Model fingerprint: 0x85a88a4c
+Variable types: 0 continuous, 24262 integer (24262 binary)
+Coefficient statistics:
+  Matrix range     [1e+00, 1e+00]
+  Objective range  [0e+00, 0e+00]
+  Bounds range     [1e+00, 1e+00]
+  RHS range        [1e+00, 7e+01]
+Presolve removed 31525 rows and 10176 columns
+Presolve time: 0.17s
+Presolved: 9315 rows, 14086 columns, 72936 nonzeros
+Variable types: 0 continuous, 14086 integer (14086 binary)
+Root relaxation: objective 0.000000e+00, 11383 iterations, 4.53 seconds
+Total elapsed time = 11.08s
+Total elapsed time = 16.48s
+Total elapsed time = 22.10s
+    Nodes    |    Current Node    |     Objective Bounds      |     Work
+ Expl Unexpl |  Obj  Depth IntInf | Incumbent    BestBd   Gap | It/Node Time
+     0     0    0.00000    0 1314          -    0.00000      -     -   24s
+     0     0    0.00000    0 1648          -    0.00000      -     -   28s
+     0     0    0.00000    0 1633          -    0.00000      -     -   29s
+     0     0    0.00000    0  652          -    0.00000      -     -   56s
+     0     0    0.00000    0  693          -    0.00000      -     -   57s
+     0     0    0.00000    0  526          -    0.00000      -     -   81s
+     0     0    0.00000    0 1014          -    0.00000      -     -   83s
+H    0     0                       0.0000000    0.00000  0.00%     -   99s
+     0     0    0.00000    0  126    0.00000    0.00000  0.00%     -   99s
+Optimal solution found at node 0 - now completing solution pool...
+Total elapsed time = 99.79s
+Total elapsed time = 104.40s
+    Nodes    |    Current Node    |      Pool Obj. Bounds     |     Work
+             |                    |   Worst                   |
+ Expl Unexpl |  Obj  Depth IntInf | Incumbent    BestBd   Gap | It/Node Time
+     0     0    0.00000    0  128          -    0.00000      -     -  105s
+     0     0    0.00000    0  128          -    0.00000      -     -  111s
+     0     2    0.00000    0  128          -    0.00000      -     -  143s
+     3     8    0.00000    2  957          -    0.00000      -  5743  147s
+    11    16    0.00000    4 1159          -    0.00000      -  3680  150s
+    15    20    0.00000    5 1021          -    0.00000      -  3018  157s
+    23    28    0.00000    7  995          -    0.00000      -  2785  160s
+    27    39    0.00000    8 1041          -    0.00000      -  2563  189s
+    38    62    0.00000   11  652          -    0.00000      -  5160  224s
+    61   103    0.00000   21 1094          -    0.00000      -  6240  291s
+   108   194    0.00000   25 1297          -    0.00000      -  5862  386s
+   217   460    0.00000   28 1141          -    0.00000      -  5343  547s
+   499   803    0.00000   81  823          -    0.00000      -  4331  706s
+   878  1050    0.00000  129 1129          -    0.00000      -  3439  837s
+  1180   998    0.00000   27  128          -    0.00000      -  3304  840s
+  1182   999    0.00000  254  864          -    0.00000      -  3299  876s
+  1183   950    0.00000   27    0          -    0.00000      -  3296  884s
+  1186   778    0.00000   15 1207          -    0.00000      -  3373  940s
+  1188   705    0.00000   16 1192          -    0.00000      -  3370 1006s
+  1192   640    0.00000   17 1127          -    0.00000      -  3369 1048s
+  1196   581    0.00000   18 1336          -    0.00000      -  3367 1118s
+  1200   583    0.00000   19 1087          -    0.00000      -  3371 1130s
+  1204   531    0.00000   20 1069          -    0.00000      -  3362 1180s
+  1208   534    0.00000   21 1200          -    0.00000      -  3382 1196s
+  1212   536    0.00000   22 1142          -    0.00000      -  3380 1209s
+  1216   548    0.00000   23 1306          -    0.00000      -  3380 1244s
+  1229   375    0.00000   22  957          -    0.00000      -  3439 1334s
+  1282   224    0.00000   31  629          -    0.00000      -  3517 1525s
+  1389   512          -   54               -    0.00000      -  3843 1897s
+  1704   850          -   94               -    0.00000      -  4335 2273s
+  2042  1253          -  134               -    0.00000      -  4464 2584s
+  2445  1650          -  174               -    0.00000      -  4489 2869s
+  2852  2533          -  234               -    0.00000      -  4315 3112s
+  3767  3786          -  324               -    0.00000      -  3622 3238s
+Cutting planes:
+  Implied bound: 127
+  MIR: 5
+  Flow cover: 18
+  Zero half: 26
+  RLT: 1
+Explored 5024 nodes (14244535 simplex iterations) in 3238.54 seconds
+Thread count was 8 (of 8 available processors)
+Solution count 1350: 0 0 0 ... 0
+Optimal solution found (tolerance 1.00e-04)
+Best objective 0.000000000000e+00, best bound 0.000000000000e+00, gap 0.0000%
+Number of solutions found for the model: 1350
+[12, 1500, 50, 1.0, 0.0, 11.276934411027469]
+2: Learned bounds for  50  samples in  12.749222268001176  secs
+Parameter OutputFlag unchanged
+   Value: 1  Min: 0  Max: 1  Default: 1
+Changed value of parameter PoolSolutions to 1350
+   Prev: 10  Min: 1  Max: 2000000000  Default: 10
+Changed value of parameter PoolSearchMode to 2
+   Prev: 0  Min: 0  Max: 2  Default: 0
+Gurobi Optimizer version 9.0.0 build v9.0.0rc2 (linux64)
+Optimize a model with 40840 rows, 24262 columns and 194924 nonzeros
+Model fingerprint: 0x85a88a4c
+Variable types: 0 continuous, 24262 integer (24262 binary)
+Coefficient statistics:
+  Matrix range     [1e+00, 1e+00]
+  Objective range  [0e+00, 0e+00]
+  Bounds range     [1e+00, 1e+00]
+  RHS range        [1e+00, 7e+01]
+Presolve removed 31525 rows and 10176 columns
+Presolve time: 0.20s
+Presolved: 9315 rows, 14086 columns, 72936 nonzeros
+Variable types: 0 continuous, 14086 integer (14086 binary)
+Root simplex log...
+Iteration    Objective       Primal Inf.    Dual Inf.      Time
+   10510    5.9238074e-04   3.738030e+02   0.000000e+00      5s
+   11383    0.0000000e+00   0.000000e+00   0.000000e+00      6s
+Root relaxation: objective 0.000000e+00, 11383 iterations, 5.42 seconds
+Total elapsed time = 13.18s
+Total elapsed time = 20.04s
+Total elapsed time = 26.67s
+    Nodes    |    Current Node    |     Objective Bounds      |     Work
+ Expl Unexpl |  Obj  Depth IntInf | Incumbent    BestBd   Gap | It/Node Time
+     0     0    0.00000    0 1314          -    0.00000      -     -   29s
+     0     0    0.00000    0 1648          -    0.00000      -     -   34s
+     0     0    0.00000    0 1633          -    0.00000      -     -   35s
+     0     0    0.00000    0  652          -    0.00000      -     -   65s
+     0     0    0.00000    0  693          -    0.00000      -     -   66s
+     0     0    0.00000    0  526          -    0.00000      -     -   95s
+     0     0    0.00000    0 1014          -    0.00000      -     -   96s
+H    0     0                       0.0000000    0.00000  0.00%     -  116s
+     0     0    0.00000    0  126    0.00000    0.00000  0.00%     -  116s
+Optimal solution found at node 0 - now completing solution pool...
+Total elapsed time = 117.27s
+Total elapsed time = 122.58s
+    Nodes    |    Current Node    |      Pool Obj. Bounds     |     Work
+             |                    |   Worst                   |
+ Expl Unexpl |  Obj  Depth IntInf | Incumbent    BestBd   Gap | It/Node Time
+     0     0    0.00000    0  128          -    0.00000      -     -  124s
+     0     0    0.00000    0  128          -    0.00000      -     -  131s
+     0     2    0.00000    0  128          -    0.00000      -     -  166s
+     3     8    0.00000    2  957          -    0.00000      -  5743  170s
+    11    16    0.00000    4 1159          -    0.00000      -  3680  175s
+    15    20    0.00000    5 1021          -    0.00000      -  3018  183s
+    23    28    0.00000    7  995          -    0.00000      -  2785  186s
+    27    39    0.00000    8 1041          -    0.00000      -  2563  222s
+    38    62    0.00000   11  652          -    0.00000      -  5160  266s
+    61   103    0.00000   21 1094          -    0.00000      -  6240  352s
+   108   194    0.00000   25 1297          -    0.00000      -  5862  471s
+   217   460    0.00000   28 1141          -    0.00000      -  5343  684s
+   499   803    0.00000   81  823          -    0.00000      -  4331  890s
+   878  1050    0.00000  129 1129          -    0.00000      -  3439 1073s
+  1180   998    0.00000   27  128          -    0.00000      -  3304 1076s
+  1182   999    0.00000  254  864          -    0.00000      -  3299 1123s
+  1183   950    0.00000   27    0          -    0.00000      -  3296 1134s
+  1186   778    0.00000   15 1207          -    0.00000      -  3373 1205s
+  1188   705    0.00000   16 1192          -    0.00000      -  3370 1291s
+  1192   640    0.00000   17 1127          -    0.00000      -  3369 1348s
+  1196   581    0.00000   18 1336          -    0.00000      -  3367 1447s
+  1200   583    0.00000   19 1087          -    0.00000      -  3371 1462s
+  1204   531    0.00000   20 1069          -    0.00000      -  3362 1525s
+  1208   534    0.00000   21 1200          -    0.00000      -  3382 1546s
+  1212   536    0.00000   22 1142          -    0.00000      -  3380 1563s
+  1216   548    0.00000   23 1306          -    0.00000      -  3380 1610s
+  1229   375    0.00000   22  957          -    0.00000      -  3439 1725s
+  1282   224    0.00000   31  629          -    0.00000      -  3517 1966s
+  1389   512          -   54               -    0.00000      -  3843 2429s
+  1704   850          -   94               -    0.00000      -  4335 2859s
+  2042  1253          -  134               -    0.00000      -  4464 3209s
+  2445  1650          -  174               -    0.00000      -  4489 3533s
+  2852  2533          -  234               -    0.00000      -  4315 3791s
+  3767  3786          -  324               -    0.00000      -  3622 3923s
+Cutting planes:
+  Implied bound: 127
+  MIR: 5
+  Flow cover: 18
+  Zero half: 26
+  RLT: 1
+Explored 5024 nodes (14244535 simplex iterations) in 3923.98 seconds
+Thread count was 8 (of 8 available processors)
+Solution count 1350: 0 0 0 ... 0
+Optimal solution found (tolerance 1.00e-04)
+Best objective 0.000000000000e+00, best bound 0.000000000000e+00, gap 0.0000%
+Number of solutions found for the model: 1350
+[12, 1500, 50, 1.0, 0.0, 12.749222268001176]
+3: Learned bounds for  50  samples in  13.716365953965578  secs
+Parameter OutputFlag unchanged
+   Value: 1  Min: 0  Max: 1  Default: 1
+Changed value of parameter PoolSolutions to 1350
+   Prev: 10  Min: 1  Max: 2000000000  Default: 10
+Changed value of parameter PoolSearchMode to 2
+   Prev: 0  Min: 0  Max: 2  Default: 0
+Gurobi Optimizer version 9.0.0 build v9.0.0rc2 (linux64)
+Optimize a model with 40840 rows, 24262 columns and 194924 nonzeros
+Model fingerprint: 0x85a88a4c
+Variable types: 0 continuous, 24262 integer (24262 binary)
+Coefficient statistics:
+  Matrix range     [1e+00, 1e+00]
+  Objective range  [0e+00, 0e+00]
+  Bounds range     [1e+00, 1e+00]
+  RHS range        [1e+00, 7e+01]
+Presolve removed 31525 rows and 10176 columns
+Presolve time: 0.20s
+Presolved: 9315 rows, 14086 columns, 72936 nonzeros
+Variable types: 0 continuous, 14086 integer (14086 binary)
+Root simplex log...
+Iteration    Objective       Primal Inf.    Dual Inf.      Time
+   10400    5.9181371e-04   5.146317e+02   0.000000e+00      5s
+   11383    0.0000000e+00   0.000000e+00   0.000000e+00      6s
+Root relaxation: objective 0.000000e+00, 11383 iterations, 5.41 seconds
+Total elapsed time = 13.43s
+Total elapsed time = 19.56s
+Total elapsed time = 22.79s
+Total elapsed time = 25.97s
+    Nodes    |    Current Node    |     Objective Bounds      |     Work
+ Expl Unexpl |  Obj  Depth IntInf | Incumbent    BestBd   Gap | It/Node Time
+     0     0    0.00000    0 1314          -    0.00000      -     -   28s
+     0     0    0.00000    0 1648          -    0.00000      -     -   34s
+     0     0    0.00000    0 1633          -    0.00000      -     -   34s
+     0     0    0.00000    0  652          -    0.00000      -     -   65s
+     0     0    0.00000    0  693          -    0.00000      -     -   66s
+     0     0    0.00000    0  526          -    0.00000      -     -   93s
+     0     0    0.00000    0 1014          -    0.00000      -     -   95s
+H    0     0                       0.0000000    0.00000  0.00%     -  113s
+     0     0    0.00000    0  126    0.00000    0.00000  0.00%     -  113s
+Optimal solution found at node 0 - now completing solution pool...
+Total elapsed time = 113.98s
+Total elapsed time = 119.04s
+    Nodes    |    Current Node    |      Pool Obj. Bounds     |     Work
+             |                    |   Worst                   |
+ Expl Unexpl |  Obj  Depth IntInf | Incumbent    BestBd   Gap | It/Node Time
+     0     0    0.00000    0  128          -    0.00000      -     -  120s
+     0     0    0.00000    0  128          -    0.00000      -     -  126s
+     0     2    0.00000    0  128          -    0.00000      -     -  161s
+     3     8    0.00000    2  957          -    0.00000      -  5743  165s
+    15    20    0.00000    5 1021          -    0.00000      -  3018  177s
+    27    39    0.00000    8 1041          -    0.00000      -  2563  210s
+    38    62    0.00000   11  652          -    0.00000      -  5160  250s
+    61   103    0.00000   21 1094          -    0.00000      -  6240  329s
+   108   194    0.00000   25 1297          -    0.00000      -  5862  450s
+   217   460    0.00000   28 1141          -    0.00000      -  5343  659s
+   499   803    0.00000   81  823          -    0.00000      -  4331  865s
+   878  1050    0.00000  129 1129          -    0.00000      -  3439 1028s
+  1180   998    0.00000   27  128          -    0.00000      -  3304 1030s
+  1182   999    0.00000  254  864          -    0.00000      -  3299 1070s
+  1183   950    0.00000   27    0          -    0.00000      -  3296 1079s
+  1186   778    0.00000   15 1207          -    0.00000      -  3373 1139s
+  1188   705    0.00000   16 1192          -    0.00000      -  3370 1214s
+  1192   640    0.00000   17 1127          -    0.00000      -  3369 1264s
+  1196   581    0.00000   18 1336          -    0.00000      -  3367 1345s
+  1200   583    0.00000   19 1087          -    0.00000      -  3371 1358s
+  1204   531    0.00000   20 1069          -    0.00000      -  3362 1416s
+  1208   534    0.00000   21 1200          -    0.00000      -  3382 1437s
+  1212   536    0.00000   22 1142          -    0.00000      -  3380 1453s
+  1216   548    0.00000   23 1306          -    0.00000      -  3380 1495s
+  1229   375    0.00000   22  957          -    0.00000      -  3439 1598s
+  1282   224    0.00000   31  629          -    0.00000      -  3517 1825s
+  1389   512          -   54               -    0.00000      -  3843 2237s
+  1704   850          -   94               -    0.00000      -  4335 2617s
+  2042  1253          -  134               -    0.00000      -  4464 2937s
+  2445  1650          -  174               -    0.00000      -  4489 3235s
+  2852  2533          -  234               -    0.00000      -  4315 3467s
+  3767  3786          -  324               -    0.00000      -  3622 3595s
+Cutting planes:
+  Implied bound: 127
+  MIR: 5
+  Flow cover: 18
+  Zero half: 26
+  RLT: 1
+Explored 5024 nodes (14244535 simplex iterations) in 3595.66 seconds
+Thread count was 8 (of 8 available processors)
+Solution count 1350: 0 0 0 ... 0
+Optimal solution found (tolerance 1.00e-04)
+Best objective 0.000000000000e+00, best bound 0.000000000000e+00, gap 0.0000%
+Number of solutions found for the model: 1350
+[12, 1500, 50, 1.0, 0.0, 13.716365953965578]
+4: Learned bounds for  50  samples in  12.914474777004216  secs
+Parameter OutputFlag unchanged
+   Value: 1  Min: 0  Max: 1  Default: 1
+Changed value of parameter PoolSolutions to 1350
+   Prev: 10  Min: 1  Max: 2000000000  Default: 10
+Changed value of parameter PoolSearchMode to 2
+   Prev: 0  Min: 0  Max: 2  Default: 0
+Gurobi Optimizer version 9.0.0 build v9.0.0rc2 (linux64)
+Optimize a model with 40840 rows, 24262 columns and 194924 nonzeros
+Model fingerprint: 0x85a88a4c
+Variable types: 0 continuous, 24262 integer (24262 binary)
+Coefficient statistics:
+  Matrix range     [1e+00, 1e+00]
+  Objective range  [0e+00, 0e+00]
+  Bounds range     [1e+00, 1e+00]
+  RHS range        [1e+00, 7e+01]
+Presolve removed 31525 rows and 10176 columns
+Presolve time: 0.21s
+Presolved: 9315 rows, 14086 columns, 72936 nonzeros
+Variable types: 0 continuous, 14086 integer (14086 binary)
+Root simplex log...
+Iteration    Objective       Primal Inf.    Dual Inf.      Time
+   10510    5.9238074e-04   3.738030e+02   0.000000e+00      5s
+   11383    0.0000000e+00   0.000000e+00   0.000000e+00      6s
+Root relaxation: objective 0.000000e+00, 11383 iterations, 5.36 seconds
+Total elapsed time = 13.47s
+Total elapsed time = 19.89s
+Total elapsed time = 23.46s
+Total elapsed time = 26.82s
+    Nodes    |    Current Node    |     Objective Bounds      |     Work
+ Expl Unexpl |  Obj  Depth IntInf | Incumbent    BestBd   Gap | It/Node Time
+     0     0    0.00000    0 1314          -    0.00000      -     -   29s
+     0     0    0.00000    0 1648          -    0.00000      -     -   34s
+     0     0    0.00000    0 1633          -    0.00000      -     -   35s
+     0     0    0.00000    0  652          -    0.00000      -     -   66s
+     0     0    0.00000    0  693          -    0.00000      -     -   67s
+     0     0    0.00000    0  526          -    0.00000      -     -   96s
+     0     0    0.00000    0 1014          -    0.00000      -     -   98s
+H    0     0                       0.0000000    0.00000  0.00%     -  117s
+     0     0    0.00000    0  126    0.00000    0.00000  0.00%     -  117s
+Optimal solution found at node 0 - now completing solution pool...
+Total elapsed time = 118.14s
+Total elapsed time = 123.43s
+    Nodes    |    Current Node    |      Pool Obj. Bounds     |     Work
+             |                    |   Worst                   |
+ Expl Unexpl |  Obj  Depth IntInf | Incumbent    BestBd   Gap | It/Node Time
+     0     0    0.00000    0  128          -    0.00000      -     -  125s
+     0     0    0.00000    0  128          -    0.00000      -     -  131s
+     0     2    0.00000    0  128          -    0.00000      -     -  167s
+     3     8    0.00000    2  957          -    0.00000      -  5743  172s
+     7    12    0.00000    3 1338          -    0.00000      -  4363  175s
+    15    20    0.00000    5 1021          -    0.00000      -  3018  185s
+    27    39    0.00000    8 1041          -    0.00000      -  2563  225s
+    38    62    0.00000   11  652          -    0.00000      -  5160  271s
+    61   103    0.00000   21 1094          -    0.00000      -  6240  362s
+   108   194    0.00000   25 1297          -    0.00000      -  5862  488s
+   217   460    0.00000   28 1141          -    0.00000      -  5343  698s
+   499   803    0.00000   81  823          -    0.00000      -  4331  901s
+   878  1050    0.00000  129 1129          -    0.00000      -  3439 1072s
+  1180   998    0.00000   27  128          -    0.00000      -  3304 1075s
+  1182   999    0.00000  254  864          -    0.00000      -  3299 1116s
+  1183   950    0.00000   27    0          -    0.00000      -  3296 1127s
+  1186   778    0.00000   15 1207          -    0.00000      -  3373 1189s
+  1188   705    0.00000   16 1192          -    0.00000      -  3370 1278s
+  1192   640    0.00000   17 1127          -    0.00000      -  3369 1334s
+  1196   581    0.00000   18 1336          -    0.00000      -  3367 1423s
+  1200   583    0.00000   19 1087          -    0.00000      -  3371 1438s
+  1204   531    0.00000   20 1069          -    0.00000      -  3362 1494s
+  1208   534    0.00000   21 1200          -    0.00000      -  3382 1512s
+  1212   536    0.00000   22 1142          -    0.00000      -  3380 1526s
+  1216   548    0.00000   23 1306          -    0.00000      -  3380 1565s
+  1229   375    0.00000   22  957          -    0.00000      -  3439 1671s
+  1282   224    0.00000   31  629          -    0.00000      -  3517 1880s
+  1389   512          -   54               -    0.00000      -  3843 2305s
+  1704   850          -   94               -    0.00000      -  4335 2688s
+  2042  1253          -  134               -    0.00000      -  4464 3000s
+  2445  1650          -  174               -    0.00000      -  4489 3278s
+  2852  2533          -  234               -    0.00000      -  4315 3472s
+  3767  3786          -  324               -    0.00000      -  3622 3581s
+Cutting planes:
+  Implied bound: 127
+  MIR: 5
+  Flow cover: 18
+  Zero half: 26
+  RLT: 1
+Explored 5024 nodes (14244535 simplex iterations) in 3581.64 seconds
+Thread count was 8 (of 8 available processors)
+Solution count 1350: 0 0 0 ... 0
+Optimal solution found (tolerance 1.00e-04)
+Best objective 0.000000000000e+00, best bound 0.000000000000e+00, gap 0.0000%
+Number of solutions found for the model: 1350
+[12, 1500, 50, 1.0, 0.0, 12.914474777004216]

@@ -5,11 +5,9 @@ import random
 import shutil
 import time
 
-import numpy as np
-
 from countor4d import countor
 from countor4d import countorUtils as cU
-from countor4d import simple_sampler as sampler
+from deprecated import simple_sampler as sampler
 from countor4d import solverUtils as sU
 
 # region vars
