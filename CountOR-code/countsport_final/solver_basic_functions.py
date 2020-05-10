@@ -45,7 +45,7 @@ def readCSV(fileName):
 
 
 def generate4DSamples(numTeams, numSam, numCycles, sampleDir, mbounds, unsolvable, lost_data, skill_group=None,
-                      skillbounds0=None, skillbounds1=None):
+                      skillbounds0=None, skillbounds1=None,skillbounds_home0=None,skillbounds_home1=None):
     '''
     Generates a numSam of solutions for the sport scheduling problem with numTeams teams and stores them in sampleDir
     :param numTeams: Number of teams for the SSP
@@ -64,7 +64,7 @@ def generate4DSamples(numTeams, numSam, numCycles, sampleDir, mbounds, unsolvabl
     sampler.generate_multi_dim_sample(bounds=mbounds, directory=sampleDir, num_teams=numTeams,
                                       num_md_per_cycle=sU.calculateMatchDaysPerCycle(numTeams), numSam=numSam,
                                       numCycle=numCycles, unlearnable=unsolvable, sk=skill_group, bounds0=skillbounds0,
-                                      bounds1=skillbounds1)
+                                      bounds1=skillbounds1,bounds_home0 = skillbounds_home0,bounds_home1=skillbounds_home1)
     if lost_data:
         files = next(os.walk(sampleDir))[2]
         for idx, file in enumerate(files):

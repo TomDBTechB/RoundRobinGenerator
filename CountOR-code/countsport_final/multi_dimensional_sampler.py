@@ -10,7 +10,7 @@ import numpy as np
 # learn the model
 
 def generate_multi_dim_sample(bounds, directory, num_teams, num_md_per_cycle, numSam, numCycle, unlearnable=False,
-                              sk=None, bounds0=None, bounds1=None):
+                              sk=None, bounds0=None, bounds1=None,bounds_home0=None,bounds_home1=None):
     # the list of sample dimensions, the +1
     cycle = list(range(numCycle))
     day = list(range(num_md_per_cycle))

@@ -1,4 +1,7 @@
 import os
+import sys
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
 import time
 
 import numpy as np
@@ -121,11 +124,11 @@ def learnConstraintsFromFiles(learndir, sampled_files, outputdir, info=None, bk=
     return timeTaken
 
 
-numSam = 200  # int(sys.argv[1])
+numSam = 1000  # int(sys.argv[1])
 numTeams = 8  # int(sys.argv[2])
 numCycle = 2
 num_Matchdays = sU.calculateMatchDaysPerCycle(numTeams)
-solution_seed = [1, 5, 10]
+solution_seed = [1, 5, 10,25,50]
 unsolvable = False
 lost_data = False
 background_knowledge = True
@@ -155,7 +158,7 @@ num_constr = 12  # (count(2) conszero(2) consone(2) trace(2) countplus(2))
 
 # Recover 3 sets of model bounds, 1 general, 2 specific
 actual_model_bounds = np.zeros([num_constrType, num_constr])
-model_bounds, model_bounds_sg0, model_bounds_sg1 = sU.calculateBounds4D(amtTeams=numTeams, amtCycles=numCycle,
+model_bounds, model_bounds_sg0, model_bounds_sg1,model_bounds_home_sg0,model_bounds_home_sg1 = sU.calculateBounds4D(amtTeams=numTeams, amtCycles=numCycle,
                                                                         actual_model_bounds=actual_model_bounds,
                                                                         bk=background_knowledge)
 
@@ -178,7 +181,7 @@ soln, result, prec, csvWriter, detCsvWriter, detcsv, mycsv = buildSolutionAndRes
 # generate the samples
 generate4DSamples(mbounds=model_bounds, numTeams=numTeams, numSam=numSam, numCycles=numCycle, sampleDir=soln,
                   unsolvable=unsolvable, lost_data=lost_data, skill_group=skill_group, skillbounds0=model_bounds_sg0,
-                  skillbounds1=model_bounds_sg1)
+                  skillbounds1=model_bounds_sg1,skillbounds_home0=model_bounds_home_sg0,skillbounds_home1=model_bounds_home_sg1)
 # split into 0.9 learn 0.1 testset
 randomSplit(soln, 0.1)
 

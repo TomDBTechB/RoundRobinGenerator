@@ -192,8 +192,8 @@ def calculateBounds4D(amtTeams, amtCycles, actual_model_bounds,bk=False):
         #actual_model_bounds_sg0[31, 4] = 1
         #actual_model_bounds_sg0[31, 5] = 2
 
-        actual_model_bounds_sg0[34, 0] = cycle_home_lower_bound
-        actual_model_bounds_sg0[34, 1] = cycle_home_upper_bound
+        actual_model_bounds_sg0[34, 0] = cycle_away_lower_bound
+        actual_model_bounds_sg0[34, 1] = cycle_away_upper_bound
         actual_model_bounds_sg0[34,2] = 1
         actual_model_bounds_sg0[34,3] = 2
         actual_model_bounds_sg0[34,4] = 1
@@ -206,24 +206,36 @@ def calculateBounds4D(amtTeams, amtCycles, actual_model_bounds,bk=False):
         #actual_model_bounds_sg1[31, 4] = 1
         #actual_model_bounds_sg1[31, 5] = 2
 
-        actual_model_bounds_sg1[34, 0] = cycle_home_lower_bound
-        actual_model_bounds_sg1[34, 1] = cycle_home_upper_bound
+        actual_model_bounds_sg1[34, 0] = cycle_away_lower_bound
+        actual_model_bounds_sg1[34, 1] = cycle_away_upper_bound
         actual_model_bounds_sg1[34,2] = 1
         actual_model_bounds_sg1[34,3] = 2
         actual_model_bounds_sg1[34,4] = 1
         actual_model_bounds_sg1[34,5] = 2
 
 
+        actual_model_bounds_home_sg0 = np.zeros([len(actual_model_bounds),len(actual_model_bounds[0])])
+        actual_model_bounds_home_sg0[34,0] = cycle_home_lower_bound
+        actual_model_bounds_home_sg0[34, 1] = cycle_home_upper_bound
+        actual_model_bounds_home_sg0[34,2] = 1
+        actual_model_bounds_home_sg0[34,3] = 2
+        actual_model_bounds_home_sg0[34,4] = 1
+        actual_model_bounds_home_sg0[34,5] = 2
 
-        target_cc = np.count_nonzero(actual_model_bounds)
+        actual_model_bounds_home_sg1 = np.zeros([len(actual_model_bounds),len(actual_model_bounds[0])])
+        actual_model_bounds_home_sg1[34,0] = cycle_home_lower_bound
+        actual_model_bounds_home_sg1[34, 1] = cycle_home_upper_bound
+        actual_model_bounds_home_sg1[34,2] = 1
+        actual_model_bounds_home_sg1[34,3] = 2
+        actual_model_bounds_home_sg1[34,4] = 1
+        actual_model_bounds_home_sg1[34,5] = 2
+
         actual_model_bounds_sg0 = actual_model_bounds_sg0.astype(np.int64)
         actual_model_bounds_sg1 = actual_model_bounds_sg1.astype(np.int64)
+        actual_model_bounds_home_sg0 = actual_model_bounds_home_sg0.astype(np.int64)
+        actual_model_bounds_home_sg1 = actual_model_bounds_home_sg1.astype(np.int64)
 
-        target_cc+=np.count_nonzero(actual_model_bounds_sg0)
-        target_cc+=np.count_nonzero(actual_model_bounds_sg1)
-
-
-        return actual_model_bounds,actual_model_bounds_sg0,actual_model_bounds_sg1
+        return actual_model_bounds,actual_model_bounds_sg0,actual_model_bounds_sg1,actual_model_bounds_home_sg0,actual_model_bounds_home_sg1
     return actual_model_bounds
 
 def generate4DSamples(numTeams,numSam,numCycles,sampleDir,mbounds):
