@@ -10,7 +10,7 @@ import numpy as np
 # learn the model
 
 def generate_multi_dim_sample(bounds, directory, num_teams, num_md_per_cycle, numSam, numCycle, unlearnable=False,
-                              sk=None, bounds0=None, bounds1=None,bounds_home0=None,bounds_home1=None):
+                              sk=None, bounds0=None, bounds1=None, bounds_home0=None, bounds_home1=None):
     # the list of sample dimensions, the +1
     cycle = list(range(numCycle))
     day = list(range(num_md_per_cycle))
@@ -60,18 +60,10 @@ def generate_multi_dim_sample(bounds, directory, num_teams, num_md_per_cycle, nu
         v = model.addVars(day, away, vtype=GRB.BINARY, name="v")
         w = model.addVars(home, away, vtype=GRB.BINARY, name="w")
 
-        y = model.addVars(cycle, day, home, away, vtype=GRB.BINARY, name="basetrans")
-        yn = model.addVars(cycle, day, home, vtype=GRB.BINARY, name="trans_n")
-
         cNA = model.addVars(cycle, day, day, away, vtype=GRB.BINARY, name="cons")
         cNAs = model.addVars(cycle, days, day, away, vtype=GRB.BINARY, name="cons_min")
         cNH = model.addVars(cycle, day, day, home, vtype=GRB.BINARY, name="consHome")
         cNHs = model.addVars(cycle, days, day, home, vtype=GRB.BINARY, name="consHomes")
-
-        # transpose function
-        model.addConstrs(
-            y[c, d, h, a] == x[c, d, h, a] + x[c, d, a, h] for c in cycle for d in day for a in away for h in home)
-        model.addConstrs((y.sum(c, d, h, '*') == yn[c, d, h] for c in cycle for d in day for h in home), "yn_y")
 
         # skillgroup bindings
         model.addConstrs(
@@ -86,6 +78,7 @@ def generate_multi_dim_sample(bounds, directory, num_teams, num_md_per_cycle, nu
                 (xsg[c, d, a, h, skillgr] == 0 for c in cycle for d in day for a in away for h in home for skillgr in sg
                  if
                  sk[h] != skillgr), "xo")
+
 
         model.addConstrs((x.sum(c, d, '*', a) == o[c, d, a] for c in cycle for d in day for a in away), "xo")
         model.addConstrs((x.sum(c, d, h, '*') == n[c, d, h] for c in cycle for d in day for h in home), "xn")
@@ -547,17 +540,18 @@ def generate_multi_dim_sample(bounds, directory, num_teams, num_md_per_cycle, nu
             model.addConstrs(
                 (t0[c, a] <= o0.sum(c, '*', a) for c in cycle for a in away), "t0o0")
             model.addConstrs(
-                (v0[d,a] <= o0.sum('*',d,a) for d in day for a in away)
+                (v0[d, a] <= o0.sum('*', d, a) for d in day for a in away)
             )
-
 
             for i in range(len(bounds0)):
                 if bounds0[i, 0] > 0:
                     # this part covers count lowerbound
                     if constrList[i] == [(0,), (1,)]:
-                        model.addConstrs((r0.sum(c, '*') >= bounds0[i, 0] for c in cycle), "SG0 - LWR_constr-(0,), (1,)")
+                        model.addConstrs((r0.sum(c, '*') >= bounds0[i, 0] for c in cycle),
+                                         "SG0 - LWR_constr-(0,), (1,)")
                     elif constrList[i] == [(0,), (2,)]:
-                        model.addConstrs((t0.sum(c, '*') >= bounds0[i, 0] for c in cycle), "SG0 - LWR_constr-(0,), (2,)")
+                        model.addConstrs((t0.sum(c, '*') >= bounds0[i, 0] for c in cycle),
+                                         "SG0 - LWR_constr-(0,), (2,)")
                     elif constrList[i] == [(0,), (3,)]:
                         model.addConstrs((quicksum(s[c, h] for h in skill_group0) >= bounds0[i, 0] for c in cycle),
                                          "SG0 -LWR_constr-(0,), (3,)")
@@ -741,9 +735,11 @@ def generate_multi_dim_sample(bounds, directory, num_teams, num_md_per_cycle, nu
                 if bounds0[i, 1] > 0:
                     # this part covers count lowerbound
                     if constrList[i] == [(0,), (1,)]:
-                        model.addConstrs((r0.sum(c, '*') <= bounds0[i, 1] for c in cycle), "SG0 - LWR_constr-(0,), (1,)")
+                        model.addConstrs((r0.sum(c, '*') <= bounds0[i, 1] for c in cycle),
+                                         "SG0 - LWR_constr-(0,), (1,)")
                     elif constrList[i] == [(0,), (2,)]:
-                        model.addConstrs((t0.sum(c, '*') <= bounds0[i, 0] for c in cycle), "SG0 - LWR_constr-(0,), (2,)")
+                        model.addConstrs((t0.sum(c, '*') <= bounds0[i, 0] for c in cycle),
+                                         "SG0 - LWR_constr-(0,), (2,)")
                     elif constrList[i] == [(0,), (3,)]:
                         model.addConstrs((quicksum(s[c, h] for h in skill_group0) <= bounds0[i, 1] for c in cycle),
                                          "SG0 - LWR_constr-(0,), (3,)")
@@ -927,9 +923,11 @@ def generate_multi_dim_sample(bounds, directory, num_teams, num_md_per_cycle, nu
                                   if d1 < len(day) - 1), "cNA4")
 
                 # # definition for the second day and the third, fourth, etc...
-                model.addConstrs((cNH0[c, 0, d2, h] == 0 for c in cycle for d2 in day for h in skill_group0 if d2 > 0), "2cNA1")
+                model.addConstrs((cNH0[c, 0, d2, h] == 0 for c in cycle for d2 in day for h in skill_group0 if d2 > 0),
+                                 "2cNA1")
                 model.addConstrs(
-                    (cNH0[c, d1, d2, h] <= cNH0[c, d1 - 1, d2 - 1, h] for c in cycle for h in skill_group0 for d1 in day for d2 in
+                    (cNH0[c, d1, d2, h] <= cNH0[c, d1 - 1, d2 - 1, h] for c in cycle for h in skill_group0 for d1 in day
+                     for d2 in
                      day
                      if d1 > 0 if d2 > 0))
                 model.addConstrs(
@@ -942,16 +940,20 @@ def generate_multi_dim_sample(bounds, directory, num_teams, num_md_per_cycle, nu
                      d2 in
                      day for h in skill_group0 if d1 > 0 if d2 > 0))
                 if bounds0[34, 5] > 0:
-                    model.addConstr((quicksum(cNH0[c, d1, d2, h] for c in cycle for d1 in day for h in skill_group0 for d2 in
-                                              range(bounds[34, 5].astype(int), len(day))) == 0), "cnASum")
+                    model.addConstr(
+                        (quicksum(cNH0[c, d1, d2, h] for c in cycle for d1 in day for h in skill_group0 for d2 in
+                                  range(bounds[34, 5].astype(int), len(day))) == 0), "cnASum")
                 if bounds[34, 4] > 0:
-                    model.addConstrs((cNHs0[c, 0, d2, h] == 0 for c in cycle for d2 in day for h in skill_group0), "minConsPlay")
+                    model.addConstrs((cNHs0[c, 0, d2, h] == 0 for c in cycle for d2 in day for h in skill_group0),
+                                     "minConsPlay")
                     model.addConstrs(
-                        (cNHs0[c, d1, d2, h] <= cNH0[c, d1 - 1, d2, h] for c in cycle for h in skill_group0 for d1 in day for d2
+                        (cNHs0[c, d1, d2, h] <= cNH0[c, d1 - 1, d2, h] for c in cycle for h in skill_group0 for d1 in
+                         day for d2
                          in
                          day if d1 > 0))
                     model.addConstrs(
-                        (cNHs0[c, d1, d2, h] <= 1 - n[c, d1, h] for c in cycle for h in skill_group0 for d1 in day for d2 in day
+                        (cNHs0[c, d1, d2, h] <= 1 - n[c, d1, h] for c in cycle for h in skill_group0 for d1 in day for
+                         d2 in day
                          for
                          h in home if d1 > 0))
                     model.addConstrs(
@@ -963,13 +965,10 @@ def generate_multi_dim_sample(bounds, directory, num_teams, num_md_per_cycle, nu
                          in
                          day for h in skill_group0))
                     model.addConstr((quicksum(
-                        cNHs0[c, d1, d2, h] * (bounds[34, 4] - 1 - d2) for c in cycle for h in skill_group0 for d1 in days for d2
+                        cNHs0[c, d1, d2, h] * (bounds[34, 4] - 1 - d2) for c in cycle for h in skill_group0 for d1 in
+                        days for d2
                         in
                         range(bounds[34, 4].astype(int) - 1)) == 0))
-
-
-
-
 
             v1 = model.addVars(day, away, vtype=GRB.BINARY, name="v0")
             o1 = model.addVars(cycle, day, away, vtype=GRB.BINARY, name="o0")
@@ -990,9 +989,11 @@ def generate_multi_dim_sample(bounds, directory, num_teams, num_md_per_cycle, nu
                 if bounds1[i, 0] > 0:
                     # this part covers count lowerbound
                     if constrList[i] == [(0,), (1,)]:
-                        model.addConstrs((r1.sum(c, '*') >= bounds1[i, 0] for c in cycle), "SG1 - LWR_constr-(0,), (1,)")
+                        model.addConstrs((r1.sum(c, '*') >= bounds1[i, 0] for c in cycle),
+                                         "SG1 - LWR_constr-(0,), (1,)")
                     elif constrList[i] == [(0,), (2,)]:
-                        model.addConstrs((t1.sum(c, '*') >= bounds1[i, 0] for c in cycle), "SG1 - LWR_constr-(0,), (2,)")
+                        model.addConstrs((t1.sum(c, '*') >= bounds1[i, 0] for c in cycle),
+                                         "SG1 - LWR_constr-(0,), (2,)")
                     elif constrList[i] == [(0,), (3,)]:
                         model.addConstrs((quicksum(s[c, h] for h in skill_group1) >= bounds1[i, 0] for c in cycle),
                                          "SG1 - LWR_constr-(0,), (3,)")
@@ -1169,7 +1170,8 @@ def generate_multi_dim_sample(bounds, directory, num_teams, num_md_per_cycle, nu
                         model.addConstrs((r1.sum(c, '*') <= bounds1[i, 1] for c in cycle),
                                          "SG0 - SG1 - LWR_constr-(0,), (1,)")
                     elif constrList[i] == [(0,), (2,)]:
-                        model.addConstrs((t1.sum(c, '*') <= bounds1[i, 0] for c in cycle), "SG1 - LWR_constr-(0,), (2,)")
+                        model.addConstrs((t1.sum(c, '*') <= bounds1[i, 0] for c in cycle),
+                                         "SG1 - LWR_constr-(0,), (2,)")
                     elif constrList[i] == [(0,), (3,)]:
                         model.addConstrs((quicksum(s[c, h] for h in skill_group1) <= bounds1[i, 1] for c in cycle),
                                          "SG1 - LWR_constr-(0,), (3,)")
@@ -1351,9 +1353,11 @@ def generate_multi_dim_sample(bounds, directory, num_teams, num_md_per_cycle, nu
                                   if d1 < len(day) - 1), "cNA4")
 
                 # # definition for the second day and the third, fourth, etc...
-                model.addConstrs((cNH1[c, 0, d2, h] == 0 for c in cycle for d2 in day for h in skill_group1 if d2 > 0), "2cNA1")
+                model.addConstrs((cNH1[c, 0, d2, h] == 0 for c in cycle for d2 in day for h in skill_group1 if d2 > 0),
+                                 "2cNA1")
                 model.addConstrs(
-                    (cNH1[c, d1, d2, h] <= cNH1[c, d1 - 1, d2 - 1, h] for c in cycle for h in skill_group1 for d1 in day for d2 in
+                    (cNH1[c, d1, d2, h] <= cNH1[c, d1 - 1, d2 - 1, h] for c in cycle for h in skill_group1 for d1 in day
+                     for d2 in
                      day
                      if d1 > 0 if d2 > 0))
                 model.addConstrs(
@@ -1366,16 +1370,20 @@ def generate_multi_dim_sample(bounds, directory, num_teams, num_md_per_cycle, nu
                      d2 in
                      day for h in skill_group1 if d1 > 0 if d2 > 0))
                 if bounds0[34, 5] > 0:
-                    model.addConstr((quicksum(cNH1[c, d1, d2, h] for c in cycle for d1 in day for h in skill_group1 for d2 in
-                                              range(bounds[34, 5].astype(int), len(day))) == 0), "cnASum")
+                    model.addConstr(
+                        (quicksum(cNH1[c, d1, d2, h] for c in cycle for d1 in day for h in skill_group1 for d2 in
+                                  range(bounds[34, 5].astype(int), len(day))) == 0), "cnASum")
                 if bounds[34, 4] > 0:
-                    model.addConstrs((cNHs1[c, 0, d2, h] == 0 for c in cycle for d2 in day for h in skill_group1), "minConsPlay")
+                    model.addConstrs((cNHs1[c, 0, d2, h] == 0 for c in cycle for d2 in day for h in skill_group1),
+                                     "minConsPlay")
                     model.addConstrs(
-                        (cNHs1[c, d1, d2, h] <= cNH1[c, d1 - 1, d2, h] for c in cycle for h in skill_group1 for d1 in day for d2
+                        (cNHs1[c, d1, d2, h] <= cNH1[c, d1 - 1, d2, h] for c in cycle for h in skill_group1 for d1 in
+                         day for d2
                          in
                          day if d1 > 0))
                     model.addConstrs(
-                        (cNHs1[c, d1, d2, h] <= 1 - n[c, d1, h] for c in cycle for h in skill_group1 for d1 in day for d2 in day
+                        (cNHs1[c, d1, d2, h] <= 1 - n[c, d1, h] for c in cycle for h in skill_group1 for d1 in day for
+                         d2 in day
                          if d1 > 0))
                     model.addConstrs(
                         (cNHs1[c, d1, d2, h] >= cNH1[c, d1 - 1, d2, h] - n[c, d1, h] for c in cycle for d1 in day for d2
@@ -1386,10 +1394,10 @@ def generate_multi_dim_sample(bounds, directory, num_teams, num_md_per_cycle, nu
                          in
                          day for h in skill_group1))
                     model.addConstr((quicksum(
-                        cNHs1[c, d1, d2, h] * (bounds[34, 4] - 1 - d2) for c in cycle for h in skill_group1 for d1 in days for d2
+                        cNHs1[c, d1, d2, h] * (bounds[34, 4] - 1 - d2) for c in cycle for h in skill_group1 for d1 in
+                        days for d2
                         in
                         range(bounds[34, 4].astype(int) - 1)) == 0))
-
 
         # Sets the number of solutions to be generated
         model.setParam(GRB.Param.PoolSolutions, numSam)

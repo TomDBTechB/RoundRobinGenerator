@@ -124,7 +124,7 @@ def learnConstraintsFromFiles(learndir, sampled_files, outputdir, info=None, bk=
     return timeTaken
 
 
-numSam = 1000  # int(sys.argv[1])
+numSam = 100  # int(sys.argv[1])
 numTeams = 8  # int(sys.argv[2])
 numCycle = 2
 num_Matchdays = sU.calculateMatchDaysPerCycle(numTeams)
